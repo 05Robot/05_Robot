@@ -49,9 +49,9 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1061755309934744}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: -0.9143965, w: 0.40481967}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: -1, z: 1}
   m_Children:
   - {fileID: 4782158175576784}
   m_Father: {fileID: 0}
@@ -89,12 +89,12 @@ MonoBehaviour:
   m_DemageNums: 100
   m_HardStraight: 20
   m_BeatBack: 2
-  m_AttackDistance: 0
+  m_AttackDistance: 50
   m_AttackCD: 2
   m_buttle: {fileID: 1902719169344626, guid: 7938c63407813ca4e815fa64ba90f699, type: 2}
   m_ButtleSpeed: 18
   m_MaxEnergyTime: 3
-  ShotType: 0000000002000000
+  ShotType: 0000000001000000
   m_MuzzlePos: {fileID: 1710892260646230}
 --- !u!212 &212133635710889414
 SpriteRenderer:

@@ -58,7 +58,6 @@ public abstract class Buttle : MonoBehaviour
         //子弹飞行
         transform.position += -transform.right * m_Speed * Time.fixedDeltaTime;
         m_AlreadyFlyDistance += m_Speed * Time.fixedDeltaTime;
-        print(m_AlreadyFlyDistance);
         if (m_AlreadyFlyDistance > FlyDistance)
         {
             Vanish();//子弹消失

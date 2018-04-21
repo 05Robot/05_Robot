@@ -23,14 +23,40 @@ public class AWMGunC : GunC
         base.FixedUpdate();
     }
 
-    //普通射击
-    protected override void NormalShot()
+    protected virtual void LeftNormalShot()
     {
-        base.NormalShot();
-
+        base.LeftNormalShot();
     }
-    //特殊射击
-    public override void SpecialShot()
+
+    protected override void RightNormalShot()
+    {
+    }
+
+    protected override void LeftContinueShotUping()
+    {
+    }
+
+    protected override void RightContinueShotUping()
+    {
+    }
+
+    protected override void LeftEnergying()
+    {
+    }
+
+    protected override void RightEnergying()
+    {
+    }
+
+    protected override void LeftEnergyShot()
+    {
+    }
+
+    protected override void RightEnergyShot()
+    {
+    }
+
+    protected override void SpecialShot()
     {
     }
 }

@@ -11,10 +11,16 @@ using UnityEngine.Experimental.UIElements;
 **********************************************************************/
 public enum ShotType//射击类型
 {
-    FixedFire = 0,//点射
-    ContinueFire = 1,//连续射
-    EnergyFire = 2,//蓄能射击
-    CloseFire = 3//近战攻击
+    //左边
+    LeftFixedFire = 0,//点射
+    LeftContinueFire = 1,//按住连续射
+    LeftEnergyFire = 2,//蓄能射击
+    LeftCloseFire = 3,//近战攻击
+    //右边
+    RightFixedFire = 4,
+    RightContinueFire = 5,
+    RightEnergyFire = 6,
+    RightCloseFire = 7
 }
 public class GunM
 {
@@ -33,7 +39,7 @@ public class GunM
         get { return m_GunName; }
     }
     //枪械的涉及类型
-    protected ShotType[] m_shotType;
+    public ShotType[] ShotType;
     //普通-----------------------------------------------
     //普通消耗的MP
     private int m_ComsumeMP;
@@ -78,8 +84,8 @@ public class GunM
         get { return m_AttackCD; }
     }
     //最大蓄能时间
-    private int m_MaxEnergyTime;
-    public int MaxEnergyTime
+    private float m_MaxEnergyTime;
+    public float MaxEnergyTime
     {
         set { m_MaxEnergyTime = value; }
         get { return m_MaxEnergyTime; }

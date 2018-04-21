@@ -36,7 +36,7 @@ public abstract class GunC : MonoBehaviour
     //子弹速度
     [SerializeField] private uint m_ButtleSpeed;
     //最大蓄能时间
-    [SerializeField] private int m_MaxEnergyTime;
+    [SerializeField] private float m_MaxEnergyTime;
     //枪拥有的射击类型
     [SerializeField] private ShotType[] ShotType;
     //枪口位置
@@ -50,13 +50,18 @@ public abstract class GunC : MonoBehaviour
     //瞄准的世界坐标位置
     private Vector3 m_aimPos;
     //鼠标左右键是否点击
-    private bool LeftShot, RightShot, LeftContinueShot, RightContinueShot;
-
-
+    private bool LeftOnce, RightOnce, LeftDowning, RightDowning, LeftDownUping, RightDownUping;//普通点击、按住和松开
+    private bool LeftDownEnergy, RightDownEnergy, LeftDownUpingEnergy, RightDownUpingEnergy;//蓄能按住和松开
+    private enum MouseClick//鼠标点击类型
+    {
+        MouseLeft = 0,//左键
+        MouseRight = 1,//右键
+        MouseMiddle = 2//中键
+    }
 
     protected virtual void Awake()
     {
-        LeftShot = RightShot = LeftContinueShot = RightContinueShot = false;//点击
+        LeftOnce = RightOnce = LeftDowning = RightDowning = LeftDownEnergy = RightDownEnergy = LeftDownUping = RightDownUping = LeftDownUpingEnergy = RightDownUpingEnergy = false;//点击
         Gun_Data = new GunM();//枪数据
 
         //保存枪械信息
@@ -65,7 +70,7 @@ public abstract class GunC : MonoBehaviour
 
     protected virtual void Update()
     {
-        //枪方向
+        //枪方向-----------------------------------------------------------------
         m_mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         m_aimPos = new Vector3(m_mousePos.x, m_mousePos.y, transform.position.z);
         test.transform.position = m_aimPos;
@@ -74,57 +79,264 @@ public abstract class GunC : MonoBehaviour
             z = -Vector3.Angle(Vector3.left, m_aimPos - transform.position);
         else
             z = Vector3.Angle(Vector3.left, m_aimPos - transform.position);
-       // print(m_aimPos.x + "  " + transform.position.x);
-        print(transform.localScale);
         if (m_aimPos.x > transform.position.x)
             transform.localScale = new Vector3(1, -1, 1);
         else
             transform.localScale = new Vector3(1, 1, 1);
         transform.localRotation = Quaternion.Euler(0, 0, z);
-        //枪普通与特殊攻击
-        if (Input.GetMouseButtonDown(0)) //左点射
-        {
-            LeftShot = true;
-        }
-        if (Input.GetMouseButtonDown(1)) //右点射
-        {
-            RightShot = true;
-        }
-        if (Input.GetMouseButton(0)) //左连续射
-        {
-            LeftContinueShot = true;
-        }
-        if (Input.GetMouseButton(1)) //右连续射
-        {
-            RightContinueShot = true;
-        }
+
+        //鼠标按下监听
+        ListenMouseEvent();
     }
 
     protected virtual void FixedUpdate()
     {
-        if (LeftShot)
+        JudgeMouseEvent();
+    }
+
+    //鼠标点击事件监听
+    private void ListenMouseEvent()
+    {
+        print(Gun_Data.ShotType[0]);
+        foreach (ShotType ST in Gun_Data.ShotType)//抢的设射击类型
         {
-            LeftShot = false;
-            NormalShot();
-        }if (RightShot)
+            switch (ST)
+            {
+                //左边
+                case global::ShotType.LeftFixedFire://点射（点一下）
+                    ShotFixedFire(MouseClick.MouseLeft);
+                    break;
+                case global::ShotType.LeftContinueFire://点住不放（一发一发）
+                    ShotContinueFire(MouseClick.MouseLeft);
+                    break;
+                case global::ShotType.LeftEnergyFire://点住不放（蓄能）
+                    ShotEnergyFire(MouseClick.MouseLeft);
+                    break;
+                case global::ShotType.LeftCloseFire://近战攻击
+                    ShotCloseFire(MouseClick.MouseLeft);
+                    break;
+                //右边
+                case global::ShotType.RightFixedFire://点射（点一下）
+                    ShotFixedFire(MouseClick.MouseRight);
+                    break;
+                case global::ShotType.RightContinueFire://点住不放（一发一发）
+                    ShotContinueFire(MouseClick.MouseRight);
+                    break;
+                case global::ShotType.RightEnergyFire://点住不放（蓄能）
+                    ShotEnergyFire(MouseClick.MouseRight);
+                    break;
+                case global::ShotType.RightCloseFire://近战攻击
+                    ShotCloseFire(MouseClick.MouseRight);
+                    break;
+            }
+        }
+    }
+    //点射（点一下）
+    private void ShotFixedFire(MouseClick MC)
+    {
+        if (MC == MouseClick.MouseLeft) //左键
         {
-            RightShot = false;
-            NormalShot();
-        }if (LeftContinueShot)
+            if (Input.GetMouseButtonDown(0))
+                LeftOnce = true;
+        }
+        else if (MC == MouseClick.MouseRight) //右键
         {
-            LeftContinueShot = false;
-            SpecialShot();
-        }if (RightContinueShot)
+            if (Input.GetMouseButtonDown(1))
+                RightOnce = true;
+        }
+        else if (MC == MouseClick.MouseMiddle) //中键
         {
-            RightContinueShot = false;
-            SpecialShot();
+
+        }
+    }
+    //点住不放（一发一发）
+    private const float CHICK_INTERVAL = 0.3f;//按一次和长按的时间间隔
+    private float m_LeftDownListener = 0, m_RightDownListener = 0;//左右键按住监听
+    private void ShotContinueFire(MouseClick MC)
+    {
+        if (MC == MouseClick.MouseLeft) //左键
+        {
+            if (Input.GetMouseButton(0))//按住
+            {
+                m_LeftDownListener+= Time.deltaTime;
+                if (m_LeftDownListener > CHICK_INTERVAL)//确认是长按
+                {
+                    LeftDowning = true;//确认是长按
+                    LeftOnce = false;//确认不是按一下
+                }
+            }
+            if (LeftDowning && Input.GetMouseButtonUp(0))//抬起
+            {
+                m_LeftDownListener = 0;
+                LeftDownUping = true;
+                LeftDowning = false;
+            }
+        }
+        else if (MC == MouseClick.MouseRight) //右键
+        {
+            if (Input.GetMouseButton(1))//按住
+            {
+                m_RightDownListener += Time.deltaTime;
+                if (m_RightDownListener > CHICK_INTERVAL)//确认是长按
+                {
+                    RightDowning = true;//确认是长按
+                    RightOnce = false;//确认不是按一下
+                }
+            }
+            if (RightDowning && Input.GetMouseButtonUp(1))//抬起
+            {
+                m_RightDownListener = 0;
+                RightDownUping = true;
+                RightDowning = false;
+            }
+        }
+        else if (MC == MouseClick.MouseMiddle) //中键
+        {
+
+        }
+    }
+    //点住不放（蓄能）
+    private float m_LeftEnergyTime;
+    protected float LeftEnergyTime//左键蓄能时间
+    {
+        set
+        {
+            if (value > Gun_Data.MaxEnergyTime)
+                m_LeftEnergyTime = Gun_Data.MaxEnergyTime;
+            else
+            {
+                m_LeftEnergyTime = value;
+            }
+        }
+        get { return m_LeftEnergyTime; }
+    }
+    private float m_RightEnergyTime;
+    protected float RightEnergyTime//右键蓄能时间
+    {
+        set
+        {
+            if (value > Gun_Data.MaxEnergyTime)
+                m_RightEnergyTime = Gun_Data.MaxEnergyTime;
+            else
+            {
+                m_RightEnergyTime = value;
+            }
+        }
+        get { return m_RightEnergyTime; }
+    }
+    private void ShotEnergyFire(MouseClick MC)
+    {
+        if (MC == MouseClick.MouseLeft) //左键
+        {
+            if (Input.GetMouseButton(0)) //按住
+            {
+                LeftEnergyTime += Time.deltaTime;
+                LeftDownEnergy = true;
+            }
+            if (LeftDownEnergy && Input.GetMouseButtonUp(0)) //抬起
+            {
+                LeftEnergyTime = 0;
+                LeftDownUpingEnergy = true;
+                LeftDownEnergy = false;
+            }
+        }
+        else if (MC == MouseClick.MouseRight) //右键
+        {
+            if (Input.GetMouseButton(1)) //按住
+            {
+                RightEnergyTime += Time.deltaTime;
+                RightDownEnergy = true;
+            }
+            if (RightDownEnergy && Input.GetMouseButtonUp(1)) //抬起
+            {
+                RightEnergyTime = 0;
+                RightDownUpingEnergy = true;
+                RightDownEnergy = false;
+            }
+        }
+        else if (MC == MouseClick.MouseMiddle) //中键
+        {
+
+        }
+    }
+    //近战攻击
+    private void ShotCloseFire(MouseClick MC)
+    {
+        if (MC == MouseClick.MouseLeft) //左键
+        {
+
+        }
+        else if (MC == MouseClick.MouseRight) //右键
+        {
+
+        }
+        else if (MC == MouseClick.MouseMiddle) //中键
+        {
+
+        }
+    }
+
+    //鼠标点击事件判断与实现
+    private void JudgeMouseEvent()
+    {
+        if (LeftOnce)
+        {
+            LeftNormalShot();
+            LeftOnce = false;
+        }
+        if (RightOnce)
+        {
+            RightNormalShot();
+            RightOnce = false;
+        }
+        if (LeftDowning)
+        {
+            LeftNormalShot();
+        }
+        if (RightDowning)
+        {
+            RightNormalShot();
+        }
+        if (LeftDownUping)
+        {
+            LeftContinueShotUping();
+            LeftDownUping = false;
+            LeftDowning = false;
+            print("起来了！！");
+        }
+        if (RightDownUping)
+        {
+            RightContinueShotUping();
+            RightDownUping = false;
+            RightDowning = false;
+        }
+
+        //蓄能
+        if (LeftDownEnergy)
+        {
+            LeftEnergying();
+        }
+        if (LeftDownUpingEnergy)
+        {
+            LeftEnergyShot();
+        }
+        if (RightDownEnergy)
+        {
+            RightEnergying();
+        }
+        if (RightDownUpingEnergy)
+        {
+            RightEnergyShot();
         }
     }
 
 
-    //普通开枪射击
-    protected virtual void NormalShot()
+    //左键普通开枪射击
+    protected virtual void LeftNormalShot()
     {
+        //还没达到CD时间
+        if (!CanShotNext) return;
+        StartCoroutine(ShotCD());
         //生成子弹（调整位置与角度）
         GameObject buttleGameObject = ObjectPool.Instance.Spawn(Gun_Data.Buttle.name);
         buttleGameObject.transform.position = Gun_Data.MuzzlePos.transform.position;
@@ -133,8 +345,36 @@ public abstract class GunC : MonoBehaviour
         Buttle buttle = buttleGameObject.GetComponent<Buttle>();
         buttle.BulletStart(Gun_Data.ButtleSpeed, Gun_Data.AttackDistance, Gun_Data.DemageNums);
     }
+    private float m_Current = 0;//当前射击的CD
+    private bool CanShotNext = true;//达到CD时间，可以射击下一回合
+    IEnumerator ShotCD()
+    {
+        CanShotNext = false;
+        while (m_Current < Gun_Data.AttackCD)
+        {
+            m_Current += Time.fixedDeltaTime;
+            yield return null;
+        }
+        m_Current = 0;
+        CanShotNext = true;
+    }
+
+    //右键普通攻击
+    protected abstract void RightNormalShot();
+
+    //左右键连续攻击抬起
+    protected abstract void LeftContinueShotUping();
+    protected abstract void RightContinueShotUping();
+
+    //左右蓄能过程与攻击
+    protected abstract void LeftEnergying();
+    protected abstract void RightEnergying();
+    protected abstract void LeftEnergyShot();
+    protected abstract void RightEnergyShot();
+
+
     //特殊技能
-    public abstract void SpecialShot();
+    protected abstract void SpecialShot();
 
 
     #region 枪械信息（保存）
@@ -168,6 +408,8 @@ public abstract class GunC : MonoBehaviour
         Gun_Data.MuzzlePos = m_MuzzlePos;
         //子弹速度
         Gun_Data.ButtleSpeed = m_ButtleSpeed;
+        //设计类型
+        Gun_Data.ShotType = ShotType;
     }
     #endregion
 }
