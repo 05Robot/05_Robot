@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 /*********************************************************************
 ****	作者 ZMK 
 ****	时间 2018/4/15
-****	描述 AWM狙击枪控制类
+****	描述 AK47突击步枪控制类
 **********************************************************************/
-public class AWMGunC : GunC
-{
-    
+public class AK47Gunc : GunC {
     protected override void Awake()
     {
         base.Awake();

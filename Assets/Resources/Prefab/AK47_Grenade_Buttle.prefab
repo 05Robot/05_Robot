@@ -9,99 +9,55 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1061755309934744}
+  m_RootGameObject: {fileID: 1958855929286784}
   m_IsPrefabParent: 1
---- !u!1 &1061755309934744
+--- !u!1 &1958855929286784
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4056664730692312}
-  - component: {fileID: 212133635710889414}
-  - component: {fileID: 114423431030155634}
-  m_Layer: 5
-  m_Name: AWM_Gun
+  - component: {fileID: 4577283747083516}
+  - component: {fileID: 212199490984077102}
+  - component: {fileID: 114332920219942840}
+  m_Layer: 0
+  m_Name: AK47_Grenade_Buttle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &1710892260646230
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 4782158175576784}
-  m_Layer: 5
-  m_Name: Muzzle
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &4056664730692312
+--- !u!4 &4577283747083516
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1061755309934744}
+  m_GameObject: {fileID: 1958855929286784}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 4782158175576784}
+  m_LocalPosition: {x: -1.0206251, y: 11.828125, z: 0}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
+  m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &4782158175576784
-Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1710892260646230}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.979, y: 0.097, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 4056664730692312}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114423431030155634
+--- !u!114 &114332920219942840
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1061755309934744}
+  m_GameObject: {fileID: 1958855929286784}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 58a6453e11145b24a9ab1a3941d7fbdf, type: 3}
+  m_Script: {fileID: 11500000, guid: 1c431b3a04f947f40bc2c34562646203, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  test: {fileID: 0}
-  m_GunIndex: 0
-  m_GunName: AWM
-  m_ComsumeMP: 30
-  m_ComsumeHP: 15
-  m_DemageNums: 100
-  m_HardStraight: 20
-  m_BeatBack: 2
-  m_AttackDistance: 50
-  m_AttackCD: 0.1
-  m_buttle: {fileID: 1902719169344626, guid: 7938c63407813ca4e815fa64ba90f699, type: 2}
-  m_ButtleSpeed: 18
-  m_MaxEnergyTime: 3
-  ShotType: 0000000001000000
-  m_MuzzlePos: {fileID: 1710892260646230}
---- !u!212 &212133635710889414
+--- !u!212 &212199490984077102
 SpriteRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1061755309934744}
+  m_GameObject: {fileID: 1958855929286784}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -130,12 +86,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300018, guid: 9fb1d732cad740142941f7dcd42d7e4d, type: 3}
+  m_Sprite: {fileID: 21300002, guid: b6ced8a245c082543946e78fc70a5d5b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 3.53, y: 1.2}
+  m_Size: {x: 10.24, y: 1.49}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1

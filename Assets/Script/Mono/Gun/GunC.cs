@@ -91,13 +91,13 @@ public abstract class GunC : MonoBehaviour
 
     protected virtual void FixedUpdate()
     {
+        //鼠标点击事件判断与实现
         JudgeMouseEvent();
-    }
+}
 
     //鼠标点击事件监听
     private void ListenMouseEvent()
     {
-        print(Gun_Data.ShotType[0]);
         foreach (ShotType ST in Gun_Data.ShotType)//抢的设射击类型
         {
             switch (ST)
@@ -105,6 +105,7 @@ public abstract class GunC : MonoBehaviour
                 //左边
                 case global::ShotType.LeftFixedFire://点射（点一下）
                     ShotFixedFire(MouseClick.MouseLeft);
+                        
                     break;
                 case global::ShotType.LeftContinueFire://点住不放（一发一发）
                     ShotContinueFire(MouseClick.MouseLeft);
@@ -302,7 +303,7 @@ public abstract class GunC : MonoBehaviour
             LeftContinueShotUping();
             LeftDownUping = false;
             LeftDowning = false;
-            print("起来了！！");
+
         }
         if (RightDownUping)
         {
