@@ -16,6 +16,10 @@ public abstract class GunC : MonoBehaviour
     [SerializeField] private uint m_GunIndex;
     //枪械名字
     [SerializeField] private string m_GunName;
+    //枪拥有的射击类型
+    [SerializeField] private ShotType[] ShotType;
+    //枪口位置
+    [SerializeField] private GameObject m_MuzzlePos;
     //普通攻击-----------------------------------------------
     //普通消耗的MP
     [SerializeField] private int m_ComsumeMP;
@@ -37,10 +41,6 @@ public abstract class GunC : MonoBehaviour
     [SerializeField] private uint m_ButtleSpeed;
     //最大蓄能时间
     [SerializeField] private float m_MaxEnergyTime;
-    //枪拥有的射击类型
-    [SerializeField] private ShotType[] ShotType;
-    //枪口位置
-    [SerializeField] private GameObject m_MuzzlePos;
     //--------------------------------------------------
     #endregion
     protected GunM Gun_Data;

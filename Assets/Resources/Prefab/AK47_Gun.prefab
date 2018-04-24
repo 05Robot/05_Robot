@@ -93,7 +93,7 @@ MonoBehaviour:
   m_AttackCD: 0.1
   m_buttle: {fileID: 1902719169344626, guid: 7938c63407813ca4e815fa64ba90f699, type: 2}
   m_ButtleSpeed: 8
-  m_MaxEnergyTime: 0
+  m_MaxEnergyTime: 2
   ShotType: 000000000100000006000000
   m_MuzzlePos: {fileID: 1866140130569104}
 --- !u!212 &212849177781506020

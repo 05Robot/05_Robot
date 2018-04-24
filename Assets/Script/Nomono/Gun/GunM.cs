@@ -22,6 +22,7 @@ public enum ShotType//射击类型
     RightEnergyFire = 6,
     RightCloseFire = 7
 }
+
 public class GunM
 {
     //枪械索引d 
@@ -37,6 +38,13 @@ public class GunM
     {
         set { m_GunName = value; }
         get { return m_GunName; }
+    }
+    //枪口位置
+    private GameObject m_MuzzlePos;
+    public GameObject MuzzlePos
+    {
+        set { m_MuzzlePos = value; }
+        get { return m_MuzzlePos; }
     }
     //枪械的涉及类型
     public ShotType[] ShotType;
@@ -90,6 +98,7 @@ public class GunM
         set { m_MaxEnergyTime = value; }
         get { return m_MaxEnergyTime; }
     }
+
     //----和子弹有关
     //子弹速度
     private uint m_ButtleSpeed;
@@ -112,39 +121,77 @@ public class GunM
         set { m_buttle = value; }
         get { return m_buttle; }
     }
-    //枪口位置
-    private GameObject m_MuzzlePos;
-    public GameObject MuzzlePos
-    {
-        set { m_MuzzlePos = value; }
-        get { return m_MuzzlePos; }
-    }
+
     //特殊-----------------------------------------------
     //特殊消耗的MP
-    /* private int m_SpecialComsumeMP;
-     //特殊消耗的HP
-     private int m_SpecialComsumeHP;
-     //特殊伤害数值
-     private int m_SpecialDemageNums;
-     //硬直系数
-     private float m_SpecialHardStraight;
-     //击退系数
-     private float m_SpecialBeatBack;
-     //攻击距离
-     private float m_SpecialAttackDistance;
-     //攻击频率
-     private float m_SpecialAttackFrequency;
-     //特殊攻击方式
-     public abstract void SpecialAttackWay();
-     */
+    private int m_SpecialComsumeMP;
+    public int SpecialComsumeMP
+    {
+        set { m_SpecialComsumeMP = value; }
+        get { return m_SpecialComsumeMP; }
+    }
+    //特殊消耗的HP
+    private int m_SpecialComsumeHP;
+    public int SpecialComsumeHP
+    {
+        set { m_SpecialComsumeHP = value; }
+        get { return m_SpecialComsumeHP; }
+    }
+    //特殊伤害数值
+    private uint m_SpecialDemageNums;
+    public uint SpecialDemageNums
+    {
+        set { m_SpecialDemageNums = value; }
+        get { return m_SpecialDemageNums; }
+    }
+    //特殊硬直系数
+    private float m_SpecialHardStraight;
+    public float SpecialHardStraight
+    {
+        set { m_SpecialHardStraight = value; }
+        get { return m_SpecialHardStraight; }
+    }
+    //特殊击退系数
+    private float m_SpecialBeatBack;
+    public float SpecialBeatBack
+    {
+        set { m_SpecialBeatBack = value; }
+        get { return m_SpecialBeatBack; }
+    }
+    //特殊攻击频率CD
+    private float m_SpecialAttackCD;
+    public float SpecialAttackCD
+    {
+        set { m_SpecialAttackCD = value; }
+        get { return m_SpecialAttackCD; }
+    }
+    //特殊最大蓄能时间
+    private float m_SpecialMaxEnergyTime;
+    public float SpecialMaxEnergyTime
+    {
+        set { m_SpecialMaxEnergyTime = value; }
+        get { return m_SpecialMaxEnergyTime; }
+    }
 
+    //特殊攻击中：和子弹 或者其他 预设有关的
+    //特殊攻击距离
+    private float m_SpecialAttackDistance;
+    public float SpecialAttackDistance
+    {
+        set { m_SpecialAttackDistance = value; }
+        get { return m_SpecialAttackDistance; }
+    }
+
+
+
+
+    //-------------------------------------------------------------------------------------------------
     //武器最多点数
     private uint m_MaxPoint;
 
     //武器当前的点数
     private uint m_CurrentPoint;
 
-     
 }
 
 
