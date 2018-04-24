@@ -64,8 +64,8 @@ public class GunM
         get { return m_ComsumeHP; }
     }
     //普通伤害数值
-    private uint m_DemageNums;
-    public uint DemageNums
+    private float m_DemageNums;
+    public float DemageNums
     {
         set { m_DemageNums = value; }
         get { return m_DemageNums; }
@@ -108,8 +108,8 @@ public class GunM
         get { return m_ButtleSpeed; }
     }
     //攻击距离
-    private uint m_AttackDistance;
-    public uint AttackDistance
+    private float m_AttackDistance;
+    public float AttackDistance
     {
         set { m_AttackDistance = value; }
         get { return m_AttackDistance; }
@@ -124,22 +124,22 @@ public class GunM
 
     //特殊-----------------------------------------------
     //特殊消耗的MP
-    private int m_SpecialComsumeMP;
-    public int SpecialComsumeMP
+    private float m_SpecialComsumeMP;
+    public float SpecialComsumeMP
     {
         set { m_SpecialComsumeMP = value; }
         get { return m_SpecialComsumeMP; }
     }
     //特殊消耗的HP
-    private int m_SpecialComsumeHP;
-    public int SpecialComsumeHP
+    private float m_SpecialComsumeHP;
+    public float SpecialComsumeHP
     {
         set { m_SpecialComsumeHP = value; }
         get { return m_SpecialComsumeHP; }
     }
     //特殊伤害数值
-    private uint m_SpecialDemageNums;
-    public uint SpecialDemageNums
+    private float m_SpecialDemageNums;
+    public float SpecialDemageNums
     {
         set { m_SpecialDemageNums = value; }
         get { return m_SpecialDemageNums; }
@@ -174,6 +174,13 @@ public class GunM
     }
 
     //特殊攻击中：和子弹 或者其他 预设有关的
+    //子弹速度
+    private uint m_SpecialButtleSpeed;
+    public uint SpecialButtleSpeed
+    {
+        set { m_SpecialButtleSpeed = value; }
+        get { return m_SpecialButtleSpeed; }
+    }
     //特殊攻击距离
     private float m_SpecialAttackDistance;
     public float SpecialAttackDistance
@@ -181,9 +188,13 @@ public class GunM
         set { m_SpecialAttackDistance = value; }
         get { return m_SpecialAttackDistance; }
     }
-
-
-
+    //子弹预设
+    private GameObject m_Specialbuttle;
+    public GameObject SpecialButtle
+    {
+        set { m_Specialbuttle = value; }
+        get { return m_Specialbuttle; }
+    }
 
     //-------------------------------------------------------------------------------------------------
     //武器最多点数

@@ -12,6 +12,7 @@ public abstract class GunC : MonoBehaviour
     //瞄准测试
     public GameObject test;
     #region 枪械信息（公开）
+    [Header("--枪械信息--")]
     //枪械索引d 
     [SerializeField] private uint m_GunIndex;
     //枪械名字
@@ -21,18 +22,19 @@ public abstract class GunC : MonoBehaviour
     //枪口位置
     [SerializeField] private GameObject m_MuzzlePos;
     //普通攻击-----------------------------------------------
+    [Header("--普通攻击信息--")]
     //普通消耗的MP
     [SerializeField] private int m_ComsumeMP;
     //普通消耗的HP
     [SerializeField] private int m_ComsumeHP;
     //普通伤害数值
-    [SerializeField] private uint m_DemageNums;
+    [SerializeField] private float m_DemageNums;
     //硬直系数
     [SerializeField] private float m_HardStraight;
     //击退系数
     [SerializeField] private float m_BeatBack;
     //攻击距离
-    [SerializeField] private uint m_AttackDistance;
+    [SerializeField] private float m_AttackDistance;
     //攻击频率CD
     [SerializeField] private float m_AttackCD;
     //子弹类型
@@ -105,7 +107,6 @@ public abstract class GunC : MonoBehaviour
                 //左边
                 case global::ShotType.LeftFixedFire://点射（点一下）
                     ShotFixedFire(MouseClick.MouseLeft);
-                        
                     break;
                 case global::ShotType.LeftContinueFire://点住不放（一发一发）
                     ShotContinueFire(MouseClick.MouseLeft);
@@ -212,12 +213,12 @@ public abstract class GunC : MonoBehaviour
         get { return m_LeftEnergyTime; }
     }
     private float m_RightEnergyTime;
-    protected float RightEnergyTime//右键蓄能时间
+    protected float RightEnergyTime//右键（特殊）蓄能时间
     {
         set
         {
-            if (value > Gun_Data.MaxEnergyTime)
-                m_RightEnergyTime = Gun_Data.MaxEnergyTime;
+            if (value > Gun_Data.SpecialMaxEnergyTime)
+                m_RightEnergyTime = Gun_Data.SpecialMaxEnergyTime;
             else
             {
                 m_RightEnergyTime = value;
@@ -236,7 +237,7 @@ public abstract class GunC : MonoBehaviour
             }
             if (LeftDownEnergy && Input.GetMouseButtonUp(0)) //抬起
             {
-                LeftEnergyTime = 0;
+                //LeftEnergyTime = 0;(置0 调到if()中)
                 LeftDownUpingEnergy = true;
                 LeftDownEnergy = false;
             }
@@ -250,7 +251,7 @@ public abstract class GunC : MonoBehaviour
             }
             if (RightDownEnergy && Input.GetMouseButtonUp(1)) //抬起
             {
-                RightEnergyTime = 0;
+                //RightEnergyTime = 0;(置0 调到if()中)
                 RightDownUpingEnergy = true;
                 RightDownEnergy = false;
             }
@@ -320,6 +321,8 @@ public abstract class GunC : MonoBehaviour
         if (LeftDownUpingEnergy)
         {
             LeftEnergyShot();
+            LeftDownUpingEnergy = false;
+            LeftEnergyTime = 0;//左键蓄能累积时间置0（初始化）
         }
         if (RightDownEnergy)
         {
@@ -328,6 +331,8 @@ public abstract class GunC : MonoBehaviour
         if (RightDownUpingEnergy)
         {
             RightEnergyShot();
+            RightDownUpingEnergy = false;
+            RightEnergyTime = 0;//右键(特殊)蓄能累积时间置0（初始化）
         }
     }
 
@@ -361,21 +366,21 @@ public abstract class GunC : MonoBehaviour
     }
 
     //右键普通攻击
-    protected abstract void RightNormalShot();
+    protected virtual void RightNormalShot() { }
 
     //左右键连续攻击抬起
-    protected abstract void LeftContinueShotUping();
-    protected abstract void RightContinueShotUping();
+    protected virtual void LeftContinueShotUping() { }
+    protected virtual void RightContinueShotUping() { }
 
     //左右蓄能过程与攻击
-    protected abstract void LeftEnergying();
-    protected abstract void RightEnergying();
-    protected abstract void LeftEnergyShot();
-    protected abstract void RightEnergyShot();
+    protected virtual void LeftEnergying() { }
+    protected virtual void RightEnergying() { }
+    protected virtual void LeftEnergyShot() { }
+    protected virtual void RightEnergyShot() { }
 
 
-    //特殊技能
-    protected abstract void SpecialShot();
+    //超级特殊技能？？？
+    protected virtual void SpecialShot(){ }
 
 
     #region 枪械信息（保存）

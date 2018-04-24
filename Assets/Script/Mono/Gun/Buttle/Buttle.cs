@@ -16,15 +16,15 @@ public abstract class Buttle : MonoBehaviour
         set { m_Speed = value; }
     }
     //子弹飞行距离
-    private uint m_FlyDistance;
-    public uint FlyDistance
+    private float m_FlyDistance;
+    public float FlyDistance
     {
         get { return m_FlyDistance; }
         set { m_FlyDistance = value; }
     }
     //子弹伤害
-    private uint m_DemageNums;
-    public uint DemageNums
+    private float m_DemageNums;
+    public float DemageNums
     {
         get { return m_DemageNums; }
         set { m_DemageNums = value; }
@@ -47,13 +47,14 @@ public abstract class Buttle : MonoBehaviour
     }
 
     //被开启时的初始化过程
-    public virtual void BulletStart(uint s_Speed, uint s_FlyDistance, uint s_DemageNums)
+    public virtual void BulletStart(uint s_Speed, float s_FlyDistance, float s_DemageNums)
     {
         Speed = s_Speed;
         FlyDistance = s_FlyDistance;
         DemageNums = s_DemageNums;
         StartFly = Flying = true;
     }
+
 
     //子弹直直飞行与距离限制
     private float m_AlreadyFlyDistance;//已经飞行的距离
@@ -62,11 +63,14 @@ public abstract class Buttle : MonoBehaviour
         //子弹飞行
         transform.position += -transform.right * m_Speed * Time.fixedDeltaTime;
         m_AlreadyFlyDistance += m_Speed * Time.fixedDeltaTime;
+        //子弹超过飞行距离
         if (m_AlreadyFlyDistance > FlyDistance)
         {
             Vanish();//子弹消失
         }
     }
+
+
 
     //子弹消失（撞击或者超过距离）
     protected virtual void Vanish()
