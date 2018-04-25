@@ -20,7 +20,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4540824553858050}
   - component: {fileID: 212578488691507668}
-  - component: {fileID: 114678241544290972}
+  - component: {fileID: 114438781341478634}
+  - component: {fileID: 50322468416340282}
+  - component: {fileID: 60397891614849980}
   m_Layer: 0
   m_Name: AWM_Buttle
   m_TagString: Untagged
@@ -41,7 +43,91 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114678241544290972
+--- !u!50 &50322468416340282
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1902719169344626}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
+--- !u!60 &60397891614849980
+PolygonCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1902719169344626}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 9.75, y: 1.67}
+    newSize: {x: 10.24, y: 1.49}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: 3.415, y: -0.315}
+      - {x: 3.705, y: -0.295}
+      - {x: 4.205, y: -0.21499999}
+      - {x: 4.4249997, y: -0.095}
+      - {x: 4.4649997, y: -0.035}
+      - {x: 4.4649997, y: 0.005}
+      - {x: 4.415, y: 0.095}
+      - {x: 4.1349998, y: 0.225}
+      - {x: 3.8249998, y: 0.24499999}
+      - {x: 3.5449998, y: 0.255}
+      - {x: 3.375, y: 0.295}
+      - {x: 2.835, y: 0.315}
+      - {x: 2.595, y: 0.325}
+      - {x: 1.8149999, y: 0.36499998}
+      - {x: 0.745, y: 0.36499998}
+      - {x: 0.73499995, y: 0.375}
+      - {x: 0.435, y: 0.375}
+      - {x: 0.42499998, y: 0.36499998}
+      - {x: -1.7049999, y: 0.36499998}
+      - {x: -1.925, y: 0.355}
+      - {x: -2.445, y: 0.345}
+      - {x: -2.5549998, y: 0.33499998}
+      - {x: -3.435, y: 0.295}
+      - {x: -4.065, y: 0.225}
+      - {x: -4.275, y: 0.195}
+      - {x: -4.475, y: 0.074999996}
+      - {x: -4.535, y: 0.024999999}
+      - {x: -4.535, y: -0.044999998}
+      - {x: -4.3849998, y: -0.175}
+      - {x: -4.185, y: -0.235}
+      - {x: -3.675, y: -0.305}
+      - {x: -3.165, y: -0.325}
+      - {x: -2.925, y: -0.33499998}
+      - {x: -2.085, y: -0.345}
+      - {x: -1.8249999, y: -0.375}
+      - {x: -1.265, y: -0.385}
+      - {x: 1.125, y: -0.385}
+      - {x: 1.7049999, y: -0.375}
+      - {x: 1.9449999, y: -0.345}
+      - {x: 2.915, y: -0.33499998}
+--- !u!114 &114438781341478634
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}

@@ -12,4 +12,9 @@ public class GrenadeButtle : Buttle
     {
         base.FixedUpdate();
     }
+
+    protected override void GenerateDemage()
+    {
+
+    }
 }
