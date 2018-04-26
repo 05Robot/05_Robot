@@ -16,7 +16,7 @@ using Timer = System.Timers.Timer;
 **********************************************************************/
 namespace Assets.Script
 {
-    [Serializable]
+    
     public abstract class BaseRobot
     {
         
@@ -56,6 +56,7 @@ namespace Assets.Script
             MPRecoverTimer.AutoReset = true;
             MPRecoverTimer.Enabled = true;
             MPRecoverTimer.Start();
+
          
 
 
@@ -78,7 +79,8 @@ namespace Assets.Script
                     IsUseCore = true;
                     Critical();
                 }
-              //todo 调用控制器重置 
+                IsConsumeMp = true;
+                //todo 调用控制器重置 
             }
             else//使用核心
             {

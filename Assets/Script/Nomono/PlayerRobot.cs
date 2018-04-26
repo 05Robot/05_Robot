@@ -21,6 +21,8 @@ namespace Assets.Script.Nomono
         /// </summary>
         public PlayerRobotContral PRC;
 
+        public float SpecialSpeed;
+
         public  PlayerRobot(BaseCore core,float moveSpeed)
         {
             Core = core;

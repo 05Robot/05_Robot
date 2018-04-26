@@ -102,7 +102,7 @@ MonoBehaviour:
   m_SpecialHardStraight: 4
   m_SpecialBeatBack: 4
   m_SpecialAttackCD: 4
-  m_SpecialMaxEnergyTime: 3
+  m_SpecialMaxEnergyTime: 2
   m_SpecialButtleSpeed: 3
   m_SpecialAttackDistance: 2
   m_SpecialButtle: {fileID: 1958855929286784, guid: 9bfbbd3f0d1a5ce43b73a1f276f0f8d8,

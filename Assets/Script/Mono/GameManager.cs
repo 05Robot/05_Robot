@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+using UnityEngine.Networking;
 
 
 /*********************************************************************
@@ -14,6 +15,8 @@ namespace Assets.Script
 {
     class GameManager:Singleton<GameManager>
     {
+        public  PlayerRobotContral PRC;
+        public GunC GunC;
         public enum GameStatu
         {
             Pause,

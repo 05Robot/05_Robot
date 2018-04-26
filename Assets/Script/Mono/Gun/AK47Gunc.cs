@@ -45,6 +45,7 @@ public class AK47GunC : GunC {
         base.FixedUpdate();
     }
 
+    //左普通攻击
     protected override void LeftNormalShot()
     {
         base.LeftNormalShot();
@@ -91,7 +92,6 @@ public class AK47GunC : GunC {
             yield return null;
         }
         m_SpecialCurrent = 0;
-        print("可以开枪了！！");
         CanSpecialShotNext = true;
     }
 
@@ -120,5 +120,5 @@ public class AK47GunC : GunC {
         //子弹预设
         Gun_Data.SpecialButtle = m_SpecialButtle;
     }
-#endregion
+    #endregion
 }
