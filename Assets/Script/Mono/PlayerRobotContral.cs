@@ -20,6 +20,9 @@ public class PlayerRobotContral : MonoBehaviour
         //实例化核心
         _mPlayerRobot = new PlayerRobot(FireCore.fc, 10f);
         GameManager.Instance.PRC = this;
+        //开启每秒时间协程
+        StartCoroutine(_mPlayerRobot.SecondEvent());
+        _mPlayerRobot.PRC = this;
     }
 
     // Update is called once per frame
@@ -104,5 +107,10 @@ public class PlayerRobotContral : MonoBehaviour
         Debug.Log("move over");
         SetContral(true);
 
+    }
+
+    public void GetDamage(int mpdamage,int hpdamage)
+    {
+        _mPlayerRobot.GetDamage(mpdamage,hpdamage);
     }
 }

@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Timers;
 using UnityEngine;
 
 /*********************************************************************
@@ -31,12 +33,15 @@ namespace Assets.Script.Nomono
             CurrentMp = MaxMp = core.GetMaxMp();
             core.coreStatu=BaseCore.CoreStatu.Normal;
 
+            SecondAction += RecoverMp;
+            SyncHpMp();
             
         }
 
-        public override void GetDamage(int damage)
+        public override void GetDamage(int MPDamage,int HPDmage)
         {
-            base.GetDamage(damage);
+            base.GetDamage(MPDamage,HPDmage);
+            Debug.Log("hp:"+CurrentHp+"  mp:"+CurrentMp);
             if (Core.coreStatu != BaseCore.CoreStatu.Injured && CurrentHp > 0.25*MaxHp && CurrentHp <= 0.5*MaxHp)
             {
                
@@ -47,6 +52,7 @@ namespace Assets.Script.Nomono
             {
                 Core.coreStatu = BaseCore.CoreStatu.WillDead;
             }
+            SyncHpMp();
         }
 
         public override void Dead()
@@ -56,8 +62,31 @@ namespace Assets.Script.Nomono
 
         public override void Critical()
         {
+            SecondAction -= RecoverMp;
+            PRC.StartCoroutine(MPCD());
             //todo 击退效果
-            
+
         }
+
+        protected override void RecoverMp()
+        {
+            base.RecoverMp();
+            SyncHpMp();
+        }
+
+        void SyncHpMp()
+        {
+            UiManager.Instance.SyncHPMp((float)CurrentHp/(float)MaxHp,(float)CurrentMp/(float)MaxMp);
+        }
+
+        IEnumerator MPCD()
+        {
+            Debug.Log("进入冷却");
+            yield return new WaitForSeconds(10);
+            SecondAction += RecoverMp;
+            CurrentMp = MaxMp;
+            SyncHpMp();
+            IsUseCore = false;
+        } 
     }
 }

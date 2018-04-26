@@ -1,11 +1,15 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Timers;
 using Assets.Script.Nomono;
 using JetBrains.Annotations;
+using UnityEngine;
+using Debug = UnityEngine.Debug;
 using Timer = System.Timers.Timer;
 
 
@@ -27,6 +31,7 @@ namespace Assets.Script
         public int CurrentHp;
         public int CurrentMp;
         public float MoveSpeed;
+        public Action SecondAction; 
         //普通机器人不需要关联核心
         /// <summary>
         /// 判断是否是在消耗核心值
@@ -44,34 +49,30 @@ namespace Assets.Script
         public List<AbnormalState> AbnormalStateList=new List<AbnormalState>(); 
 
      
-        private const Int32 MPRecoverInterval = 1000;//1s
-        private Timer MPRecoverTimer=new Timer(MPRecoverInterval);
+        public  int MPRecoverInterval = 1;//1s
+      
 
         public BaseRobot()
         {
-          
 
-            //todo 注意调试下
-            MPRecoverTimer.Elapsed += RecoverMp;
-            MPRecoverTimer.AutoReset = true;
-            MPRecoverTimer.Enabled = true;
-            MPRecoverTimer.Start();
 
+
+        
          
 
 
         }
         /// <summary>
-        /// 受到伤害
+        /// 如果受到伤害
         /// </summary>
         /// <param name="damage"></param>
-        public virtual void GetDamage(int damage)
+        public virtual void GetDamage(int MpDamage,int HpDamage )
         {
-            if (!IsUseCore)//mp
+            if (!IsUseCore)
             {
-                if (CurrentMp - damage > 0)
+                if (CurrentMp - MpDamage > 0)
                 {
-                    CurrentMp -= damage;
+                    CurrentMp -= MpDamage;
                 }
                 else
                 {
@@ -82,15 +83,24 @@ namespace Assets.Script
                 IsConsumeMp = true;
                 //todo 调用控制器重置 
             }
-            else//使用核心
+            else
             {
-                CurrentHp -= damage;
-                if (damage <= 0)
+                CurrentHp -= HpDamage;
+                if (CurrentHp <= 0)
                     Dead();
-                
             }
-           
+
+
+
         }
+
+        public virtual void GetReallyDamage(int damage)
+        {
+            CurrentHp -= damage;
+            if (damage <= 0)
+                Dead();
+        }
+
         public virtual void Dead()
         {
            
@@ -106,20 +116,34 @@ namespace Assets.Script
         /// <summary>
         /// 在control里面，做一个timer，到达指定时间执行这个函数
         /// </summary>
-        private  void RecoverMp(object source, ElapsedEventArgs e)
+        protected virtual void RecoverMp()
         {
             //可能出现maxmp未定义
             if (!IsConsumeMp)
             {
+              
                 CurrentMp += (int) (0.05*MaxMp);
-                if (IsUseCore)
-                {
+
+                if (CurrentMp>MaxMp)
                     CurrentMp = MaxMp;
-                }
+                
+                Debug.Log("mp: " + CurrentMp);
             }
             else IsConsumeMp = false;
         }
-        
+
+        public IEnumerator SecondEvent()
+        {
+            while (true)
+            {
+                if (SecondAction!=null)
+                {
+                    SecondAction();
+                }
+               
+                yield return new WaitForSeconds(1);
+            }
+        } 
 
        
     }

@@ -54,6 +54,13 @@ namespace Assets.Script
             }
         }
 
+        void Start()
+        {
+            PRC = FindObjectOfType<PlayerRobotContral>();
+
+        }
+       
+
 
     }
 }
