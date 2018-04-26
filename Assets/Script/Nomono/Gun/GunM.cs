@@ -114,6 +114,13 @@ public class GunM
         set { m_AttackDistance = value; }
         get { return m_AttackDistance; }
     }
+    //子弹散射度数
+    private int m_Scatter;
+    public int Scatter
+    {
+        set { m_Scatter = value; }
+        get { return m_Scatter; }
+    }
     //子弹预设
     private GameObject m_buttle;
     public GameObject Buttle
@@ -121,6 +128,7 @@ public class GunM
         set { m_buttle = value; }
         get { return m_buttle; }
     }
+   
 
     //特殊-----------------------------------------------
     //特殊消耗的MP
@@ -187,6 +195,13 @@ public class GunM
     {
         set { m_SpecialAttackDistance = value; }
         get { return m_SpecialAttackDistance; }
+    }
+    //子弹散射度数
+    private int m_SpecialScatter;
+    public int SpecialScatter
+    {
+        set { m_SpecialScatter = value; }
+        get { return m_SpecialScatter; }
     }
     //子弹预设
     private GameObject m_Specialbuttle;

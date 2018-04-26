@@ -50,7 +50,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1061755309934744}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.13, y: 0.2, z: 0}
+  m_LocalPosition: {x: 4.27, y: 3.44, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4782158175576784}
@@ -81,28 +81,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58a6453e11145b24a9ab1a3941d7fbdf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  test: {fileID: 0}
+  Target: {fileID: 1313397901171086, guid: 7c4a2fb83cb104d4cb99c688096517c9, type: 2}
   m_GunIndex: 0
   m_GunName: AWM
-  ShotType: 0000000006000000
+  ShotType: 0200000004000000
   m_MuzzlePos: {fileID: 1710892260646230}
-  m_ComsumeMP: 30
-  m_ComsumeHP: 15
-  m_DemageNums: 100
-  m_HardStraight: 20
-  m_BeatBack: 2
+  m_ComsumeMP: 20
+  m_ComsumeHP: 16
+  m_DemageNums: 200
+  m_HardStraight: 4
+  m_BeatBack: 4
   m_AttackDistance: 50
-  m_AttackCD: 0.1
+  m_AttackCD: 2
   m_buttle: {fileID: 1902719169344626, guid: 7938c63407813ca4e815fa64ba90f699, type: 2}
-  m_ButtleSpeed: 18
+  m_ButtleSpeed: 20
+  m_Scatter: 0
   m_MaxEnergyTime: 3
-  m_SpecialComsumeMP: 20
-  m_SpecialComsumeHP: 16
-  m_SpecialDemageNums: 200
+  m_SpecialComsumeMP: 200
+  m_SpecialComsumeHP: 160
+  m_SpecialDemageNums: 800
   m_SpecialHardStraight: 4
   m_SpecialBeatBack: 4
-  m_SpecialAttackCD: 2
-  m_SpecialMaxEnergyTime: 3
+  m_SpecialAttackCD: 4
+  m_SpecialMaxEnergyTime: 0
   m_SpecialButtleSpeed: 20
   m_SpecialAttackDistance: 50
   m_SpecialButtle: {fileID: 1958855929286784, guid: 9bfbbd3f0d1a5ce43b73a1f276f0f8d8,

@@ -108,6 +108,8 @@ public abstract class Buttle : MonoBehaviour
         //todo 判断碰撞，OnCollisionEnter赋值
     }
 
+
+
     //碰撞后产生伤害
     protected abstract void GenerateDemage();
 

@@ -10,7 +10,7 @@ using UnityEngine;
 public abstract class GunC : MonoBehaviour
 {
     //瞄准测试
-    public GameObject test;
+    public GameObject Target;
     #region 枪械信息（公开）
     [Header("--枪械信息--")]
     //枪械索引d 
@@ -41,6 +41,8 @@ public abstract class GunC : MonoBehaviour
     [SerializeField] private GameObject m_buttle;
     //子弹速度
     [SerializeField] private uint m_ButtleSpeed;
+    //子弹散射度数
+    [SerializeField] private int m_Scatter;
     //最大蓄能时间
     [SerializeField] private float m_MaxEnergyTime;
     //--------------------------------------------------
@@ -75,7 +77,7 @@ public abstract class GunC : MonoBehaviour
         //枪方向-----------------------------------------------------------------
         m_mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         m_aimPos = new Vector3(m_mousePos.x, m_mousePos.y, transform.position.z);
-        test.transform.position = m_aimPos;
+        Target.transform.position = m_aimPos;
         float z;
         if (m_aimPos.y > transform.position.y)//旋转角度
             z = -Vector3.Angle(Vector3.left, m_aimPos - transform.position);
@@ -346,11 +348,12 @@ public abstract class GunC : MonoBehaviour
         //生成子弹（调整位置与角度）
         GameObject buttleGameObject = ObjectPool.Instance.Spawn(Gun_Data.Buttle.name);
         buttleGameObject.transform.position = Gun_Data.MuzzlePos.transform.position;
-        buttleGameObject.transform.rotation = Gun_Data.MuzzlePos.transform.rotation;
+        buttleGameObject.transform.rotation = Quaternion.Euler(Gun_Data.MuzzlePos.transform.rotation.eulerAngles + new Vector3(0,0, GenerateNormalScatteringNums()));
         //子弹数据填充
         Buttle buttle = buttleGameObject.GetComponent<Buttle>();
         buttle.BulletStart(Gun_Data.ButtleSpeed, Gun_Data.AttackDistance, Gun_Data.DemageNums);
     }
+    //左键普通开枪射击CD判断
     private float m_Current = 0;//当前射击的CD
     private bool CanShotNext = true;//达到CD时间，可以射击下一回合
     IEnumerator ShotCD()
@@ -364,6 +367,7 @@ public abstract class GunC : MonoBehaviour
         m_Current = 0;
         CanShotNext = true;
     }
+
 
     //右键普通攻击
     protected virtual void RightNormalShot() { }
@@ -382,6 +386,14 @@ public abstract class GunC : MonoBehaviour
     //超级特殊技能？？？
     protected virtual void SpecialShot(){ }
 
+    //散射随机值生成
+    //普通散射
+    protected virtual float GenerateNormalScatteringNums()
+    {
+        return Random.Range(Gun_Data.Scatter * -1.0f, Gun_Data.Scatter);
+    }
+    //特殊散射
+    protected virtual float GeneratSpecialScatteringNums(){ return 0;}
 
     #region 枪械信息（保存）
     private void SaveGunData()
@@ -416,6 +428,8 @@ public abstract class GunC : MonoBehaviour
         Gun_Data.ButtleSpeed = m_ButtleSpeed;
         //设计类型
         Gun_Data.ShotType = ShotType;
+        //子弹散射度数
+        Gun_Data.Scatter = m_Scatter;
     }
     #endregion
 }

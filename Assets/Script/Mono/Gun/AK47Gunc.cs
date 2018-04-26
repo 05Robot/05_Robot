@@ -55,12 +55,27 @@ public class AK47GunC : GunC {
     protected override void RightEnergying()
     {
         base.RightEnergying();
+        //瞄准Target数值变换
+        if (CanSpecialShotNext)//如果可以射击
+        {
+            Target.GetComponent<Target>().ChangeTargetSlider(Gun_Data.SpecialMaxEnergyTime, RightEnergyTime);
+        }
+        else//如果不能射击
+        {
+            RightEnergyTime = 0;
+        }
     }
 
     //右键蓄能攻击
     protected override void RightEnergyShot()
     {
         base.RightEnergyShot();
+        //瞄准Target数值归0
+        if (CanSpecialShotNext) //如果可以射击
+        {
+            Target.GetComponent<Target>().Init();
+        }
+        //-------------------------------------------------------
         //还没达到CD时间
         if (!CanSpecialShotNext) return;
         StartCoroutine(SpecialShotCD());
@@ -81,6 +96,8 @@ public class AK47GunC : GunC {
             Gun_Data.SpecialDemageNums);
         print(Gun_Data.SpecialAttackDistance + base.RightEnergyTime * 4.0f);
     }
+
+
     private float m_SpecialCurrent = 0;//当前射击的CD
     private bool CanSpecialShotNext = true;//达到CD时间，可以射击下一回合
     IEnumerator SpecialShotCD()

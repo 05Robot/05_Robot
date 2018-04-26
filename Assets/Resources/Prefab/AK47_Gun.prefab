@@ -50,8 +50,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1783920013042256}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 4.12, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: -1, z: 1}
   m_Children:
   - {fileID: 4868288075129850}
   m_Father: {fileID: 0}
@@ -81,7 +81,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 548d9c184bcbd0b4bb262d782687d863, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  test: {fileID: 0}
+  Target: {fileID: 0}
   m_GunIndex: 1
   m_GunName: AK47
   ShotType: 000000000100000006000000
@@ -92,9 +92,10 @@ MonoBehaviour:
   m_HardStraight: 1
   m_BeatBack: 1
   m_AttackDistance: 20
-  m_AttackCD: 0.1
+  m_AttackCD: 0.15
   m_buttle: {fileID: 1902719169344626, guid: 7938c63407813ca4e815fa64ba90f699, type: 2}
   m_ButtleSpeed: 8
+  m_Scatter: 4
   m_MaxEnergyTime: 0
   m_SpecialComsumeMP: 100
   m_SpecialComsumeHP: 80
