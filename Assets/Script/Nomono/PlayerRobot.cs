@@ -41,7 +41,7 @@ namespace Assets.Script.Nomono
         public override void GetDamage(int MPDamage,int HPDmage)
         {
             base.GetDamage(MPDamage,HPDmage);
-            Debug.Log("hp:"+CurrentHp+"  mp:"+CurrentMp);
+            //Debug.Log("hp:"+CurrentHp+"  mp:"+CurrentMp);
             if (Core.coreStatu != BaseCore.CoreStatu.Injured && CurrentHp > 0.25*MaxHp && CurrentHp <= 0.5*MaxHp)
             {
                

@@ -6,8 +6,8 @@ using UnityEngine.UI;
 
 public class UiManager : Singleton<UiManager>
 {
-    private Slider HPSlider;
-    private Slider MPSlider;
+    public Slider HPSlider;
+    public Slider MPSlider;
 	// Use this for initialization
 	void Start () {
 	    if (HPSlider==null)

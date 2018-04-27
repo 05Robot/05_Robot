@@ -395,7 +395,7 @@ Prefab:
     - target: {fileID: 224116708135239156, guid: 78b7c3f8e071bd34abe2d65aafd8aab6,
         type: 2}
       propertyPath: m_RootOrder
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 224116708135239156, guid: 78b7c3f8e071bd34abe2d65aafd8aab6,
         type: 2}
@@ -532,6 +532,7 @@ Prefab:
       propertyPath: m_SizeDelta.x
       value: -0.08
       objectReference: {fileID: 0}
+<<<<<<< HEAD
     - target: {fileID: 224803062051688470, guid: 78b7c3f8e071bd34abe2d65aafd8aab6,
         type: 2}
       propertyPath: m_AnchoredPosition.y
@@ -617,6 +618,18 @@ Prefab:
       propertyPath: m_LocalPosition.y
       value: 0.0000019073486
       objectReference: {fileID: 0}
+=======
+    - target: {fileID: 114318793336071852, guid: 78b7c3f8e071bd34abe2d65aafd8aab6,
+        type: 2}
+      propertyPath: HPSlider
+      value: 
+      objectReference: {fileID: 1807619518}
+    - target: {fileID: 114318793336071852, guid: 78b7c3f8e071bd34abe2d65aafd8aab6,
+        type: 2}
+      propertyPath: MPSlider
+      value: 
+      objectReference: {fileID: 1214679784}
+>>>>>>> origin/master
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 78b7c3f8e071bd34abe2d65aafd8aab6, type: 2}
   m_IsPrefabParent: 0
@@ -631,6 +644,12 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 553445042}
   m_Script: {fileID: 11500000, guid: e593bfd3092ba544196798a98f6257f0, type: 3}
+--- !u!114 &1214679784 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114164407739626382, guid: 78b7c3f8e071bd34abe2d65aafd8aab6,
+    type: 2}
+  m_PrefabInternal: {fileID: 553445042}
+  m_Script: {fileID: -113659843, guid: f70555f144d8491a825f0804e09c671c, type: 3}
 --- !u!1001 &1755356063
 Prefab:
   m_ObjectHideFlags: 0
@@ -753,6 +772,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1807619518 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114433672329519452, guid: 78b7c3f8e071bd34abe2d65aafd8aab6,
+    type: 2}
+  m_PrefabInternal: {fileID: 553445042}
+  m_Script: {fileID: -113659843, guid: f70555f144d8491a825f0804e09c671c, type: 3}
 --- !u!1 &1809439000
 GameObject:
   m_ObjectHideFlags: 0
@@ -915,5 +940,5 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
