@@ -10,6 +10,17 @@ using UnityEngine;
 **********************************************************************/
 public abstract class GunC : MonoBehaviour
 {
+    //------------------------------------------------------
+    //枪自身组件
+    /// <summary>
+    /// Sprit精灵类e
+    /// </summary>
+    private SpriteRenderer m_SpriteRenderer;
+    /// <summary>
+    /// 武器自身大小
+    /// </summary>
+    private Vector3 m_TransformScale;
+    //------------------------------------------------------
     /// <summary>
     /// 角色对象
     /// </summary>
@@ -97,6 +108,10 @@ public abstract class GunC : MonoBehaviour
 
         //获取角色控制类
         m_playerRobotContral = m_player.GetComponent<PlayerRobotContral>();
+        //获取枪自身组件
+        m_SpriteRenderer = GetComponent<SpriteRenderer>();
+        //获取初始大小
+        m_TransformScale = transform.localScale;
     }
 
     protected virtual void Update()
@@ -111,9 +126,13 @@ public abstract class GunC : MonoBehaviour
         else
             z = Vector3.Angle(Vector3.left, m_aimPos - transform.position);
         if (m_aimPos.x > transform.position.x)
-            transform.localScale = new Vector3(1, -1, 1);
+        {
+            transform.localScale = new Vector3(m_TransformScale.x, -m_TransformScale.y, m_TransformScale.z);
+        }
         else
-            transform.localScale = new Vector3(1, 1, 1);
+        {
+            transform.localScale = m_TransformScale;
+        }
         transform.localRotation = Quaternion.Euler(0, 0, z);
 
         //鼠标按下监听
@@ -523,6 +542,7 @@ public abstract class GunC : MonoBehaviour
     /// <param name="comsumeHp">消耗的HP</param>
     protected void PlayerMPHPChange(float comsumeMp,float comsumeHp)
     {
+        Debug.Log(m_playerRobotContral);
         m_playerRobotContral.GetDamage((int) comsumeMp, (int) comsumeHp);
     }
 

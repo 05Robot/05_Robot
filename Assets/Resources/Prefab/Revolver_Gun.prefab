@@ -62,9 +62,9 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1875901951635834}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.08, y: -3.98, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.022, y: 0.008, z: 0}
+  m_LocalScale: {x: 0.19636205, y: 0.18106148, z: 1}
   m_Children:
   - {fileID: 4268211706527498}
   m_Father: {fileID: 0}
@@ -81,7 +81,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee3e992d2964f0b4ea025498cb6deaed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Target: {fileID: 1313397901171086, guid: 7c4a2fb83cb104d4cb99c688096517c9, type: 2}
+  m_player: {fileID: 0}
+  Target: {fileID: 0}
   m_GunIndex: 2
   m_GunName: Revolver
   ShotType: 00000000

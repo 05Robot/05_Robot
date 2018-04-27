@@ -27,7 +27,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1710892260646230
 GameObject:
   m_ObjectHideFlags: 0
@@ -49,9 +49,9 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1061755309934744}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.27, y: 3.44, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.105, y: -0.018, z: 0}
+  m_LocalScale: {x: 0.19636205, y: 0.18106148, z: 1}
   m_Children:
   - {fileID: 4782158175576784}
   m_Father: {fileID: 0}
@@ -81,7 +81,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58a6453e11145b24a9ab1a3941d7fbdf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Target: {fileID: 1313397901171086, guid: 7c4a2fb83cb104d4cb99c688096517c9, type: 2}
+  m_player: {fileID: 0}
+  Target: {fileID: 0}
   m_GunIndex: 0
   m_GunName: AWM
   ShotType: 0200000004000000
