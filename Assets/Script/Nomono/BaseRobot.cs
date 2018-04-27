@@ -127,7 +127,7 @@ namespace Assets.Script
                 if (CurrentMp>MaxMp)
                     CurrentMp = MaxMp;
                 
-                Debug.Log("mp: " + CurrentMp);
+              //  Debug.Log("mp: " + CurrentMp);
             }
             else IsConsumeMp = false;
         }
