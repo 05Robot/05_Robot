@@ -45,13 +45,17 @@ public class AK47GunC : GunC {
         base.FixedUpdate();
     }
 
-    //左普通攻击
+    /// <summary>
+    /// 左普通攻击
+    /// </summary>
     protected override void LeftNormalShot()
     {
         base.LeftNormalShot();
     }
 
-    //右键蓄能过程
+    /// <summary>
+    /// 右键蓄能过程
+    /// </summary>
     protected override void RightEnergying()
     {
         base.RightEnergying();
@@ -66,7 +70,9 @@ public class AK47GunC : GunC {
         }
     }
 
-    //右键蓄能攻击
+    /// <summary>
+    /// 右键蓄能攻击
+    /// </summary>
     protected override void RightEnergyShot()
     {
         base.RightEnergyShot();
@@ -94,7 +100,9 @@ public class AK47GunC : GunC {
             Gun_Data.SpecialButtleSpeed,
             Gun_Data.SpecialAttackDistance + base.RightEnergyTime * 4.0f, 
             Gun_Data.SpecialDemageNums);
-        print(Gun_Data.SpecialAttackDistance + base.RightEnergyTime * 4.0f);
+        //角色MPHP减少
+        PlayerMPHPChange((int) Gun_Data.SpecialComsumeMP + base.RightEnergyTime * 25.0f,
+            (int) Gun_Data.SpecialComsumeHP + base.RightEnergyTime * 20.0f);
     }
 
 
@@ -113,6 +121,9 @@ public class AK47GunC : GunC {
     }
 
     #region 枪械特殊信息（保存）
+    /// <summary>
+    /// 枪械特殊信息（保存）
+    /// </summary>
     private void SaveGunSpecialData()
     {
         //特殊消耗的MP

@@ -62,24 +62,32 @@ public class AWMGunC : GunC
         base.FixedUpdate();
     }
 
-    //右键点射(特殊攻击)
+    /// <summary>
+    /// 右键点射(特殊攻击)
+    /// </summary>
     protected override void RightNormalShot()
     {
         base.RightNormalShot();
         //还没达到CD时间
         if (!CanSpecialShotNext) return;
-        StartCoroutine(ShotCD());
+        StartCoroutine(SpecialShotCD());
         //生成子弹（调整位置与角度）
-        GameObject buttleGameObject = ObjectPool.Instance.Spawn(Gun_Data.SpecialButtle.name);
-        buttleGameObject.transform.position = Gun_Data.MuzzlePos.transform.position;
-        buttleGameObject.transform.rotation = Gun_Data.MuzzlePos.transform.rotation;
+        GameObject SpecialButtleGameObject = ObjectPool.Instance.Spawn(Gun_Data.SpecialButtle.name);
+        SpecialButtleGameObject.transform.position = Gun_Data.MuzzlePos.transform.position;
+        SpecialButtleGameObject.transform.rotation = Gun_Data.MuzzlePos.transform.rotation;
         //子弹数据填充
-        Buttle buttle = buttleGameObject.GetComponent<Buttle>();
+        Buttle buttle = SpecialButtleGameObject.GetComponent<Buttle>();
         buttle.BulletStart(Gun_Data.SpecialButtleSpeed, Gun_Data.SpecialAttackDistance, Gun_Data.SpecialDemageNums);
+        //角色MPHP减少
+        PlayerMPHPChange(Gun_Data.SpecialComsumeMP, Gun_Data.ComsumeHP);
     }
     private float m_SpecialCurrent = 0;//当前射击的CD
     private bool CanSpecialShotNext = true;//达到CD时间，可以射击下一回合
-    IEnumerator ShotCD()
+    /// <summary>
+    /// 特殊攻击CD检测函数
+    /// </summary>
+    /// <returns></returns>
+    IEnumerator SpecialShotCD()
     {
         CanSpecialShotNext = false;
         while (m_SpecialCurrent < Gun_Data.SpecialAttackCD)
@@ -90,8 +98,10 @@ public class AWMGunC : GunC
         m_SpecialCurrent = 0;
         CanSpecialShotNext = true;
     }
-
-    //左键蓄能过程
+    //------------------------------------------------------------------------------------------------------------------------
+    /// <summary>
+    /// 左键普通蓄能过程
+    /// </summary>
     protected override void LeftEnergying()
     {
         base.LeftEnergying();
@@ -105,7 +115,9 @@ public class AWMGunC : GunC
             LeftEnergyTime = 0;
         }
     }
-    //左键蓄能攻击
+    /// <summary>
+    /// 左键普通蓄能攻击
+    /// </summary>
     protected override void LeftEnergyShot()
     {
         base.LeftEnergyShot();
@@ -117,27 +129,33 @@ public class AWMGunC : GunC
         //-------------------------------------------------------
         //还没达到CD时间
         if (!AWMCanShotNext) return;
-        StartCoroutine(SpecialShotCD());
+        StartCoroutine(ShotCD());
         //-------------------------------------------------------
         //生成子弹（调整位置与角度）
-        GameObject SpecialButtleGameObject = ObjectPool.Instance.Spawn(Gun_Data.Buttle.name);
-        SpecialButtleGameObject.transform.position = Gun_Data.MuzzlePos.transform.position;
-        SpecialButtleGameObject.transform.rotation = Gun_Data.MuzzlePos.transform.rotation;
+        GameObject ButtleGameObject = ObjectPool.Instance.Spawn(Gun_Data.Buttle.name);
+        ButtleGameObject.transform.position = Gun_Data.MuzzlePos.transform.position;
+        ButtleGameObject.transform.rotation = Gun_Data.MuzzlePos.transform.rotation;
         //蓄能效果(base.RightEnergyTime : 蓄能时间)
-        // Gun_Data.SpecialComsumeMP + base.RightEnergyTime * 60.0f;
-        // Gun_Data.SpecialComsumeHP + base.RightEnergyTime * 48.0f;
+        // Gun_Data.ComsumeMP + base.RightEnergyTime * 60.0f;
+        // Gun_Data.ComsumeHP + base.RightEnergyTime * 48.0f;
         //子弹数据填充
-        Buttle buttle = SpecialButtleGameObject.GetComponent<Buttle>();
+        Buttle buttle = ButtleGameObject.GetComponent<Buttle>();
         buttle.BulletStart(
             Gun_Data.ButtleSpeed,
             Gun_Data.AttackDistance,
             Gun_Data.DemageNums + base.RightEnergyTime * 200.0f);
-        print(Gun_Data.DemageNums + base.RightEnergyTime * 200.0f);
+        //角色MPHP减少
+        PlayerMPHPChange(Gun_Data.ComsumeMP + base.RightEnergyTime * 60.0f,
+            Gun_Data.ComsumeHP + base.RightEnergyTime * 48.0f);
     }
 
     private float m_AWMCurrent = 0; //当前射击的CD
     private bool AWMCanShotNext = true; //达到CD时间，可以射击下一回合
-    IEnumerator SpecialShotCD()
+    /// <summary>
+    /// 普通攻击CD检测函数
+    /// </summary>
+    /// <returns></returns>
+    IEnumerator ShotCD()
     {
         AWMCanShotNext = false;
         while (m_AWMCurrent < Gun_Data.AttackCD)
@@ -150,7 +168,9 @@ public class AWMGunC : GunC
     }
 
     #region 枪械特殊信息（保存）
-
+    /// <summary>
+    /// 枪械特殊信息（保存）
+    /// </summary>
     private void SaveGunSpecialData()
     {
         //特殊消耗的MP

@@ -19,6 +19,9 @@ public class RevolverGunC : GunC {
         base.FixedUpdate();
     }
 
+    /// <summary>
+    /// 左键普通攻击
+    /// </summary>
     protected override void LeftNormalShot()
     {
         base.LeftNormalShot();

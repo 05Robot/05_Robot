@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using Assets.Script;
 using UnityEngine;
 /*********************************************************************
 ****	作者 ZMK 
@@ -9,7 +10,17 @@ using UnityEngine;
 **********************************************************************/
 public abstract class GunC : MonoBehaviour
 {
-    //瞄准测试
+    /// <summary>
+    /// 角色对象
+    /// </summary>
+    [SerializeField] private GameObject m_player;
+    /// <summary>
+    /// 角色对象控制器
+    /// </summary>
+    protected PlayerRobotContral m_playerRobotContral;
+    /// <summary>
+    /// 射击准心
+    /// </summary>
     public GameObject Target;
     #region 枪械信息（公开）
     [Header("--枪械信息--")]
@@ -47,16 +58,29 @@ public abstract class GunC : MonoBehaviour
     [SerializeField] private float m_MaxEnergyTime;
     //--------------------------------------------------
     #endregion
+    /// <summary>
+    /// 枪的所有具体数据
+    /// </summary>
     protected GunM Gun_Data;
-    
-    //鼠标位置
+
+    /// <summary>
+    /// 鼠标位置
+    /// </summary>
     private Vector3 m_mousePos;
-    //瞄准的世界坐标位置
+    /// <summary>
+    /// 瞄准的世界坐标位置
+    /// </summary>
     private Vector3 m_aimPos;
-    //鼠标左右键是否点击
+    /// <summary>
+    /// 鼠标左右键点击的各种状态判断
+    /// </summary>
     private bool LeftOnce, RightOnce, LeftDowning, RightDowning, LeftDownUping, RightDownUping;//普通点击、按住和松开
     private bool LeftDownEnergy, RightDownEnergy, LeftDownUpingEnergy, RightDownUpingEnergy;//蓄能按住和松开
-    private enum MouseClick//鼠标点击类型
+
+    /// <summary>
+    /// //鼠标点击键位类型
+    /// </summary>
+    private enum MouseClick
     {
         MouseLeft = 0,//左键
         MouseRight = 1,//右键
@@ -70,6 +94,9 @@ public abstract class GunC : MonoBehaviour
 
         //保存枪械信息
         SaveGunData();
+
+        //获取角色控制类
+        m_playerRobotContral = m_player.GetComponent<PlayerRobotContral>();
     }
 
     protected virtual void Update()
@@ -97,9 +124,11 @@ public abstract class GunC : MonoBehaviour
     {
         //鼠标点击事件判断与实现
         JudgeMouseEvent();
-}
+    }
 
-    //鼠标点击事件监听
+    /// <summary>
+    /// 鼠标点击事件监听
+    /// </summary>
     private void ListenMouseEvent()
     {
         foreach (ShotType ST in Gun_Data.ShotType)//抢的设射击类型
@@ -135,7 +164,10 @@ public abstract class GunC : MonoBehaviour
             }
         }
     }
-    //点射（点一下）
+    /// <summary>
+    /// 点射（点一下）攻击判断
+    /// </summary>
+    /// <param name="MC">鼠标点击键</param>
     private void ShotFixedFire(MouseClick MC)
     {
         if (MC == MouseClick.MouseLeft) //左键
@@ -156,6 +188,10 @@ public abstract class GunC : MonoBehaviour
     //点住不放（一发一发）
     private const float CHICK_INTERVAL = 0.3f;//按一次和长按的时间间隔
     private float m_LeftDownListener = 0, m_RightDownListener = 0;//左右键按住监听
+    /// <summary>
+    /// 按住不放攻击判断
+    /// </summary>
+    /// <param name="MC">鼠标点击键</param>
     private void ShotContinueFire(MouseClick MC)
     {
         if (MC == MouseClick.MouseLeft) //左键
@@ -228,6 +264,10 @@ public abstract class GunC : MonoBehaviour
         }
         get { return m_RightEnergyTime; }
     }
+    /// <summary>
+    /// 蓄能攻击判断
+    /// </summary>
+    /// <param name="MC">鼠标点击键</param>
     private void ShotEnergyFire(MouseClick MC)
     {
         if (MC == MouseClick.MouseLeft) //左键
@@ -263,7 +303,10 @@ public abstract class GunC : MonoBehaviour
 
         }
     }
-    //近战攻击
+    /// <summary>
+    /// 近战攻击判断
+    /// </summary>
+    /// <param name="MC">鼠标点击键</param>
     private void ShotCloseFire(MouseClick MC)
     {
         if (MC == MouseClick.MouseLeft) //左键
@@ -280,7 +323,9 @@ public abstract class GunC : MonoBehaviour
         }
     }
 
-    //鼠标点击事件判断与实现
+    /// <summary>
+    /// 鼠标点击事件判断与实现
+    /// </summary>
     private void JudgeMouseEvent()
     {
         if (LeftOnce)
@@ -338,8 +383,9 @@ public abstract class GunC : MonoBehaviour
         }
     }
 
-
-    //左键普通开枪射击
+    /// <summary>
+    /// 左键普通点射攻击
+    /// </summary>
     protected virtual void LeftNormalShot()
     {
         //还没达到CD时间
@@ -351,7 +397,9 @@ public abstract class GunC : MonoBehaviour
         buttleGameObject.transform.rotation = Quaternion.Euler(Gun_Data.MuzzlePos.transform.rotation.eulerAngles + new Vector3(0,0, GenerateNormalScatteringNums()));
         //子弹数据填充
         Buttle buttle = buttleGameObject.GetComponent<Buttle>();
-        buttle.BulletStart(Gun_Data.ButtleSpeed, Gun_Data.AttackDistance, Gun_Data.DemageNums);
+        buttle.BulletStart(Gun_Data.ButtleSpeed, Gun_Data.AttackDistance, Gun_Data.DemageNums);//子弹初始化（速度、距离、伤害）
+        //角色MPHP减少
+        PlayerMPHPChange(Gun_Data.ComsumeMP, Gun_Data.ComsumeHP);
     }
     //左键普通开枪射击CD判断
     private float m_Current = 0;//当前射击的CD
@@ -369,33 +417,67 @@ public abstract class GunC : MonoBehaviour
     }
 
 
-    //右键普通攻击
+    /// <summary>
+    /// 右键普通点射攻击
+    /// </summary>
     protected virtual void RightNormalShot() { }
 
-    //左右键连续攻击抬起
+    /// <summary>
+    /// 左键连续攻击后抬起操作
+    /// </summary>
     protected virtual void LeftContinueShotUping() { }
+    /// <summary>
+    /// 右键连续攻击后抬起操作
+    /// </summary>
     protected virtual void RightContinueShotUping() { }
 
-    //左右蓄能过程与攻击
+    /// <summary>
+    /// 左蓄能过程
+    /// </summary>
     protected virtual void LeftEnergying() { }
+    /// <summary>
+    /// 右蓄能过程
+    /// </summary>
     protected virtual void RightEnergying() { }
+    /// <summary>
+    /// 左蓄能攻击
+    /// </summary>
     protected virtual void LeftEnergyShot() { }
+    /// <summary>
+    /// 右蓄能攻击
+    /// </summary>
     protected virtual void RightEnergyShot() { }
 
 
-    //超级特殊技能？？？
+    /// <summary>
+    /// 超级特殊技能？？？
+    /// </summary>
     protected virtual void SpecialShot(){ }
 
-    //散射随机值生成
-    //普通散射
+
+    /// <summary>
+    /// 散射随机值生成
+    /// 普通散射
+    /// </summary>
+    /// <returns>普通散射角度的随机值</returns>
     protected virtual float GenerateNormalScatteringNums()
     {
         return Random.Range(Gun_Data.Scatter * -1.0f, Gun_Data.Scatter);
     }
-    //特殊散射
+
+    /// <summary>
+    /// 散射随机值生成
+    /// 特殊散射
+    /// </summary>
+    /// <returns>特殊散射角度的随机值</returns>
     protected virtual float GeneratSpecialScatteringNums(){ return 0;}
 
+
+
     #region 枪械信息（保存）
+    /// <summary>
+    /// 枪械信息（保存）
+    /// </summary>
     private void SaveGunData()
     {
         Gun_Data.Buttle = m_buttle;
@@ -432,4 +514,26 @@ public abstract class GunC : MonoBehaviour
         Gun_Data.Scatter = m_Scatter;
     }
     #endregion
+
+
+    /// <summary>
+    /// 角色MP与HP信息传递
+    /// </summary>
+    /// <param name="comsumeMp">消耗的MP</param>
+    /// <param name="comsumeHp">消耗的HP</param>
+    protected void PlayerMPHPChange(float comsumeMp,float comsumeHp)
+    {
+        m_playerRobotContral.GetDamage((int) comsumeMp, (int) comsumeHp);
+    }
+
+
+    /// <summary>
+    /// 核心状态改变监听器
+    /// </summary>
+    /// <param name="currentCore">角色当前的核心</param>
+    public void CoreChangeLister(BaseCore currentCore)
+    {
+
+    }
+    
 }
