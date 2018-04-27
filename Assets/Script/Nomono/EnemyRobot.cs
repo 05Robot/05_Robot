@@ -17,10 +17,9 @@ namespace Assets.Script.Nomono
     {
 
 
-        public string Name { get; set; }
-        public int ShootCD { get; set; }
-        public int Damage { get; set; }
-        public float ButtleSpeed { get; set; }
+        public string Name;
+     
+       
 
 
         public EnemyRobot(string name,int hp,int mp,float speed)

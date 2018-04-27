@@ -36,10 +36,12 @@ namespace Assets.Script
         /// <summary>
         /// 判断是否是在消耗核心值
         /// </summary>
+        [HideInInspector]
         public bool IsUseCore = false;
         /// <summary>
         /// 判断是否是在使用mp，为mp回复做准备
         /// </summary>
+        [HideInInspector]
         public bool IsConsumeMp = false;
         //todo 硬直系统
         public int MaxHardStraight;

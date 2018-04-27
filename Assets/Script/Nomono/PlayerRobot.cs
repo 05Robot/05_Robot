@@ -21,6 +21,7 @@ namespace Assets.Script.Nomono
         /// <summary>
         /// 对应玩家控制器的实例
         /// </summary>
+        [HideInInspector]
         public PlayerRobotContral PRC;
 
         public float SpecialSpeed=40;
@@ -82,6 +83,7 @@ namespace Assets.Script.Nomono
         IEnumerator MPCD()
         {
             Debug.Log("进入冷却");
+           
             yield return new WaitForSeconds(10);
             SecondAction += RecoverMp;
             CurrentMp = MaxMp;

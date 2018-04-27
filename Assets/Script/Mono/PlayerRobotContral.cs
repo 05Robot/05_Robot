@@ -19,7 +19,6 @@ public class PlayerRobotContral : MonoBehaviour
     {
         //实例化核心
         _mPlayerRobot = new PlayerRobot(FireCore.fc, 10f);
-        GameManager.Instance.PRC = this;
         //开启每秒时间协程
         StartCoroutine(_mPlayerRobot.SecondEvent());
         _mPlayerRobot.PRC = this;
