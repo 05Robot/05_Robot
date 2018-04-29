@@ -135,18 +135,19 @@ public class AWMGunC : GunC
         GameObject ButtleGameObject = ObjectPool.Instance.Spawn(Gun_Data.Buttle.name);
         ButtleGameObject.transform.position = Gun_Data.MuzzlePos.transform.position;
         ButtleGameObject.transform.rotation = Gun_Data.MuzzlePos.transform.rotation;
-        //蓄能效果(base.RightEnergyTime : 蓄能时间)
-        // Gun_Data.ComsumeMP + base.RightEnergyTime * 60.0f;
-        // Gun_Data.ComsumeHP + base.RightEnergyTime * 48.0f;
+        //蓄能效果(base.LeftEnergyTime : 蓄能时间)
+        // Gun_Data.ComsumeMP + base.LeftEnergyTime * 60.0f;
+        // Gun_Data.ComsumeHP + base.LeftEnergyTime * 48.0f;
         //子弹数据填充
         Buttle buttle = ButtleGameObject.GetComponent<Buttle>();
         buttle.BulletStart(
             Gun_Data.ButtleSpeed,
             Gun_Data.AttackDistance,
-            Gun_Data.DemageNums + base.RightEnergyTime * 200.0f);
+            Gun_Data.DemageNums + base.LeftEnergyTime * 200.0f);
         //角色MPHP减少
-        PlayerMPHPChange(Gun_Data.ComsumeMP + base.RightEnergyTime * 60.0f,
-            Gun_Data.ComsumeHP + base.RightEnergyTime * 48.0f);
+        print(Gun_Data.ComsumeMP + base.LeftEnergyTime * 60.0f);
+        PlayerMPHPChange(Gun_Data.ComsumeMP + base.LeftEnergyTime * 60.0f,
+            Gun_Data.ComsumeHP + base.LeftEnergyTime * 48.0f);
     }
 
     private float m_AWMCurrent = 0; //当前射击的CD

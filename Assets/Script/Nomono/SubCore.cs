@@ -16,7 +16,7 @@ namespace Assets.Script.Nomono
     public class FireCore : BaseCore
     {
         //测试数据
-        public static FireCore fc = new FireCore(100,100,10,10,1,15);
+        public static FireCore fc = new FireCore(1000,1000,10,10,1,15);
 
         public FireCore(int bsp, int bmp, int ihp, int imp, uint level, uint cp): base( bsp,  bmp,  ihp,  imp,  level,  cp,CoreElement.Fire)
         {
