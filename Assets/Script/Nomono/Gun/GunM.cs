@@ -23,6 +23,13 @@ public enum ShotType//射击类型
     RightCloseFire = 7
 }
 
+public enum GunState
+{
+    //普通攻击类型
+    NormalState = 0,
+    //特殊攻击类型
+    SpecialState = 1
+}
 public class GunM
 {
     //枪械索引d 
@@ -48,6 +55,8 @@ public class GunM
     }
     //枪械的涉及类型
     public ShotType[] ShotType;
+    //当前枪的状态类型
+    public GunState GunState;
     //普通-----------------------------------------------
     //普通消耗的MP
     private int m_ComsumeMP;
@@ -128,7 +137,14 @@ public class GunM
         set { m_buttle = value; }
         get { return m_buttle; }
     }
-   
+    //-----------------------------------
+    //普通攻击是否可用/开启
+    private bool m_Enable;
+    public bool Enable
+    {
+        set { m_Enable = value; }
+        get { return m_Enable; }
+    }
 
     //特殊-----------------------------------------------
     //特殊消耗的MP
@@ -210,13 +226,24 @@ public class GunM
         set { m_Specialbuttle = value; }
         get { return m_Specialbuttle; }
     }
+    //-----------------------------------
+    //普通攻击是否可用/开启
+    private bool m_SpecialEnable;
+    public bool SpecialEnable
+    {
+        set { m_SpecialEnable = value; }
+        get { return m_SpecialEnable; }
+    }
+
+
+
 
     //-------------------------------------------------------------------------------------------------
     //武器最多点数
-    private uint m_MaxPoint;
+    //private uint m_MaxPoint;
 
     //武器当前的点数
-    private uint m_CurrentPoint;
+    //private uint m_CurrentPoint;
 
 }
 

@@ -39,7 +39,7 @@ GameObject:
   m_Layer: 5
   m_Name: Revolver_Gun
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 3936346786652291628, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -63,8 +63,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1875901951635834}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.022, y: 0.008, z: 0}
-  m_LocalScale: {x: 0.19636205, y: 0.18106148, z: 1}
+  m_LocalPosition: {x: 10.643618, y: -1.0706203, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4268211706527498}
   m_Father: {fileID: 0}
@@ -85,9 +85,9 @@ MonoBehaviour:
   Target: {fileID: 0}
   m_GunIndex: 2
   m_GunName: Revolver
-  ShotType: 00000000
+  ShotType: 0000000004000000
   m_MuzzlePos: {fileID: 1785949664986552}
-  m_ComsumeMP: 150
+  m_ComsumeMP: 100
   m_ComsumeHP: 120
   m_DemageNums: 600
   m_HardStraight: 3
@@ -95,9 +95,20 @@ MonoBehaviour:
   m_AttackDistance: 10
   m_AttackCD: 0
   m_buttle: {fileID: 1902719169344626, guid: 7938c63407813ca4e815fa64ba90f699, type: 2}
-  m_ButtleSpeed: 8
+  m_ButtleSpeed: 10
   m_Scatter: 15
   m_MaxEnergyTime: 0
+  m_SpecialComsumeMP: 300
+  m_SpecialComsumeHP: 0
+  m_SpecialDemageNums: 0
+  m_SpecialHardStraight: 0
+  m_SpecialBeatBack: 0
+  m_SpecialAttackCD: 10
+  m_SpecialMaxEnergyTime: 0
+  m_SpecialButtleSpeed: 0
+  m_SpecialAttackDistance: 0
+  m_SpecialButtle: {fileID: 1958855929286784, guid: 9bfbbd3f0d1a5ce43b73a1f276f0f8d8,
+    type: 2}
 --- !u!212 &212159738693425260
 SpriteRenderer:
   m_ObjectHideFlags: 1

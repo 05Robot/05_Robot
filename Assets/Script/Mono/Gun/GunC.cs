@@ -13,7 +13,7 @@ public abstract class GunC : MonoBehaviour
     //------------------------------------------------------
     //枪自身组件
     /// <summary>
-    /// Sprit精灵类e
+    /// Sprit精灵类
     /// </summary>
     private SpriteRenderer m_SpriteRenderer;
     /// <summary>
@@ -29,11 +29,13 @@ public abstract class GunC : MonoBehaviour
     /// 角色对象控制器
     /// </summary>
     protected PlayerRobotContral m_playerRobotContral;
+    //------------------------------------------------------
     /// <summary>
     /// 射击准心
     /// </summary>
     public GameObject Target;
-    #region 枪械信息（公开）
+    //------------------------------------------------------
+    #region 枪械信息（公开）【只为了给策划提供的通道】
     [Header("--枪械信息--")]
     //枪械索引d 
     [SerializeField] private uint m_GunIndex;
@@ -43,6 +45,8 @@ public abstract class GunC : MonoBehaviour
     [SerializeField] private ShotType[] ShotType;
     //枪口位置
     [SerializeField] private GameObject m_MuzzlePos;
+    //当前枪的状态类型
+    [SerializeField] private GunState m_GunState;
     //普通攻击-----------------------------------------------
     [Header("--普通攻击信息--")]
     //普通消耗的MP
@@ -67,6 +71,9 @@ public abstract class GunC : MonoBehaviour
     [SerializeField] private int m_Scatter;
     //最大蓄能时间
     [SerializeField] private float m_MaxEnergyTime;
+    //当前普通攻击是否可用
+    [SerializeField] private bool m_Enable;
+    
     //--------------------------------------------------
     #endregion
     /// <summary>
@@ -74,6 +81,22 @@ public abstract class GunC : MonoBehaviour
     /// </summary>
     protected GunM Gun_Data;
 
+    /**
+    //枪普通攻击是否开启
+    protected bool Enable
+    {
+        set { Gun_Data.Enable = value; }
+        get { return Gun_Data.Enable; }
+    }
+    //当前枪的状态类型
+    protected GunState GunState
+    {
+        set { Gun_Data.GunState = value; }
+        get { return Gun_Data.GunState; }
+    }
+    */
+
+    //------------------------------------------------------
     /// <summary>
     /// 鼠标位置
     /// </summary>
@@ -87,7 +110,6 @@ public abstract class GunC : MonoBehaviour
     /// </summary>
     private bool LeftOnce, RightOnce, LeftDowning, RightDowning, LeftDownUping, RightDownUping;//普通点击、按住和松开
     private bool LeftDownEnergy, RightDownEnergy, LeftDownUpingEnergy, RightDownUpingEnergy;//蓄能按住和松开
-
     /// <summary>
     /// //鼠标点击键位类型
     /// </summary>
@@ -97,6 +119,7 @@ public abstract class GunC : MonoBehaviour
         MouseRight = 1,//右键
         MouseMiddle = 2//中键
     }
+    //------------------------------------------------------
 
     protected virtual void Awake()
     {
@@ -116,6 +139,7 @@ public abstract class GunC : MonoBehaviour
 
     protected virtual void Update()
     {
+        #region 枪瞄准方向控制
         //枪方向-----------------------------------------------------------------
         m_mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         m_aimPos = new Vector3(m_mousePos.x, m_mousePos.y, transform.position.z);
@@ -134,6 +158,7 @@ public abstract class GunC : MonoBehaviour
             transform.localScale = m_TransformScale;
         }
         transform.localRotation = Quaternion.Euler(0, 0, z);
+        #endregion
 
         //鼠标按下监听
         ListenMouseEvent();
@@ -183,6 +208,7 @@ public abstract class GunC : MonoBehaviour
             }
         }
     }
+
     /// <summary>
     /// 点射（点一下）攻击判断
     /// </summary>
@@ -204,6 +230,7 @@ public abstract class GunC : MonoBehaviour
 
         }
     }
+
     //点住不放（一发一发）
     private const float CHICK_INTERVAL = 0.3f;//按一次和长按的时间间隔
     private float m_LeftDownListener = 0, m_RightDownListener = 0;//左右键按住监听
@@ -254,6 +281,7 @@ public abstract class GunC : MonoBehaviour
 
         }
     }
+
     //点住不放（蓄能）
     private float m_LeftEnergyTime;
     protected float LeftEnergyTime//左键蓄能时间
@@ -322,6 +350,7 @@ public abstract class GunC : MonoBehaviour
 
         }
     }
+
     /// <summary>
     /// 近战攻击判断
     /// </summary>
@@ -403,20 +432,19 @@ public abstract class GunC : MonoBehaviour
     }
 
     /// <summary>
-    /// 左键普通点射攻击
+    /// 默认左键普通点射攻击
     /// </summary>
     protected virtual void LeftNormalShot()
     {
-        //还没达到CD时间
-        if (!CanShotNext) return;
+        if (!(Gun_Data.GunState == GunState.NormalState && Gun_Data.Enable && CanShotNext)) //是否为普通攻击 && 已经开启可以用 && 达到CD时间
+            return;
+        //武器射击CD计时
         StartCoroutine(ShotCD());
-        //生成子弹（调整位置与角度）
-        GameObject buttleGameObject = ObjectPool.Instance.Spawn(Gun_Data.Buttle.name);
-        buttleGameObject.transform.position = Gun_Data.MuzzlePos.transform.position;
-        buttleGameObject.transform.rotation = Quaternion.Euler(Gun_Data.MuzzlePos.transform.rotation.eulerAngles + new Vector3(0,0, GenerateNormalScatteringNums()));
-        //子弹数据填充
-        Buttle buttle = buttleGameObject.GetComponent<Buttle>();
-        buttle.BulletStart(Gun_Data.ButtleSpeed, Gun_Data.AttackDistance, Gun_Data.DemageNums);//子弹初始化（速度、距离、伤害）
+        //生成子弹
+        GenerateNormalButton(Gun_Data.Buttle.name,//子弹名字
+            Gun_Data.MuzzlePos.transform.position, Gun_Data.MuzzlePos.transform.rotation.eulerAngles, Gun_Data.Scatter,//位置 + 旋转 + 度数
+            Gun_Data.ButtleSpeed, Gun_Data.AttackDistance, Gun_Data.DemageNums);//子弹初始化（速度、距离、伤害）
+
         //角色MPHP减少
         PlayerMPHPChange(Gun_Data.ComsumeMP, Gun_Data.ComsumeHP);
     }
@@ -473,15 +501,15 @@ public abstract class GunC : MonoBehaviour
     /// </summary>
     protected virtual void SpecialShot(){ }
 
-
     /// <summary>
     /// 散射随机值生成
     /// 普通散射
     /// </summary>
+    /// <param name="scatter">散射度数</param>
     /// <returns>普通散射角度的随机值</returns>
-    protected virtual float GenerateNormalScatteringNums()
+    protected float GenerateNormalScatteringNums(int scatter)
     {
-        return Random.Range(Gun_Data.Scatter * -1.0f, Gun_Data.Scatter);
+        return Random.Range(scatter * -1.0f, scatter);
     }
 
     /// <summary>
@@ -504,6 +532,10 @@ public abstract class GunC : MonoBehaviour
         Gun_Data.GunIndex = m_GunIndex;
         //枪械名字
         Gun_Data.GunName = m_GunName;
+        //射击类型
+        Gun_Data.ShotType = ShotType;
+        //武器状态
+        Gun_Data.GunState = m_GunState;
         //普通攻击-----------------------------------------------
         //普通消耗的MP
         Gun_Data.ComsumeMP = m_ComsumeMP;
@@ -526,11 +558,11 @@ public abstract class GunC : MonoBehaviour
         //枪口坐标
         Gun_Data.MuzzlePos = m_MuzzlePos;
         //子弹速度
-        Gun_Data.ButtleSpeed = m_ButtleSpeed;
-        //设计类型
-        Gun_Data.ShotType = ShotType;
+        Gun_Data.ButtleSpeed = m_ButtleSpeed;  
         //子弹散射度数
         Gun_Data.Scatter = m_Scatter;
+        //当前普通攻击是否可用/开启
+        Gun_Data.Enable = m_Enable;
     }
     #endregion
 
@@ -542,18 +574,63 @@ public abstract class GunC : MonoBehaviour
     /// <param name="comsumeHp">消耗的HP</param>
     protected void PlayerMPHPChange(float comsumeMp,float comsumeHp)
     {
-        Debug.Log(m_playerRobotContral);
         m_playerRobotContral.GetDamage((int) comsumeMp, (int) comsumeHp);
+    }
+
+    /// <summary>
+    /// 子弹生成
+    /// </summary>
+    /// <param name="ButtleName">子弹名字</param>
+    /// <param name="Pos">子弹初始位置</param>
+    /// <param name="Rotate">子弹初始旋转</param>
+    /// <param name="Scatte">散射度数</param>
+    /// <param name="ButtleSpeed">子弹速度</param>
+    /// <param name="AttackDistance">子弹飞行距离</param>
+    /// <param name="DemageNums">子弹伤害</param>
+    protected void GenerateNormalButton(string ButtleName, Vector3 Pos, Vector3 Rotate, int Scatte, uint ButtleSpeed, float AttackDistance, float DemageNums)
+    {
+        //生成子弹（调整位置与角度）
+        GameObject buttleGameObject = ObjectPool.Instance.Spawn(ButtleName);
+        buttleGameObject.transform.position = Pos;
+        buttleGameObject.transform.rotation = Quaternion.Euler(
+            Rotate + new Vector3(0, 0, GenerateNormalScatteringNums(Scatte)));
+        //子弹数据填充
+        Buttle buttle = buttleGameObject.GetComponent<Buttle>();
+        buttle.BulletStart(ButtleSpeed, AttackDistance, DemageNums);
+    }
+
+
+
+
+    //-----------------------------------------------------------------
+    //外部可调用
+
+
+    /// <summary>
+    /// 外部修改武器当前使用状态
+    /// </summary>
+    /// <param name="newGunState">普通攻击状态 or 特殊攻击状态</param>
+    public void ChangeGunState(GunState newGunState)
+    {
+        Gun_Data.GunState = newGunState;
     }
 
 
     /// <summary>
-    /// 核心状态改变监听器
+    /// 外部修改武器状态（是否可用）
     /// </summary>
-    /// <param name="currentCore">角色当前的核心</param>
-    public void CoreChangeLister(BaseCore currentCore)
+    /// <param name="isEnable">是否可用</param>
+    public void IfGunCanUse(bool isEnable)
     {
-
+        switch (Gun_Data.GunState)
+        {
+            case GunState.NormalState: //普通攻击状态
+                Gun_Data.Enable = isEnable;
+                break;
+            case GunState.SpecialState: //特殊攻击状态
+                Gun_Data.SpecialEnable = isEnable;
+                break;
+        }
     }
-    
+
 }
