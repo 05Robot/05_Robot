@@ -227,7 +227,7 @@ public class GunM
         get { return m_Specialbuttle; }
     }
     //-----------------------------------
-    //普通攻击是否可用/开启
+    //特殊攻击是否可用/开启
     private bool m_SpecialEnable;
     public bool SpecialEnable
     {

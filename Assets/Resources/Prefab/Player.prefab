@@ -57,7 +57,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1414011502341424
 GameObject:
   m_ObjectHideFlags: 0
@@ -110,7 +110,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1781887394627958
 GameObject:
   m_ObjectHideFlags: 1
@@ -288,25 +288,28 @@ MonoBehaviour:
   m_ComsumeMP: 15
   m_ComsumeHP: 12
   m_DemageNums: 60
-  m_HardStraight: 1
-  m_BeatBack: 1
-  m_AttackDistance: 20
+  m_HardStraight: 2
+  m_BeatBack: 2
+  m_AttackDistance: 30
   m_AttackCD: 0.1
   m_buttle: {fileID: 1902719169344626, guid: 7938c63407813ca4e815fa64ba90f699, type: 2}
-  m_ButtleSpeed: 8
+  m_ButtleSpeed: 20
   m_Scatter: 4
   m_MaxEnergyTime: 0
+  m_Enable: 0
   m_SpecialComsumeMP: 100
-  m_SpecialComsumeHP: 80
-  m_SpecialDemageNums: 200
+  m_SpecialComsumeHP: 0
+  m_SpecialDemageNums: 400
   m_SpecialHardStraight: 4
   m_SpecialBeatBack: 4
-  m_SpecialAttackCD: 4
+  m_SpecialAttackCD: 2
   m_SpecialMaxEnergyTime: 2
+  m_SpecialScatter: 0
   m_SpecialButtleSpeed: 3
   m_SpecialAttackDistance: 2
   m_SpecialButtle: {fileID: 1958855929286784, guid: 9bfbbd3f0d1a5ce43b73a1f276f0f8d8,
     type: 2}
+  m_SpecialEnable: 0
 --- !u!114 &114467371923772826
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -322,7 +325,7 @@ MonoBehaviour:
   Target: {fileID: 0}
   m_GunIndex: 2
   m_GunName: Revolver
-  ShotType: 00000000
+  ShotType: 0000000004000000
   m_MuzzlePos: {fileID: 1034453604755594}
   m_ComsumeMP: 150
   m_ComsumeHP: 120
@@ -332,9 +335,22 @@ MonoBehaviour:
   m_AttackDistance: 10
   m_AttackCD: 0
   m_buttle: {fileID: 1902719169344626, guid: 7938c63407813ca4e815fa64ba90f699, type: 2}
-  m_ButtleSpeed: 8
+  m_ButtleSpeed: 10
   m_Scatter: 15
   m_MaxEnergyTime: 0
+  m_Enable: 0
+  m_SpecialComsumeMP: 0
+  m_SpecialComsumeHP: 0
+  m_SpecialDemageNums: 0
+  m_SpecialHardStraight: 0
+  m_SpecialBeatBack: 0
+  m_SpecialAttackCD: 0
+  m_SpecialMaxEnergyTime: 0
+  m_SpecialScatter: 0
+  m_SpecialButtleSpeed: 0
+  m_SpecialAttackDistance: 0
+  m_SpecialButtle: {fileID: 0}
+  m_SpecialEnable: 0
 --- !u!114 &114743127138054708
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -348,7 +364,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_player: {fileID: 1414011502341424}
   Target: {fileID: 0}
-  m_GunIndex: 0
+  m_GunIndex: 5
   m_GunName: AWM
   ShotType: 0200000004000000
   m_MuzzlePos: {fileID: 1781887394627958}
@@ -363,6 +379,7 @@ MonoBehaviour:
   m_ButtleSpeed: 20
   m_Scatter: 0
   m_MaxEnergyTime: 3
+  m_Enable: 0
   m_SpecialComsumeMP: 200
   m_SpecialComsumeHP: 160
   m_SpecialDemageNums: 800

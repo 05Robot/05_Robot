@@ -155,7 +155,7 @@ Prefab:
         type: 2}
       propertyPath: Target
       value: 
-      objectReference: {fileID: 1533687506}
+      objectReference: {fileID: 977124148}
     - target: {fileID: 114467371923772826, guid: f95f0462202c2114eb9d93f28b85532b,
         type: 2}
       propertyPath: Target
@@ -166,14 +166,15 @@ Prefab:
       propertyPath: Target
       value: 
       objectReference: {fileID: 1533687506}
-    - target: {fileID: 212483533534844168, guid: f95f0462202c2114eb9d93f28b85532b,
+    - target: {fileID: 114467371923772826, guid: f95f0462202c2114eb9d93f28b85532b,
         type: 2}
-      propertyPath: m_Enabled
-      value: 1
+      propertyPath: m_SpecialComsumeMP
+      value: 300
       objectReference: {fileID: 0}
-    - target: {fileID: 1678426308573346, guid: f95f0462202c2114eb9d93f28b85532b, type: 2}
-      propertyPath: m_IsActive
-      value: 0
+    - target: {fileID: 114467371923772826, guid: f95f0462202c2114eb9d93f28b85532b,
+        type: 2}
+      propertyPath: m_SpecialAttackCD
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f95f0462202c2114eb9d93f28b85532b, type: 2}
@@ -329,6 +330,10 @@ Prefab:
         type: 2}
       propertyPath: m_SpecialMaxEnergyTime
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1783920013042256, guid: 9a0e5bc53b7eefd4e918b0e8be2356a5, type: 2}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 9a0e5bc53b7eefd4e918b0e8be2356a5, type: 2}
@@ -658,6 +663,11 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7c4a2fb83cb104d4cb99c688096517c9, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &1116737192 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1691883826525524, guid: f95f0462202c2114eb9d93f28b85532b,
+    type: 2}
+  m_PrefabInternal: {fileID: 190200778}
 --- !u!1 &1198476704
 GameObject:
   m_ObjectHideFlags: 0
@@ -698,8 +708,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d48d982d34ac78438aad107b71b1a6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LeftGun: {fileID: 0}
-  RightGun: {fileID: 0}
+  m_AK47Gun: {fileID: 1309070110}
+  m_RevolverGun: {fileID: 1116737192}
+  m_ShotGun: {fileID: 1309070110}
+  m_RocketGun: {fileID: 1309070110}
+  m_AWMGun: {fileID: 1315771754}
+  m_Sword: {fileID: 1309070110}
+  m_Hammer: {fileID: 1309070110}
+  LeftGunType: 02000000
+  RightGunType: 1
+--- !u!1 &1309070110 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1678426308573346, guid: f95f0462202c2114eb9d93f28b85532b,
+    type: 2}
+  m_PrefabInternal: {fileID: 190200778}
+--- !u!1 &1315771754 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1103878038544198, guid: f95f0462202c2114eb9d93f28b85532b,
+    type: 2}
+  m_PrefabInternal: {fileID: 190200778}
 --- !u!1 &1348744689
 GameObject:
   m_ObjectHideFlags: 0

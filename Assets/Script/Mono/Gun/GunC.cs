@@ -38,41 +38,39 @@ public abstract class GunC : MonoBehaviour
     #region 枪械信息（公开）【只为了给策划提供的通道】
     [Header("--枪械信息--")]
     //枪械索引d 
-    [SerializeField] private uint m_GunIndex;
+    [Rename("枪械索引")][SerializeField] private uint m_GunIndex;
     //枪械名字
-    [SerializeField] private string m_GunName;
+    [Rename("枪械名字")][SerializeField] private string m_GunName;
     //枪拥有的射击类型
     [SerializeField] private ShotType[] ShotType;
     //枪口位置
-    [SerializeField] private GameObject m_MuzzlePos;
-    //当前枪的状态类型
-    [SerializeField] private GunState m_GunState;
+    [Rename("枪口位置")][SerializeField] private GameObject m_MuzzlePos;
     //普通攻击-----------------------------------------------
     [Header("--普通攻击信息--")]
     //普通消耗的MP
-    [SerializeField] private int m_ComsumeMP;
+    [Rename("消耗MP/发")][SerializeField] private int m_ComsumeMP;
     //普通消耗的HP
-    [SerializeField] private int m_ComsumeHP;
+    [Rename("消耗HP/发")][SerializeField] private int m_ComsumeHP;
     //普通伤害数值
-    [SerializeField] private float m_DemageNums;
+    [Rename("伤害/发")][SerializeField] private float m_DemageNums;
     //硬直系数
-    [SerializeField] private float m_HardStraight;
+    [Rename("硬直系数")][SerializeField] private float m_HardStraight;
     //击退系数
-    [SerializeField] private float m_BeatBack;
+    [Rename("击退系数")][SerializeField] private float m_BeatBack;
     //攻击距离
-    [SerializeField] private float m_AttackDistance;
+    [Rename("子弹距离")][SerializeField] private float m_AttackDistance;
     //攻击频率CD
-    [SerializeField] private float m_AttackCD;
+    [Rename("射击频率(s)（攻击速度）")][SerializeField] private float m_AttackCD;
     //子弹类型
-    [SerializeField] private GameObject m_buttle;
+    [Rename("子弹预设")][SerializeField] private GameObject m_buttle;
     //子弹速度
-    [SerializeField] private uint m_ButtleSpeed;
+    [Rename("子弹速度（单位/s）")][SerializeField] private uint m_ButtleSpeed;
     //子弹散射度数
-    [SerializeField] private int m_Scatter;
+    [Rename("散射度数")][SerializeField] private int m_Scatter;
     //最大蓄能时间
-    [SerializeField] private float m_MaxEnergyTime;
+    [Rename("最大蓄能时间")][SerializeField] private float m_MaxEnergyTime;
     //当前普通攻击是否可用
-    [SerializeField] private bool m_Enable;
+    [Rename("普通攻击是否可用")][SerializeField] private bool m_Enable;
     
     //--------------------------------------------------
     #endregion
@@ -81,20 +79,16 @@ public abstract class GunC : MonoBehaviour
     /// </summary>
     protected GunM Gun_Data;
 
-    /**
-    //枪普通攻击是否开启
-    protected bool Enable
-    {
-        set { Gun_Data.Enable = value; }
-        get { return Gun_Data.Enable; }
-    }
+    #region 公开武器属性，全局可用可修改属性
     //当前枪的状态类型
-    protected GunState GunState
+    public GunState GunState
     {
-        set { Gun_Data.GunState = value; }
         get { return Gun_Data.GunState; }
+        set { Gun_Data.GunState = value; }
     }
-    */
+
+    #endregion
+
 
     //------------------------------------------------------
     /// <summary>
@@ -123,6 +117,9 @@ public abstract class GunC : MonoBehaviour
 
     protected virtual void Awake()
     {
+        //将自身隐藏
+        gameObject.SetActive(false);
+
         LeftOnce = RightOnce = LeftDowning = RightDowning = LeftDownEnergy = RightDownEnergy = LeftDownUping = RightDownUping = LeftDownUpingEnergy = RightDownUpingEnergy = false;//点击
         Gun_Data = new GunM();//枪数据
 
@@ -436,19 +433,20 @@ public abstract class GunC : MonoBehaviour
     /// </summary>
     protected virtual void LeftNormalShot()
     {
-        if (!(Gun_Data.GunState == GunState.NormalState && Gun_Data.Enable && CanShotNext)) //是否为普通攻击 && 已经开启可以用 && 达到CD时间
+        //是否为普通攻击 && 已经开启可以用 && 达到CD时间
+        if (!(Gun_Data.GunState == GunState.NormalState && Gun_Data.Enable && CanShotNext))
             return;
         //武器射击CD计时
         StartCoroutine(ShotCD());
         //生成子弹
-        GenerateNormalButton(Gun_Data.Buttle.name,//子弹名字
+        WeaponManager.Instance.GenerateNormalButton(Gun_Data.Buttle.name,//子弹名字
             Gun_Data.MuzzlePos.transform.position, Gun_Data.MuzzlePos.transform.rotation.eulerAngles, Gun_Data.Scatter,//位置 + 旋转 + 度数
             Gun_Data.ButtleSpeed, Gun_Data.AttackDistance, Gun_Data.DemageNums);//子弹初始化（速度、距离、伤害）
 
         //角色MPHP减少
         PlayerMPHPChange(Gun_Data.ComsumeMP, Gun_Data.ComsumeHP);
     }
-    //左键普通开枪射击CD判断
+    #region 左键普通开枪射击CD判断
     private float m_Current = 0;//当前射击的CD
     private bool CanShotNext = true;//达到CD时间，可以射击下一回合
     IEnumerator ShotCD()
@@ -459,9 +457,13 @@ public abstract class GunC : MonoBehaviour
             m_Current += Time.fixedDeltaTime;
             yield return null;
         }
+
         m_Current = 0;
         CanShotNext = true;
     }
+
+    #endregion
+
 
 
     /// <summary>
@@ -501,23 +503,7 @@ public abstract class GunC : MonoBehaviour
     /// </summary>
     protected virtual void SpecialShot(){ }
 
-    /// <summary>
-    /// 散射随机值生成
-    /// 普通散射
-    /// </summary>
-    /// <param name="scatter">散射度数</param>
-    /// <returns>普通散射角度的随机值</returns>
-    protected float GenerateNormalScatteringNums(int scatter)
-    {
-        return Random.Range(scatter * -1.0f, scatter);
-    }
 
-    /// <summary>
-    /// 散射随机值生成
-    /// 特殊散射
-    /// </summary>
-    /// <returns>特殊散射角度的随机值</returns>
-    protected virtual float GeneratSpecialScatteringNums(){ return 0;}
 
 
 
@@ -534,8 +520,6 @@ public abstract class GunC : MonoBehaviour
         Gun_Data.GunName = m_GunName;
         //射击类型
         Gun_Data.ShotType = ShotType;
-        //武器状态
-        Gun_Data.GunState = m_GunState;
         //普通攻击-----------------------------------------------
         //普通消耗的MP
         Gun_Data.ComsumeMP = m_ComsumeMP;
@@ -566,7 +550,6 @@ public abstract class GunC : MonoBehaviour
     }
     #endregion
 
-
     /// <summary>
     /// 角色MP与HP信息传递
     /// </summary>
@@ -577,27 +560,7 @@ public abstract class GunC : MonoBehaviour
         m_playerRobotContral.GetDamage((int) comsumeMp, (int) comsumeHp);
     }
 
-    /// <summary>
-    /// 子弹生成
-    /// </summary>
-    /// <param name="ButtleName">子弹名字</param>
-    /// <param name="Pos">子弹初始位置</param>
-    /// <param name="Rotate">子弹初始旋转</param>
-    /// <param name="Scatte">散射度数</param>
-    /// <param name="ButtleSpeed">子弹速度</param>
-    /// <param name="AttackDistance">子弹飞行距离</param>
-    /// <param name="DemageNums">子弹伤害</param>
-    protected void GenerateNormalButton(string ButtleName, Vector3 Pos, Vector3 Rotate, int Scatte, uint ButtleSpeed, float AttackDistance, float DemageNums)
-    {
-        //生成子弹（调整位置与角度）
-        GameObject buttleGameObject = ObjectPool.Instance.Spawn(ButtleName);
-        buttleGameObject.transform.position = Pos;
-        buttleGameObject.transform.rotation = Quaternion.Euler(
-            Rotate + new Vector3(0, 0, GenerateNormalScatteringNums(Scatte)));
-        //子弹数据填充
-        Buttle buttle = buttleGameObject.GetComponent<Buttle>();
-        buttle.BulletStart(ButtleSpeed, AttackDistance, DemageNums);
-    }
+
 
 
 
@@ -606,6 +569,7 @@ public abstract class GunC : MonoBehaviour
     //外部可调用
 
 
+    /*
     /// <summary>
     /// 外部修改武器当前使用状态
     /// </summary>
@@ -614,7 +578,7 @@ public abstract class GunC : MonoBehaviour
     {
         Gun_Data.GunState = newGunState;
     }
-
+    */
 
     /// <summary>
     /// 外部修改武器状态（是否可用）

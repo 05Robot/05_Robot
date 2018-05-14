@@ -8,7 +8,6 @@ public class Target : MonoBehaviour {
     void Awake()
     {
         m_Silder = GetComponent<Slider>();
-        print(m_Silder);
         m_Silder.value = 0;
     }
     public void ChangeTargetSlider(float MaxNums,float CurrentNums)
