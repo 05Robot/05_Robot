@@ -16,6 +16,10 @@ public abstract class GunC : MonoBehaviour
     /// Sprit精灵类
     /// </summary>
     private SpriteRenderer m_SpriteRenderer;
+    public bool SpriteRendererEnabled
+    {
+        set { m_SpriteRenderer.enabled = value; }
+    }
     /// <summary>
     /// 武器自身大小
     /// </summary>
@@ -117,9 +121,6 @@ public abstract class GunC : MonoBehaviour
 
     protected virtual void Awake()
     {
-        //将自身隐藏
-        gameObject.SetActive(false);
-
         LeftOnce = RightOnce = LeftDowning = RightDowning = LeftDownEnergy = RightDownEnergy = LeftDownUping = RightDownUping = LeftDownUpingEnergy = RightDownUpingEnergy = false;//点击
         Gun_Data = new GunM();//枪数据
 
@@ -454,7 +455,7 @@ public abstract class GunC : MonoBehaviour
         CanShotNext = false;
         while (m_Current < Gun_Data.AttackCD)
         {
-            m_Current += Time.fixedDeltaTime;
+            m_Current += Time.deltaTime;
             yield return null;
         }
 

@@ -151,16 +151,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 5
       objectReference: {fileID: 0}
-    - target: {fileID: 114014336999819530, guid: f95f0462202c2114eb9d93f28b85532b,
-        type: 2}
-      propertyPath: Target
-      value: 
-      objectReference: {fileID: 977124148}
-    - target: {fileID: 114467371923772826, guid: f95f0462202c2114eb9d93f28b85532b,
-        type: 2}
-      propertyPath: Target
-      value: 
-      objectReference: {fileID: 1533687506}
     - target: {fileID: 114743127138054708, guid: f95f0462202c2114eb9d93f28b85532b,
         type: 2}
       propertyPath: Target
@@ -168,14 +158,14 @@ Prefab:
       objectReference: {fileID: 1533687506}
     - target: {fileID: 114467371923772826, guid: f95f0462202c2114eb9d93f28b85532b,
         type: 2}
-      propertyPath: m_SpecialComsumeMP
-      value: 300
-      objectReference: {fileID: 0}
-    - target: {fileID: 114467371923772826, guid: f95f0462202c2114eb9d93f28b85532b,
+      propertyPath: Target
+      value: 
+      objectReference: {fileID: 1533687506}
+    - target: {fileID: 114014336999819530, guid: f95f0462202c2114eb9d93f28b85532b,
         type: 2}
-      propertyPath: m_SpecialAttackCD
-      value: 10
-      objectReference: {fileID: 0}
+      propertyPath: Target
+      value: 
+      objectReference: {fileID: 1533687506}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f95f0462202c2114eb9d93f28b85532b, type: 2}
   m_IsPrefabParent: 0
@@ -715,8 +705,8 @@ MonoBehaviour:
   m_AWMGun: {fileID: 1315771754}
   m_Sword: {fileID: 1309070110}
   m_Hammer: {fileID: 1309070110}
-  LeftGunType: 02000000
-  RightGunType: 1
+  LeftGunType: 01000000
+  RightGunType: 2
 --- !u!1 &1309070110 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 1678426308573346, guid: f95f0462202c2114eb9d93f28b85532b,

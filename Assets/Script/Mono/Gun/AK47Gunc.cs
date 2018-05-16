@@ -68,6 +68,14 @@ public class AK47GunC : GunC  {
         //瞄准Target数值变换
         if (CanSpecialShotNext)//如果可以射击
         {
+            //【是否为特殊攻击 && 武器管理类判断特殊攻击是否可用(里面会涉及修改Enable是否开启使用) && 已经开启可以用】
+            if (!(Gun_Data.GunState == GunState.SpecialState && WeaponManager.Instance.SpecialGunCheckOut() &&
+                  Gun_Data.SpecialEnable))
+            {
+                CanSpecialShotNext = false;
+                return;
+            }
+            print("AK47开始特殊攻击啦！！");
             Target.GetComponent<Target>().ChangeTargetSlider(Gun_Data.SpecialMaxEnergyTime, base.RightEnergyTime);
         }
         else//如果不能射击
@@ -88,14 +96,16 @@ public class AK47GunC : GunC  {
     protected override void RightEnergyShot()
     {
         base.RightEnergyShot();
-        //如果可以射击【是否为普通攻击 && 已经开启可以用 && 达到CD时间】
-        if (Gun_Data.GunState == GunState.SpecialState  && Gun_Data.SpecialEnable && CanSpecialShotNext) 
+        //如果可以射击【达到CD时间】
+        if (CanSpecialShotNext) 
             Target.GetComponent<Target>().Init();//瞄准Target数值归0
         else
             return;
         //-------------------------------------------------------
         //开始计时
         StartCoroutine(SpecialShotCD());
+        //-------------------------------------------------------
+        WeaponManager.Instance.SpecialGunToNormalGun();
         //-------------------------------------------------------
         //生成子弹（调整位置与角度）
         WeaponManager.Instance.GenerateNormalButton(Gun_Data.SpecialButtle.name,
@@ -113,7 +123,7 @@ public class AK47GunC : GunC  {
         CanSpecialShotNext = false;
         while (m_SpecialCurrent < Gun_Data.SpecialAttackCD)
         {
-            m_SpecialCurrent += Time.fixedDeltaTime;
+            m_SpecialCurrent += Time.deltaTime;
             yield return null;
         }
         m_SpecialCurrent = 0;

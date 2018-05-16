@@ -14,7 +14,9 @@ public enum GunType//枪种类
     Sword = 6,//剑
     Hammer = 7//锤子
 }
-
+/// <summary>
+/// 左手为主武器，右手为特殊武器
+/// </summary>
 public class WeaponManager : Singleton<WeaponManager>
 {
     #region 血条消耗的状态（消耗HP/MP）
@@ -104,32 +106,36 @@ public class WeaponManager : Singleton<WeaponManager>
         {
             {GunType.AK47Gun, m_AK47Gun},
             {GunType.RevolverGun, m_RevolverGun},
-            {GunType.ShotGun, m_ShotGun},
-            {GunType.RocketGun, m_RocketGun},
-            {GunType.AWMGun, m_AWMGun},
-            {GunType.Sword, m_Sword},
-            {GunType.Hammer, m_Hammer}
+            //{GunType.ShotGun, m_ShotGun},
+            // {GunType.RocketGun, m_RocketGun},
+            // {GunType.AWMGun, m_AWMGun},
+            // {GunType.Sword, m_Sword},
+            // {GunType.Hammer, m_Hammer}
         };
-        foreach (var keyValuePair in AllGunDic)//所有抢设为不可见
-            keyValuePair.Value.SetActive(false);
         //脚本获取------ todo 可能出错，待定
         m_Ak47GunC = m_AK47Gun.GetComponent<AK47GunC>();
         m_RevolverGunC = m_RevolverGun.GetComponent<RevolverGunC>();
-        m_ShotGunC = m_ShotGun.GetComponent<ShotGunC>();
-        m_RocketGunC = m_RocketGun.GetComponent<RocketGunC>();
-        m_AWMGunC = m_AWMGun.GetComponent<AWMGunC>();
-        m_SwordGunC = m_Sword.GetComponent<SwordGunC>();
-        m_HammerGunC = m_Hammer.GetComponent<HammerGunC>();
+      //  m_ShotGunC = m_ShotGun.GetComponent<ShotGunC>();
+       // m_RocketGunC = m_RocketGun.GetComponent<RocketGunC>();
+       // m_AWMGunC = m_AWMGun.GetComponent<AWMGunC>();
+      //  m_SwordGunC = m_Sword.GetComponent<SwordGunC>();
+      //  m_HammerGunC = m_Hammer.GetComponent<HammerGunC>();
         AllGunCDic = new Dictionary<GunType, GunC>
         {
             {GunType.AK47Gun, m_Ak47GunC},
             {GunType.RevolverGun, m_RevolverGunC},
-            {GunType.ShotGun, m_ShotGunC},
-            {GunType.RocketGun, m_RocketGunC},
-            {GunType.AWMGun, m_AWMGunC},
-            {GunType.Sword, m_SwordGunC},
-            {GunType.Hammer, m_HammerGunC}
+            // {GunType.ShotGun, m_ShotGunC},
+            // {GunType.RocketGun, m_RocketGunC},
+            //  {GunType.AWMGun, m_AWMGunC},
+            //  {GunType.Sword, m_SwordGunC},
+            // {GunType.Hammer, m_HammerGunC}
         };
+        //所有抢设为不可见
+        foreach (var keyValuePair in AllGunCDic)
+        {
+            print(keyValuePair.Value);
+            keyValuePair.Value.SpriteRendererEnabled = false;
+        }
         #endregion
 
         #region 初始化（当前已拥有枪【LeftGun与LeftGunType配对,RightGun与RightGunType配对】、修改枪的状态【普通or特殊】、主武器默认显示一把(Enable设置)、当前手里的武器(普通与特殊)）
@@ -142,8 +148,9 @@ public class WeaponManager : Singleton<WeaponManager>
         }
         RightGun = AllGunDic[RightGunType];
         AllGunCDic[RightGunType].GunState = GunState.SpecialState;//修改枪的状态【特殊】
-        //当前主武器默认显示一把，并且设置Enable
-        LeftGun[m_CurrentLeftGunIndex].SetActive(true);
+        //当前主武器默认显示第一把，并且设置Enable
+        m_CurrentLeftGunType = LeftGunType[0];
+        AllGunCDic[m_CurrentLeftGunType].SpriteRendererEnabled = true;//LeftGun[m_CurrentLeftGunIndex].SetActive(true);
         AllGunCDic[LeftGunType[m_CurrentLeftGunIndex]].IfGunCanUse(true);
         //当前手的武器(普通与特殊)类型复制
         m_CurrentLeftGunType = LeftGunType[m_CurrentLeftGunIndex];
@@ -156,13 +163,17 @@ public class WeaponManager : Singleton<WeaponManager>
     void Update ()
     {
         //鼠标点击事件监听
-        MouseKeyListener();
+        //MouseKeyListener();
+
+
         //鼠标滚轮监听事件
         MouseWheelListener();
         //键盘监听事件
         KeyBoardListener();
+
+        
         //血条扣血状态监听事件【消耗HP是不可使用特殊攻击】
-        MpAndHpListener();
+        //MpAndHpListener();【每次射击时再进行判断】
     }
 
     void FixedUpdate()
@@ -200,12 +211,13 @@ public class WeaponManager : Singleton<WeaponManager>
         if (Input.GetKeyDown(KeyCode.Alpha3))
             ChangeLeftGun(3);
     }
-    /// <summary>
+
+    /*/// <summary>
     /// 鼠标点击事件监听
+    /// 按下右键则显示特殊攻击武器，并且启用特殊攻击武器
     /// </summary>
     private void MouseKeyListener()
     {
-        //todo 如何隐藏物体
         if (Input.GetMouseButtonDown(1))//右键按下
         {
             
@@ -214,7 +226,7 @@ public class WeaponManager : Singleton<WeaponManager>
         {
 
         }
-    }
+    }*/
     #endregion
 
 
@@ -238,7 +250,7 @@ public class WeaponManager : Singleton<WeaponManager>
     }
 
     /// <summary>
-    /// 切枪
+    /// 切枪 【主武器】
     /// 修改武器属性
     /// </summary>
     /// <param name="lastLeftGunIndex">上一把武器索引</param>
@@ -253,8 +265,9 @@ public class WeaponManager : Singleton<WeaponManager>
         LeftGun[currentLeftGunIndex].transform.localRotation = LeftGun[lastLeftGunIndex].transform.localRotation;
 
         //修改武器的可见性（SetEnable）
-        LeftGun[lastLeftGunIndex].SetActive(false);
-        LeftGun[currentLeftGunIndex].SetActive(true);
+        AllGunCDic[LeftGunType[lastLeftGunIndex]].SpriteRendererEnabled = false;//LeftGun[lastLeftGunIndex].SetActive(false);
+        AllGunCDic[LeftGunType[currentLeftGunIndex]].SpriteRendererEnabled = true;//LeftGun[currentLeftGunIndex].SetActive(true);
+
     }
 
     #endregion
@@ -268,9 +281,11 @@ public class WeaponManager : Singleton<WeaponManager>
     /// <param name="targetLeftGunIndex">目标修改的武器槽</param>
     /// <param name="currentChangeGunState">修改主武器 or 特殊武器枪</param>
     /// <param name="targetGunType">修改成什么类型的枪</param>
-    public void ChangeGunType(GunState currentChangeGunState, GunType targetGunType, int targetLeftGunIndex = 0)
+    private void ChangeGunType(GunState currentChangeGunState, GunType targetGunType, int targetLeftGunIndex = 0)
     {
         //todo 判断主副武器不能重复
+
+
 
         switch (currentChangeGunState)
         {
@@ -283,26 +298,33 @@ public class WeaponManager : Singleton<WeaponManager>
         }
     }
 
+
+
     /// <summary>
     /// 冷却状态
     /// MP与HP数值使用监听
+    /// 【每次射击时进行判断】
     /// </summary>
-    private void MpAndHpListener()
+    private void MpAndHpListener(out bool IfSpecialGunCanUse)
     {
         //todo 判断当前血条状态(调用外部进行判断)
         BloodConsumeState newBloodConsumeState = BloodConsumeState.Mp;
 
 
+
+
         //对不同消耗状态进行操作
+        //【特殊武器 在消耗Hp情况下不能攻击】
+        IfSpecialGunCanUse = true;
         if (newBloodConsumeState != m_CurrentBloodConsumeState)
         {
             if (newBloodConsumeState == BloodConsumeState.Mp)//新的状态为消耗Mp (可用特殊攻击，修改Enable)
             {
-                AllGunCDic[RightGunType].IfGunCanUse(true);
+                IfSpecialGunCanUse = true;
             }
             else//新的状态为消耗Hp (不可用特殊攻击,修改Enable)
             {
-                AllGunCDic[RightGunType].IfGunCanUse(false);
+                IfSpecialGunCanUse = false;
             }
             m_CurrentBloodConsumeState = newBloodConsumeState;
         }
@@ -310,8 +332,6 @@ public class WeaponManager : Singleton<WeaponManager>
 
     //-----------------------------------------------------------------------------------
     //外部调用
-
-
 
     /// <summary>
     /// 核心状态改变监听器
@@ -321,6 +341,102 @@ public class WeaponManager : Singleton<WeaponManager>
     {
 
     }
+
+
+    /// <summary>
+    /// -------------------------------------------------------------------------------------------------------------------important!!!
+    /// 特殊武器使用时，状态检测
+    /// 判断当前特殊武器是否可以射击
+    /// 1、特殊武器，判断是否是消耗Mp为不是Hp
+    /// </summary>
+    /// <returns>是否可以射击</returns>
+    public bool SpecialGunCheckOut()
+    {
+        //判断特殊武器是否违背Hp不可用原则
+        //【并且更新特殊武器GunSpecialEnable】
+        bool ifSpecialGunCanUse;//特殊武器是否可以用
+        MpAndHpListener(out ifSpecialGunCanUse);
+
+        //特殊武器是否开启可用状态
+        AllGunCDic[RightGunType].IfGunCanUse(ifSpecialGunCanUse);
+
+        //如果特殊武器可以用【开启Renderer进行显示】
+        //    主武器不可用【关闭Renderer进行显示，关闭(开启可用)Enable】
+        if (ifSpecialGunCanUse)
+        {
+            //特殊武器可以用【开启Renderer进行显示】
+            AllGunCDic[RightGunType].SpriteRendererEnabled = true;
+            //主武器不可用【关闭Renderer进行显示，关闭(开启可用)Enable】
+            AllGunCDic[LeftGunType[m_CurrentLeftGunIndex]].SpriteRendererEnabled = false;
+            AllGunCDic[LeftGunType[m_CurrentLeftGunIndex]].IfGunCanUse(false);
+        }
+        else//特殊武器不能用
+        {
+            return false;
+        }
+
+
+        //---------------------------------------------------
+        //【特殊武器可以用情况下】
+        //判断当前特殊武器种类
+        switch (RightGunType)
+        {
+            //以下等待攻击结束才切回主武器
+            case GunType.AK47Gun:
+                break;
+            case GunType.Sword:
+                break;
+            case GunType.Hammer:
+                break;
+            //----------------------------
+            //todo 以下会自身【硬直】0.3s才切回主武器
+            case GunType.RevolverGun:
+                StartCoroutine(SpecialGunShowTiming());
+                break;
+            case GunType.ShotGun:
+                StartCoroutine(SpecialGunShowTiming());
+                break;
+            case GunType.RocketGun:
+                StartCoroutine(SpecialGunShowTiming());
+                break;
+            case GunType.AWMGun:
+                StartCoroutine(SpecialGunShowTiming());
+                break;
+        }
+
+        return true;
+    }
+    #region 【特殊武器】使用后硬直计时
+    //【特殊武器】使用后硬直计时
+    IEnumerator SpecialGunShowTiming()
+    {
+        float specialGunShowTiming = 0;
+        while (true)
+        {
+            specialGunShowTiming += Time.deltaTime;
+            if (specialGunShowTiming >= 0.3f) break;
+            yield return 0;
+        }
+
+
+        //【特殊武器】使用完之后（主武器显示，特殊武器消失）
+        //计时结束，消失特殊武器，展现主武器
+        //特殊武器关闭（开启使用）【关闭Renderer进行显示，关闭(开启可用)Enable】
+        AllGunCDic[RightGunType].IfGunCanUse(false);
+        AllGunCDic[RightGunType].SpriteRendererEnabled = false;
+        //主武器可用【开启Renderer进行显示，开启(开启可用)Enable】
+        AllGunCDic[LeftGunType[m_CurrentLeftGunIndex]].SpriteRendererEnabled = true;
+        AllGunCDic[LeftGunType[m_CurrentLeftGunIndex]].IfGunCanUse(true);
+    }
+    #endregion
+    /// <summary>
+    /// 【特殊武器】使用完之后（主武器显示，特殊武器消失）【AK47、剑、锤子】
+    /// </summary>
+    public void SpecialGunToNormalGun()
+    {
+        StartCoroutine(SpecialGunShowTiming());
+    }
+
 
     /// <summary>
     /// 修改总的伤害值
@@ -372,8 +488,10 @@ public class WeaponManager : Singleton<WeaponManager>
         float currentDeamge = DemageNums * m_CurrentButtleDemagePercent;//伤害比例加成
         buttle.BulletStart(ButtleSpeed, AttackDistance, currentDeamge);
 
-        print("AK47特殊伤害：" + currentDeamge);
+        print("子弹伤害：" + currentDeamge);
     }
+
+
     /// <summary>
     /// 散射随机值生成
     /// </summary>

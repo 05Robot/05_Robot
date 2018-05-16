@@ -6,8 +6,7 @@ public class RevolverGunC : GunC {
     [Header("--特殊攻击信息--")]
     #region 特殊攻击内容
     //特殊消耗的MP
-    [Rename("消耗MP/发")]
-    [SerializeField] public float m_SpecialComsumeMP;
+    [Rename("消耗MP/发")] [SerializeField] public float m_SpecialComsumeMP;
     //特殊消耗的HP
     [Rename("消耗HP/发")] [SerializeField] private float m_SpecialComsumeHP;
     //特殊伤害数值
@@ -61,14 +60,16 @@ public class RevolverGunC : GunC {
     /// <summary>
     /// 左轮手枪 - 特殊攻击
     /// 1、冷却状态（消耗HP）无法使用
-    /// 2、2s的子弹时间【1、这段时间内除玩家以外的东西（敌人）速度都变成原来的0.5倍；2、会有一个20%的伤害提升】
+    /// 2、2s的子弹时间【1、会有一个20%的伤害提升；todo 2、这段时间内除玩家以外的东西（敌人）速度都变成原来的0.5倍】
     /// 右键点击
     /// </summary>
     protected override void RightNormalShot()
     {
         base.RightNormalShot();
-        //如果可以特殊攻击【是否为普通攻击 && 已经开启可以用 && 达到CD时间】
-        if (Gun_Data.GunState == GunState.SpecialState && Gun_Data.SpecialEnable && CanSpecialShotNext)
+        //【是否为特殊攻击 && 武器管理类判断特殊攻击是否可用(里面会涉及修改Enable是否开启使用)】
+        if (!(Gun_Data.GunState == GunState.SpecialState && WeaponManager.Instance.SpecialGunCheckOut())) return;
+        //如果可以射击【已经开启可以用 && 达到CD时间】
+        if (Gun_Data.SpecialEnable && CanSpecialShotNext)
             Target.GetComponent<Target>().Init(); //瞄准Target数值归0
         else
             return;
@@ -78,7 +79,8 @@ public class RevolverGunC : GunC {
         //-------------------------------------------------------
         //todo 时间控制【除玩家以外的东西（敌人）速度都变成原来的0.5倍】
 
-        //todo 20%的伤害提升
+
+        //20%的伤害提升
         WeaponManager.Instance.ChangeButtleDemagePercent(0.2f, 2);
     }
 
@@ -90,7 +92,7 @@ public class RevolverGunC : GunC {
         CanSpecialShotNext = false;
         while (m_SpecialCurrent < Gun_Data.SpecialAttackCD)
         {
-            m_SpecialCurrent += Time.fixedDeltaTime;
+            m_SpecialCurrent += Time.deltaTime;
             yield return null;
         }
         m_SpecialCurrent = 0;
