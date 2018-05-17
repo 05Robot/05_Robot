@@ -81,8 +81,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee3e992d2964f0b4ea025498cb6deaed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_player: {fileID: 0}
-  Target: {fileID: 0}
+  m_player: {fileID: 1414011502341424, guid: f95f0462202c2114eb9d93f28b85532b, type: 2}
+  GunTarget: {fileID: 1340831007867134, guid: 7c4a2fb83cb104d4cb99c688096517c9, type: 2}
   m_GunIndex: 2
   m_GunName: Revolver
   ShotType: 0000000004000000
@@ -98,6 +98,7 @@ MonoBehaviour:
   m_ButtleSpeed: 10
   m_Scatter: 15
   m_MaxEnergyTime: 0
+  m_Enable: 0
   m_SpecialComsumeMP: 300
   m_SpecialComsumeHP: 0
   m_SpecialDemageNums: 0
@@ -105,10 +106,12 @@ MonoBehaviour:
   m_SpecialBeatBack: 0
   m_SpecialAttackCD: 10
   m_SpecialMaxEnergyTime: 0
+  m_SpecialScatter: 0
   m_SpecialButtleSpeed: 0
   m_SpecialAttackDistance: 0
   m_SpecialButtle: {fileID: 1958855929286784, guid: 9bfbbd3f0d1a5ce43b73a1f276f0f8d8,
     type: 2}
+  m_SpecialEnable: 0
 --- !u!212 &212159738693425260
 SpriteRenderer:
   m_ObjectHideFlags: 1

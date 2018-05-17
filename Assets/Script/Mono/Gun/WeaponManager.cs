@@ -60,7 +60,7 @@ public class WeaponManager : Singleton<WeaponManager>
 
     #region 当前子弹统一属性
     //当前射击出子弹的数目
-    private static int m_CurrentButtleNum = 1;
+    private static int m_CurrentBulletNum = 1;
     /*public static int CurrentButtleNum
     {
         get
@@ -106,34 +106,33 @@ public class WeaponManager : Singleton<WeaponManager>
         {
             {GunType.AK47Gun, m_AK47Gun},
             {GunType.RevolverGun, m_RevolverGun},
-            //{GunType.ShotGun, m_ShotGun},
-            // {GunType.RocketGun, m_RocketGun},
-            // {GunType.AWMGun, m_AWMGun},
+            {GunType.ShotGun, m_ShotGun},
+            {GunType.RocketGun, m_RocketGun},
+            {GunType.AWMGun, m_AWMGun},
             // {GunType.Sword, m_Sword},
             // {GunType.Hammer, m_Hammer}
         };
         //脚本获取------ todo 可能出错，待定
         m_Ak47GunC = m_AK47Gun.GetComponent<AK47GunC>();
         m_RevolverGunC = m_RevolverGun.GetComponent<RevolverGunC>();
-      //  m_ShotGunC = m_ShotGun.GetComponent<ShotGunC>();
-       // m_RocketGunC = m_RocketGun.GetComponent<RocketGunC>();
-       // m_AWMGunC = m_AWMGun.GetComponent<AWMGunC>();
+        m_ShotGunC = m_ShotGun.GetComponent<ShotGunC>();
+        m_RocketGunC = m_RocketGun.GetComponent<RocketGunC>();
+        m_AWMGunC = m_AWMGun.GetComponent<AWMGunC>();
       //  m_SwordGunC = m_Sword.GetComponent<SwordGunC>();
       //  m_HammerGunC = m_Hammer.GetComponent<HammerGunC>();
         AllGunCDic = new Dictionary<GunType, GunC>
         {
             {GunType.AK47Gun, m_Ak47GunC},
             {GunType.RevolverGun, m_RevolverGunC},
-            // {GunType.ShotGun, m_ShotGunC},
-            // {GunType.RocketGun, m_RocketGunC},
-            //  {GunType.AWMGun, m_AWMGunC},
+            {GunType.ShotGun, m_ShotGunC},
+            {GunType.RocketGun, m_RocketGunC},
+            {GunType.AWMGun, m_AWMGunC},
             //  {GunType.Sword, m_SwordGunC},
             // {GunType.Hammer, m_HammerGunC}
         };
         //所有抢设为不可见
         foreach (var keyValuePair in AllGunCDic)
         {
-            print(keyValuePair.Value);
             keyValuePair.Value.SpriteRendererEnabled = false;
         }
         #endregion
@@ -145,6 +144,7 @@ public class WeaponManager : Singleton<WeaponManager>
         {
             LeftGun[i] = AllGunDic[LeftGunType[i]];
             AllGunCDic[LeftGunType[i]].GunState = GunState.NormalState;//修改枪的状态【普通】
+            AllGunCDic[LeftGunType[i]].IfGunCanUse(false);
         }
         RightGun = AllGunDic[RightGunType];
         AllGunCDic[RightGunType].GunState = GunState.SpecialState;//修改枪的状态【特殊】
@@ -247,6 +247,9 @@ public class WeaponManager : Singleton<WeaponManager>
         m_CurrentLeftGunIndex = TargetGunIndex;
         //当前抢类型更新
         m_CurrentLeftGunType = LeftGunType[m_CurrentLeftGunIndex];
+
+        //更新CDSlider
+        Target.Instance.InitZeroCDSlider();
     }
 
     /// <summary>
@@ -388,15 +391,14 @@ public class WeaponManager : Singleton<WeaponManager>
                 break;
             case GunType.Hammer:
                 break;
+            case GunType.RocketGun:
+                break;
             //----------------------------
             //todo 以下会自身【硬直】0.3s才切回主武器
             case GunType.RevolverGun:
                 StartCoroutine(SpecialGunShowTiming());
                 break;
             case GunType.ShotGun:
-                StartCoroutine(SpecialGunShowTiming());
-                break;
-            case GunType.RocketGun:
                 StartCoroutine(SpecialGunShowTiming());
                 break;
             case GunType.AWMGun:
@@ -437,7 +439,7 @@ public class WeaponManager : Singleton<WeaponManager>
         StartCoroutine(SpecialGunShowTiming());
     }
 
-
+    #region 外部 来 修改总的伤害值比例 + 修改总的发弹量
     /// <summary>
     /// 修改总的伤害值
     /// </summary>
@@ -467,7 +469,36 @@ public class WeaponManager : Singleton<WeaponManager>
     #endregion
 
     /// <summary>
-    /// 子弹生成
+    /// 修改总的发弹量
+    /// </summary>
+    /// <param name="addBulletNums">增加每次射击的子弹数</param>
+    /// <param name="durationTime">持续时间</param>
+    public void ChangeBulletNum(int addBulletNums, int durationTime = 0)
+    {
+        m_CurrentBulletNum += addBulletNums;
+        if (durationTime != 0)
+        {
+            StartCoroutine(BulletNumDuration(addBulletNums, durationTime));
+        }
+    }
+    #region 增加总的发弹量持续时间判断
+    IEnumerator BulletNumDuration(int addBulletNums, int durationTime)
+    {
+        float Timer = 0;
+        while (true)
+        {
+            Timer += Time.deltaTime;
+            if (Timer >= durationTime)
+                break;
+            yield return 0;
+        }
+        m_CurrentBulletNum -= addBulletNums;
+    }
+    #endregion
+    #endregion
+
+    /// <summary>
+    /// 单颗子弹生成
     /// </summary>
     /// <param name="ButtleName">子弹名字</param>
     /// <param name="Pos">子弹初始位置</param>
@@ -478,17 +509,66 @@ public class WeaponManager : Singleton<WeaponManager>
     /// <param name="DemageNums">子弹伤害</param>
     public void GenerateNormalButton(string ButtleName, Vector3 Pos, Vector3 Rotate, int Scatte, uint ButtleSpeed, float AttackDistance, float DemageNums)
     {
+        if (m_CurrentBulletNum > 1)
+        {
+            //创建子弹【子弹散射，间隔15°】
+            GenerateNormalButton(ButtleName, Pos, Rotate, m_CurrentBulletNum, 15, ButtleSpeed, AttackDistance, DemageNums);
+            return;
+        }
+        //创建子弹【子弹散射随机值：GenerateScatteringNums(Scatte)】
+        CreateBullet(ButtleName, Pos, Rotate, GenerateScatteringNums(Scatte), ButtleSpeed, AttackDistance, DemageNums);
+    }
+    /// <summary>
+    /// 多个子弹生成
+    /// </summary>
+    /// <param name="bulletNums">子弹数目</param>
+    /// <param name="interval">子弹间隔</param>
+    /// <param name="ButtleName">子弹名字</param>
+    /// <param name="Pos">子弹初始位置</param>
+    /// <param name="Rotate">子弹初始旋转</param>
+    /// <param name="Scatte">散射度数</param>
+    /// <param name="ButtleSpeed">子弹速度</param>
+    /// <param name="AttackDistance">子弹飞行距离</param>
+    /// <param name="DemageNums">子弹伤害</param>
+    public void GenerateNormalButton(string ButtleName, Vector3 Pos, Vector3 Rotate, int bulletNums, int intervalDegrees, uint ButtleSpeed, float AttackDistance, float DemageNums)
+    {
+        int halfBulletNums = bulletNums / 2;
+        int halfIntervalDegrees = intervalDegrees / 2;
+        //散射【一次性射出多颗子弹（有间隔）】
+        for (int i = 0; i < halfBulletNums; i++)
+        {
+            CreateBullet(ButtleName, Pos, Rotate, halfIntervalDegrees, ButtleSpeed, AttackDistance, DemageNums);
+            halfIntervalDegrees += intervalDegrees;
+        }
+        halfIntervalDegrees = -(intervalDegrees / 2);
+        for (int i = 0; i < halfBulletNums; i++)
+        {
+            CreateBullet(ButtleName, Pos, Rotate, halfIntervalDegrees, ButtleSpeed, AttackDistance, DemageNums);
+            halfIntervalDegrees -= intervalDegrees;
+        }
+    }
+
+    /// <summary>
+    /// 创建子弹
+    /// </summary>
+    /// <param name="ButtleName">子弹名字</param>
+    /// <param name="Pos">子弹初始位置</param>
+    /// <param name="Rotate">子弹初始旋转</param>
+    /// <param name="Scatte">散射度数</param>
+    /// <param name="ButtleSpeed">子弹速度</param>
+    /// <param name="AttackDistance">子弹飞行距离</param>
+    /// <param name="DemageNums">子弹伤害</param>
+    private void CreateBullet(string ButtleName, Vector3 Pos, Vector3 Rotate, float Scatte, uint ButtleSpeed, float AttackDistance, float DemageNums)
+    {
         //生成子弹（调整位置与角度）
         GameObject buttleGameObject = ObjectPool.Instance.Spawn(ButtleName);
         buttleGameObject.transform.position = Pos;
         buttleGameObject.transform.rotation = Quaternion.Euler(
-            Rotate + new Vector3(0, 0, GenerateScatteringNums(Scatte)));
+            Rotate + new Vector3(0, 0, Scatte));
         //子弹数据填充
         Buttle buttle = buttleGameObject.GetComponent<Buttle>();
         float currentDeamge = DemageNums * m_CurrentButtleDemagePercent;//伤害比例加成
         buttle.BulletStart(ButtleSpeed, AttackDistance, currentDeamge);
-
-        print("子弹伤害：" + currentDeamge);
     }
 
 

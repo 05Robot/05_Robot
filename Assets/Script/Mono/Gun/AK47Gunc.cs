@@ -72,11 +72,14 @@ public class AK47GunC : GunC  {
             if (!(Gun_Data.GunState == GunState.SpecialState && WeaponManager.Instance.SpecialGunCheckOut() &&
                   Gun_Data.SpecialEnable))
             {
-                CanSpecialShotNext = false;
+                //真的不能开火了
+                CanFire = false;
                 return;
             }
-            print("AK47开始特殊攻击啦！！");
-            Target.GetComponent<Target>().ChangeTargetSlider(Gun_Data.SpecialMaxEnergyTime, base.RightEnergyTime);
+            //真的开火了
+            CanFire = true;
+            //更新蓄能时间条
+            Target.Instance.ChangeTargetSlider(Gun_Data.SpecialMaxEnergyTime, base.RightEnergyTime);
         }
         else//如果不能射击
         {
@@ -92,13 +95,16 @@ public class AK47GunC : GunC  {
     /// 4、子弹蓄能距离：2+4t
     /// 右键蓄能攻击
     /// </summary>
-    ///
+    private bool CanFire = false;//蓄能所用，判断是否真的开始开炮了
     protected override void RightEnergyShot()
     {
         base.RightEnergyShot();
         //如果可以射击【达到CD时间】
-        if (CanSpecialShotNext) 
-            Target.GetComponent<Target>().Init();//瞄准Target数值归0
+        if (CanFire)
+        {
+            Target.Instance.Init();//瞄准Target数值归0
+            CanFire = false;
+        }
         else
             return;
         //-------------------------------------------------------
@@ -124,9 +130,19 @@ public class AK47GunC : GunC  {
         while (m_SpecialCurrent < Gun_Data.SpecialAttackCD)
         {
             m_SpecialCurrent += Time.deltaTime;
+            //更新CD条
+            if (Gun_Data.GunState == GunState.SpecialState)
+            {
+                Target.Instance.ChangeSpecialCDSlider(Gun_Data.SpecialAttackCD, m_SpecialCurrent);
+            }
             yield return null;
         }
         m_SpecialCurrent = 0;
+        //更新CD条
+        if (Gun_Data.GunState == GunState.SpecialState)
+        {
+            Target.Instance.ChangeSpecialCDSlider(Gun_Data.SpecialAttackCD, Gun_Data.SpecialAttackCD);
+        }
         CanSpecialShotNext = true;
     }
     #endregion

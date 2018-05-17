@@ -66,12 +66,10 @@ public class RevolverGunC : GunC {
     protected override void RightNormalShot()
     {
         base.RightNormalShot();
-        //【是否为特殊攻击 && 武器管理类判断特殊攻击是否可用(里面会涉及修改Enable是否开启使用)】
-        if (!(Gun_Data.GunState == GunState.SpecialState && WeaponManager.Instance.SpecialGunCheckOut())) return;
-        //如果可以射击【已经开启可以用 && 达到CD时间】
-        if (Gun_Data.SpecialEnable && CanSpecialShotNext)
-            Target.GetComponent<Target>().Init(); //瞄准Target数值归0
-        else
+        //【是否为特殊攻击  && 达到CD时间 && 武器管理类判断特殊攻击是否可用(里面会涉及修改Enable是否开启使用)】
+        if (!(Gun_Data.GunState == GunState.SpecialState && CanSpecialShotNext && WeaponManager.Instance.SpecialGunCheckOut())) return;
+        //如果可以射击【已经开启可以用】
+        if (!Gun_Data.SpecialEnable)
             return;
         //-------------------------------------------------------
         //开始计时
@@ -93,9 +91,20 @@ public class RevolverGunC : GunC {
         while (m_SpecialCurrent < Gun_Data.SpecialAttackCD)
         {
             m_SpecialCurrent += Time.deltaTime;
+            //更新CD条
+            if (Gun_Data.GunState == GunState.SpecialState)
+            {
+                print("手枪");
+                Target.Instance.ChangeSpecialCDSlider(Gun_Data.SpecialAttackCD, m_SpecialCurrent);
+            }
             yield return null;
         }
         m_SpecialCurrent = 0;
+        //更新CD条
+        if (Gun_Data.GunState == GunState.SpecialState)
+        {
+            Target.Instance.ChangeSpecialCDSlider(Gun_Data.SpecialAttackCD, Gun_Data.SpecialAttackCD);
+        }
         CanSpecialShotNext = true;
     }
     #endregion

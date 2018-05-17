@@ -42,7 +42,6 @@ public class ObjectPool : Singleton<ObjectPool>//多个池子组合而成
     //创建新的子池子
     private void RegisterNewPool(string name)
     {
-        print(name);
         //得到预设
         string path = "";
         if (string.IsNullOrEmpty(ResourceDir))

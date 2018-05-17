@@ -37,7 +37,7 @@ public abstract class GunC : MonoBehaviour
     /// <summary>
     /// 射击准心
     /// </summary>
-    public GameObject Target;
+    public GameObject GunTarget;
     //------------------------------------------------------
     #region 枪械信息（公开）【只为了给策划提供的通道】
     [Header("--枪械信息--")]
@@ -141,7 +141,7 @@ public abstract class GunC : MonoBehaviour
         //枪方向-----------------------------------------------------------------
         m_mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         m_aimPos = new Vector3(m_mousePos.x, m_mousePos.y, transform.position.z);
-        Target.transform.position = m_aimPos;
+        GunTarget.transform.position = m_aimPos;
         float z;
         if (m_aimPos.y > transform.position.y)//旋转角度
             z = -Vector3.Angle(Vector3.left, m_aimPos - transform.position);
@@ -456,13 +456,21 @@ public abstract class GunC : MonoBehaviour
         while (m_Current < Gun_Data.AttackCD)
         {
             m_Current += Time.deltaTime;
+            //更新CD条
+            if (Gun_Data.GunState == GunState.NormalState && Gun_Data.Enable)
+            {
+                Target.Instance.ChangeCDSlider(Gun_Data.AttackCD, m_Current);
+            }
             yield return null;
         }
-
         m_Current = 0;
+        //更新CD条
+        if (Gun_Data.GunState == GunState.NormalState && Gun_Data.Enable)
+        {
+            Target.Instance.ChangeCDSlider(Gun_Data.AttackCD, Gun_Data.AttackCD);
+        }
         CanShotNext = true;
     }
-
     #endregion
 
 
