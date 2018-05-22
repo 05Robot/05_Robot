@@ -8,7 +8,7 @@ Material:
   m_PrefabInternal: {fileID: 0}
   m_Name: StandardOccluderMaterial
   m_Shader: {fileID: 4800000, guid: a76333de68476494b98b540d10e5a768, type: 3}
-  m_ShaderKeywords: PIXELSNAP_ON
+  m_ShaderKeywords: ETC1_EXTERNAL_ALPHA PIXELSNAP_ON
   m_LightmapFlags: 5
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0

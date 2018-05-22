@@ -49,7 +49,7 @@ namespace Assets.Script.Nomono
             GameObject buttle = ObjectPool.Instance.Spawn("AWM_Buttle");
             buttle.transform.Translate(EC.transform.position);
             buttle.transform.LookAt(v2);
-            buttle.GetComponent<Buttle>().BulletStart(ButtleSpeed,ButtleFlyDistance ,ButtleDamage);
+            buttle.GetComponent<Bullet>().BulletStart(ButtleSpeed,ButtleFlyDistance ,ButtleDamage);
 
         }
     }

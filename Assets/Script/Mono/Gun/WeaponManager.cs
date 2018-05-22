@@ -23,9 +23,18 @@ public class WeaponManager : Singleton<WeaponManager>
     private enum BloodConsumeState
     {
         Hp = 0,
-        Mp = 0
+        Mp = 1
     }
     #endregion
+
+    #region 当前发射子弹，使用左手or右手
+    private enum UseLeftOrRightGun
+    {
+        LeftGun = 0,
+        RightGun = 1
+    }
+    #endregion
+
     #region 所有当前武器
     [Header("--所有所有所有的枪--")]//所有所有所有的枪（预设）
     [SerializeField] private GameObject m_AK47Gun;
@@ -93,6 +102,9 @@ public class WeaponManager : Singleton<WeaponManager>
 
     #region 与主角角色属性有关
     private BloodConsumeState m_CurrentBloodConsumeState = BloodConsumeState.Mp;
+    private UseLeftOrRightGun m_CurrentUseGunis = UseLeftOrRightGun.LeftGun;
+    public CoreAttribute m_CurrentCoreAttribute = CoreAttribute.Null;
+    [SerializeField] private GameObject[] m_CoreBullet;
     #endregion
 
     protected override void Awake()
@@ -342,7 +354,8 @@ public class WeaponManager : Singleton<WeaponManager>
     /// <param name="currentCore">角色当前的核心</param>
     public void CoreChangeLister(BaseCore currentCore)
     {
-
+        //todo  判断当前核心 修改伤害加成比例
+        //todo 为m_CurrentCoreAttribute赋值
     }
 
 
@@ -381,6 +394,8 @@ public class WeaponManager : Singleton<WeaponManager>
 
         //---------------------------------------------------
         //【特殊武器可以用情况下】
+        //当前使用的是右手（特殊武器）
+        m_CurrentUseGunis = UseLeftOrRightGun.RightGun;
         //判断当前特殊武器种类
         switch (RightGunType)
         {
@@ -419,7 +434,8 @@ public class WeaponManager : Singleton<WeaponManager>
             if (specialGunShowTiming >= 0.3f) break;
             yield return 0;
         }
-
+        //更新当前使用左/右手
+        m_CurrentUseGunis = UseLeftOrRightGun.LeftGun;
 
         //【特殊武器】使用完之后（主武器显示，特殊武器消失）
         //计时结束，消失特殊武器，展现主武器
@@ -561,14 +577,48 @@ public class WeaponManager : Singleton<WeaponManager>
     private void CreateBullet(string ButtleName, Vector3 Pos, Vector3 Rotate, float Scatte, uint ButtleSpeed, float AttackDistance, float DemageNums)
     {
         //生成子弹（调整位置与角度）
-        GameObject buttleGameObject = ObjectPool.Instance.Spawn(ButtleName);
+        //【判断当前使用左/右手】
+        GunType currentGunType = m_CurrentLeftGunType;
+        switch (m_CurrentUseGunis)
+        {
+            case UseLeftOrRightGun.LeftGun:
+                currentGunType = m_CurrentLeftGunType;
+                break;
+            case UseLeftOrRightGun.RightGun:
+                currentGunType = m_CurrentRightGunType;
+                break;
+        }
+        //【判断当前是否核心攻击】
+        string currentBulletName = "Bullet/" + currentGunType + "/" + ButtleName;
+        switch (m_CurrentCoreAttribute)
+        {
+            case CoreAttribute.Null:
+                break;
+            case CoreAttribute.Initial:
+                currentBulletName = "Bullet/Core/" + m_CurrentCoreAttribute + "/" + m_CoreBullet[0].name;
+                break;
+            case CoreAttribute.Fire:
+                currentBulletName = "Bullet/Core/" + m_CurrentCoreAttribute + "/" + m_CoreBullet[1].name;
+                break;
+            case CoreAttribute.Amethyst:
+                currentBulletName = "Bullet/Core/" + m_CurrentCoreAttribute + "/" + m_CoreBullet[2].name;
+                break;
+            case CoreAttribute.Frozen:
+                currentBulletName = "Bullet/Core/" + m_CurrentCoreAttribute + "/" + m_CoreBullet[3].name;
+                break;
+        }
+        //currentBulletName = ButtleName;//敌人子弹测试
+        GameObject buttleGameObject = ObjectPool.Instance.Spawn(currentBulletName);
         buttleGameObject.transform.position = Pos;
         buttleGameObject.transform.rotation = Quaternion.Euler(
             Rotate + new Vector3(0, 0, Scatte));
         //子弹数据填充
-        Buttle buttle = buttleGameObject.GetComponent<Buttle>();
+        Bullet buttle = buttleGameObject.GetComponent<Bullet>();
         float currentDeamge = DemageNums * m_CurrentButtleDemagePercent;//伤害比例加成
-        buttle.BulletStart(ButtleSpeed, AttackDistance, currentDeamge);
+        buttle.BulletStart(ButtleSpeed, AttackDistance, currentDeamge, currentGunType.ToString());
+        
+        //更新当前使用左/右手
+        m_CurrentUseGunis = UseLeftOrRightGun.LeftGun;
     }
 
 

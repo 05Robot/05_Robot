@@ -52,6 +52,7 @@ public class ObjectPool : Singleton<ObjectPool>//多个池子组合而成
         GameObject prefab = Resources.Load<GameObject>(path);
         //创建子对象池
         SubPool pool = new SubPool(prefab);
-        m_pools.Add(pool.Name, pool);
+        m_pools.Add(name, pool);
+
     }
 }

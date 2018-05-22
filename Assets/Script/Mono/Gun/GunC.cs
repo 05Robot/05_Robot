@@ -28,7 +28,7 @@ public abstract class GunC : MonoBehaviour
     /// <summary>
     /// 角色对象
     /// </summary>
-    [SerializeField] private GameObject m_player;
+    [SerializeField] protected GameObject m_player;
     /// <summary>
     /// 角色对象控制器
     /// </summary>

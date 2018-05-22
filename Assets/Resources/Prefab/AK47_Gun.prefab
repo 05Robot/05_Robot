@@ -94,7 +94,7 @@ MonoBehaviour:
   m_BeatBack: 2
   m_AttackDistance: 30
   m_AttackCD: 0.1
-  m_buttle: {fileID: 1902719169344626, guid: 7938c63407813ca4e815fa64ba90f699, type: 2}
+  m_buttle: {fileID: 184960, guid: adf877c2672052a4590facfe224bd66a, type: 2}
   m_ButtleSpeed: 20
   m_Scatter: 4
   m_MaxEnergyTime: 0
@@ -109,8 +109,7 @@ MonoBehaviour:
   m_SpecialScatter: 0
   m_SpecialButtleSpeed: 3
   m_SpecialAttackDistance: 2
-  m_SpecialButtle: {fileID: 1958855929286784, guid: 9bfbbd3f0d1a5ce43b73a1f276f0f8d8,
-    type: 2}
+  m_SpecialButtle: {fileID: 158282, guid: bd34e9a7357d92b4a9bf9e0857bc662a, type: 2}
   m_SpecialEnable: 0
 --- !u!212 &212576932638362040
 SpriteRenderer:

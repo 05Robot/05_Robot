@@ -228,8 +228,14 @@ MonoBehaviour:
   m_AWMGun: {fileID: 0}
   m_Sword: {fileID: 0}
   m_Hammer: {fileID: 0}
-  LeftGunType: 02000000050000000100000004000000
-  RightGunType: 3
+  LeftGunType: 030000000200000001000000
+  RightGunType: 5
+  m_CurrentCoreAttribute: 1
+  m_CoreBullet:
+  - {fileID: 188780, guid: 62da081a7105b2f47ba2d59dac1d7c2e, type: 2}
+  - {fileID: 122692, guid: c459528111eb04445b750633208bcff1, type: 2}
+  - {fileID: 178846, guid: aa60f4e7e5e5fa64ab983acee98471b3, type: 2}
+  - {fileID: 184960, guid: 2e59956b2f5ba1d4fb95338e85fe6be1, type: 2}
 --- !u!114 &114715550203271164
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -244,7 +250,7 @@ MonoBehaviour:
   _pc2D: {fileID: 114380427697345884}
   MaxHorizontalInfluence: 18
   MaxVerticalInfluence: 8
-  InfluenceSmoothness: 0.1
+  InfluenceSmoothness: 0.07
 --- !u!114 &114793805948952618
 MonoBehaviour:
   m_ObjectHideFlags: 1
