@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class RocketGunC : GunC {
-    [Header("--特殊攻击信息--")]
+    /*[Header("--特殊攻击信息--")]
     #region 特殊攻击内容
     //特殊消耗的MP
     [Rename("消耗MP/发")]
@@ -33,10 +33,10 @@ public class RocketGunC : GunC {
     //特殊攻击是否可用/开启
     [Rename("特殊攻击是否可用")] [SerializeField] private bool m_SpecialEnable;
     #endregion
+    */
     protected override void Awake()
     {
         base.Awake();
-        SaveGunSpecialData();
     }
     protected override void Update()
     {
@@ -57,6 +57,9 @@ public class RocketGunC : GunC {
         base.LeftNormalShot();
     }
 
+
+
+    /*
     /// <summary>
     /// 右键蓄能过程
     /// 1、Slider修改
@@ -147,6 +150,7 @@ public class RocketGunC : GunC {
     }
     #endregion
 
+    /*
     #region 枪械特殊信息（保存）
     /// <summary>
     /// 枪械特殊信息（保存）
@@ -181,4 +185,6 @@ public class RocketGunC : GunC {
     }
 
     #endregion
+
+    */
 }

@@ -45,7 +45,7 @@ namespace Assets.Script
                     case GameStatu.Normal:
                         break;
                     case GameStatu.GameOver:
-                        FindObjectOfType<PlayerRobotContral>().SetContral(false);
+                        FindObjectOfType<PlayerRobotContral>().Contral = false;
                         //todo 显示gameover ui
                         break;
                     default:
@@ -56,7 +56,11 @@ namespace Assets.Script
 
         void Start()
         {
-            PRC = FindObjectOfType<PlayerRobotContral>();
+            if (PRC==null)
+                PRC = FindObjectOfType<PlayerRobotContral>();
+
+
+
         }
        
 

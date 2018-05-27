@@ -21,9 +21,9 @@ GameObject:
   - component: {fileID: 4741800646000708}
   - component: {fileID: 212604666343252846}
   - component: {fileID: 114853160703074362}
-  m_Layer: 5
+  m_Layer: 15
   m_Name: Rocket_Gun
-  m_TagString: Untagged
+  m_TagString: PlayerGun
   m_Icon: {fileID: -1412012063857583412, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -36,7 +36,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4941758119299400}
-  m_Layer: 5
+  m_Layer: 15
   m_Name: Muzzle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -81,8 +81,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 552b010243409874fbd9acd4f075d960, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_player: {fileID: 0}
-  GunTarget: {fileID: 0}
+  m_player: {fileID: 1414011502341424, guid: f95f0462202c2114eb9d93f28b85532b, type: 2}
+  GunTarget: {fileID: 1340831007867134, guid: 7c4a2fb83cb104d4cb99c688096517c9, type: 2}
   m_GunIndex: 4
   m_GunName: Rocket
   ShotType: 0000000006000000
@@ -94,24 +94,11 @@ MonoBehaviour:
   m_BeatBack: 4
   m_AttackDistance: 30
   m_AttackCD: 15
-  m_buttle: {fileID: 1902719169344626, guid: 7938c63407813ca4e815fa64ba90f699, type: 2}
+  m_buttle: {fileID: 154426, guid: 0abf202f80b83484e8574e8553e7d3b4, type: 2}
   m_ButtleSpeed: 20
   m_Scatter: 0
   m_MaxEnergyTime: 0
   m_Enable: 0
-  m_SpecialComsumeMP: 100
-  m_SpecialComsumeHP: 0
-  m_SpecialDemageNums: 200
-  m_SpecialHardStraight: 4
-  m_SpecialBeatBack: 4
-  m_SpecialAttackCD: 15
-  m_SpecialMaxEnergyTime: 2
-  m_SpecialScatter: 0
-  m_SpecialButtleSpeed: 3
-  m_SpecialAttackDistance: 2
-  m_SpecialButtle: {fileID: 1958855929286784, guid: 9bfbbd3f0d1a5ce43b73a1f276f0f8d8,
-    type: 2}
-  m_SpecialEnable: 0
 --- !u!212 &212604666343252846
 SpriteRenderer:
   m_ObjectHideFlags: 1

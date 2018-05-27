@@ -21,13 +21,13 @@ GameObject:
   - component: {fileID: 4056664730692312}
   - component: {fileID: 212133635710889414}
   - component: {fileID: 114423431030155634}
-  m_Layer: 5
+  m_Layer: 15
   m_Name: AWM_Gun
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_TagString: PlayerGun
+  m_Icon: {fileID: 5721338939258241955, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1710892260646230
 GameObject:
   m_ObjectHideFlags: 0
@@ -36,7 +36,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4782158175576784}
-  m_Layer: 5
+  m_Layer: 15
   m_Name: Muzzle
   m_TagString: Untagged
   m_Icon: {fileID: 0}

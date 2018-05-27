@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Assets.Script.Mono;
 using UnityEngine;
 
 
@@ -17,14 +18,30 @@ namespace Assets.Script.Nomono
     {
 
 
-        public string Name { get; set; }
-        public int ShootCD { get; set; }
-        public int Damage { get; set; }
-        public float ButtleSpeed { get; set; }
+        public string Name;
+        [HideInInspector]
+        public EnemyContral EC;
+
+        public override void Dead()
+        {
+            EC.Dead();
+
+        }
+
+        public override void Critical()
+        {
+            base.Critical();
+        }
+
+        public override void RecoverMp()
+        {
+            base.RecoverMp();
+        }
 
 
         public EnemyRobot(string name,int hp,int mp,float speed)
         {
+            Name = name;
             CurrentHp = MaxHp = hp;
             CurrentMp = MaxMp = mp;
             MoveSpeed = speed;

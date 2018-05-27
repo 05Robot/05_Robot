@@ -15,58 +15,76 @@ namespace Assets.Script.Nomono
 {
    public abstract class AbnormalState
    {
-       const float DAMAGE_MAXHP_PRE_SECOND = 0.05f;
-       protected Timer timer;
-       protected AbnormalState(string stataName, int restTime)
+
+       protected AbnormalState(BaseRobot br,string stataName, int time)
        {
+           BR = br;
            StataName = stataName;
-           this.restTime = restTime;
+           keep_time =time;
             //todo 可能存在问题
-            timer = new Timer(1000);
-            timer.AutoReset = true;
-            timer.Enabled = true;
-            timer.Elapsed += TimeEvent;
-            timer.Start();
+       
+            
         }
 
+       protected BaseRobot BR;
        public string StataName;
-       private int restTime;
-       public abstract void AddStataEffect();
-       public abstract void RemoveStataEffect();
-       protected abstract void TimeEvent(object source, ElapsedEventArgs e);
-        public void ResetTime(int time)
+       protected int keep_time;
+
+        /// <summary>
+        /// 每秒调用事件
+        /// </summary>
+       public abstract void StatuSecondEvent();
+
+       public void Romove()
        {
-           restTime = time;
+           BR.AbnormalStateList.Remove(this);
+           BR.SecondAction -= StatuSecondEvent;
        }
+     
 
      
     }
 
-    public class AS_Burn : AbnormalState
+    public class AbnormalState_Burn : AbnormalState
     {
-        public AS_Burn( int restTime) : base("燃烧", restTime)
-        {
+        private const float DAMAGE_MAXHP_PRE_SECOND = 0.05f;
 
+        public AbnormalState_Burn(BaseRobot br,int time) : base( br,"燃烧",time)
+        {
         }
 
-        public override void AddStataEffect()
+        public override void StatuSecondEvent()
         {
-          
+            keep_time--;
+           BR.GetDamage((int)DAMAGE_MAXHP_PRE_SECOND * BR.MaxHp, (int)DAMAGE_MAXHP_PRE_SECOND * BR.MaxHp);
+            if (keep_time == 0)
+                Romove();
+
+        }
+    }
+    public class AbnormalState_Frozen : AbnormalState
+    {
+        private const float FROZEN_SPEED_PRASENT = 0.5f;
+        private float temp_speed;
+        public AbnormalState_Frozen(BaseRobot br, int time) : base(br, "冰冻", time)
+        {
+            temp_speed = BR.MoveSpeed;
+            BR.MoveSpeed= FROZEN_SPEED_PRASENT* br.MoveSpeed;
         }
 
-     
-      
-        public override void RemoveStataEffect()
+        public override void StatuSecondEvent()
         {
-           
-        }
+            keep_time--;
+            if (keep_time == 0)
+            {
+                BR.MoveSpeed = temp_speed;
+                Romove();
 
-        protected override void TimeEvent(object source, ElapsedEventArgs e)
-        {
-           
+            }
+
         }
     }
 
 
-   
+
 }

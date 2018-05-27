@@ -9,8 +9,6 @@ using System.Timers;
 using Assets.Script.Nomono;
 using JetBrains.Annotations;
 using UnityEngine;
-using Debug = UnityEngine.Debug;
-using Timer = System.Timers.Timer;
 
 
 /*********************************************************************
@@ -23,26 +21,33 @@ namespace Assets.Script
     
     public abstract class BaseRobot
     {
-        
 
 
+
+        [HideInInspector]
         public int MaxHp;
+        [HideInInspector]
         public int MaxMp;
+        [HideInInspector]
         public int CurrentHp;
+        [HideInInspector]
         public int CurrentMp;
+     
+        [HideInInspector]
+        public Action SecondAction;
+        [HideInInspector]
         public float MoveSpeed;
-        public Action SecondAction; 
-        //普通机器人不需要关联核心
         /// <summary>
         /// 判断是否是在消耗核心值
         /// </summary>
+        [HideInInspector]
         public bool IsUseCore = false;
         /// <summary>
         /// 判断是否是在使用mp，为mp回复做准备
         /// </summary>
+        [HideInInspector]
         public bool IsConsumeMp = false;
-        //todo 硬直系统
-        public int MaxHardStraight;
+      
         /// <summary>
         /// 单位异常状态集合
         /// </summary>
@@ -93,7 +98,7 @@ namespace Assets.Script
 
 
         }
-
+      
         public virtual void GetReallyDamage(int damage)
         {
             CurrentHp -= damage;
@@ -116,7 +121,7 @@ namespace Assets.Script
         /// <summary>
         /// 在control里面，做一个timer，到达指定时间执行这个函数
         /// </summary>
-        protected virtual void RecoverMp()
+        public virtual void RecoverMp()
         {
             //可能出现maxmp未定义
             if (!IsConsumeMp)
@@ -143,8 +148,15 @@ namespace Assets.Script
                
                 yield return new WaitForSeconds(1);
             }
-        } 
+        }
 
-       
+        public void AddAbnormalState(AbnormalState AS)
+        {
+            AbnormalStateList.Add(AS);
+            SecondAction += AS.StatuSecondEvent;
+        }
+
+
+
     }
 }

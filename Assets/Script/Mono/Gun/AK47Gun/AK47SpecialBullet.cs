@@ -6,6 +6,9 @@ public class AK47SpecialBullet : Bullet
 {
     [Header("突击步枪-特殊攻击-参数")]
     [Rename("爆炸范围")][SerializeField] private float ExplosionRadius = 3.0f;//爆炸范围
+    [Rename("爆炸伤害")] [SerializeField] private float ExplosionDemage = 400.0f;
+    [Rename("自身硬直")] [SerializeField] private float ExplosionHard = 2.0f;
+    [Rename("自身击退")] [SerializeField] private float ExplosionBack = 0.5f;
     [SerializeField] private LayerMask layer;
 
     protected override void Awake()
@@ -20,12 +23,20 @@ public class AK47SpecialBullet : Bullet
 
     protected override void Vanish()
     {
+        //若为碰撞，而是超过距离，创建爆炸效果
+        if (!StartOnCollisionEnter)
+        {
+            base.GenerateExplosionEffect();
+            GenerateDemage();
+        }
+
         base.Vanish();
     }
 
     /// <summary>
     /// todo 【榴弹Bullet】枪榴弹爆炸后会造成周围3个单位内的敌人400点伤害
     /// todo 并且造成2s硬直和0.5个单位的击退
+    /// 超过距离还是会爆炸
     /// </summary>
     protected override void GenerateDemage()
     {

@@ -21,9 +21,9 @@ GameObject:
   - component: {fileID: 4024418570826850}
   - component: {fileID: 212165220497515188}
   - component: {fileID: 114175127938500624}
-  m_Layer: 5
+  m_Layer: 15
   m_Name: Shot_Gun
-  m_TagString: Untagged
+  m_TagString: PlayerGun
   m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -36,7 +36,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4655860240482442}
-  m_Layer: 5
+  m_Layer: 15
   m_Name: Muzzle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -51,7 +51,7 @@ Transform:
   m_GameObject: {fileID: 1106889463920024}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.19636205, y: 0.18106148, z: 1}
+  m_LocalScale: {x: 0.3, y: 0.3, z: 1}
   m_Children:
   - {fileID: 4655860240482442}
   m_Father: {fileID: 0}

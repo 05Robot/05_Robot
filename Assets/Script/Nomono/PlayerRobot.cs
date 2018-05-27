@@ -13,7 +13,7 @@ using UnityEngine;
 **********************************************************************/
 namespace Assets.Script.Nomono
 {
-
+    [Serializable]
     public class PlayerRobot:BaseRobot
     {
 
@@ -21,17 +21,18 @@ namespace Assets.Script.Nomono
         /// <summary>
         /// 对应玩家控制器的实例
         /// </summary>
-        public PlayerRobotContral PRC;
+        
+        private PlayerRobotContral PRC;
 
         public float SpecialSpeed=40;
 
-        public  PlayerRobot(BaseCore core,float moveSpeed)
+        public  PlayerRobot(PlayerRobotContral PRC,BaseCore core,float moveSpeed)
         {
             Core = core;
             MoveSpeed = moveSpeed;
-            CurrentHp = MaxHp = core.GetMaxHp();
-            CurrentMp = MaxMp = core.GetMaxMp();
-            core.coreStatu=BaseCore.CoreStatu.Normal;
+            CurrentHp = MaxHp = core.CurrentHpPoint;
+            CurrentMp = MaxMp = core.TotalPoint-core.CurrentHpPoint;
+           
 
             SecondAction += RecoverMp;
             SyncHpMp();
@@ -41,17 +42,6 @@ namespace Assets.Script.Nomono
         public override void GetDamage(int MPDamage,int HPDmage)
         {
             base.GetDamage(MPDamage,HPDmage);
-            //Debug.Log("hp:"+CurrentHp+"  mp:"+CurrentMp);
-            if (Core.coreStatu != BaseCore.CoreStatu.Injured && CurrentHp > 0.25*MaxHp && CurrentHp <= 0.5*MaxHp)
-            {
-               
-                Core.coreStatu = BaseCore.CoreStatu.Injured;
-                //todo 受伤debuff
-            }
-            else if (Core.coreStatu != BaseCore.CoreStatu.WillDead && CurrentHp > 0 && CurrentHp <= 0.25*MaxHp)
-            {
-                Core.coreStatu = BaseCore.CoreStatu.WillDead;
-            }
             SyncHpMp();
         }
 
@@ -64,17 +54,18 @@ namespace Assets.Script.Nomono
         {
             SecondAction -= RecoverMp;
             PRC.StartCoroutine(MPCD());
-            //todo 击退效果
+            PRC.SetDelay(0.2f);
+          
 
         }
 
-        protected override void RecoverMp()
+        public override void RecoverMp()
         {
             base.RecoverMp();
             SyncHpMp();
         }
 
-        void SyncHpMp()
+       public void SyncHpMp()
         {
             UiManager.Instance.SyncHPMp((float)CurrentHp/(float)MaxHp,(float)CurrentMp/(float)MaxMp);
         }
@@ -82,6 +73,7 @@ namespace Assets.Script.Nomono
         IEnumerator MPCD()
         {
             Debug.Log("进入冷却");
+           
             yield return new WaitForSeconds(10);
             SecondAction += RecoverMp;
             CurrentMp = MaxMp;

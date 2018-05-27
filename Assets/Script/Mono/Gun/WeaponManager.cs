@@ -62,8 +62,11 @@ public class WeaponManager : Singleton<WeaponManager>
     //--------
     [Header("--当前手上的武器-")]
     private GunType m_CurrentLeftGunType;//当前手上的主武器
-    private GunType m_CurrentRightGunType;//当前手上的特殊武器
+    //private GunType m_CurrentRightGunType;//当前手上的特殊武器
     private int m_CurrentLeftGunIndex = 0;//当前手上主武器的武器槽索引
+    //--------
+    //当前真的真的拥有的武器【】
+    private GunType[] GunTypePossession;
     #endregion
 
 
@@ -103,9 +106,13 @@ public class WeaponManager : Singleton<WeaponManager>
     #region 与主角角色属性有关
     private BloodConsumeState m_CurrentBloodConsumeState = BloodConsumeState.Mp;
     private UseLeftOrRightGun m_CurrentUseGunis = UseLeftOrRightGun.LeftGun;
-    public CoreAttribute m_CurrentCoreAttribute = CoreAttribute.Null;
+    [Header("--有关核心--")]public CoreAttribute m_CurrentCoreAttribute = CoreAttribute.Null;
     [SerializeField] private GameObject[] m_CoreBullet;
     #endregion
+
+    //------------------------------------
+    //是否可用武器系统
+    private bool WeaponManagerState = true;
 
     protected override void Awake()
     {
@@ -166,7 +173,7 @@ public class WeaponManager : Singleton<WeaponManager>
         AllGunCDic[LeftGunType[m_CurrentLeftGunIndex]].IfGunCanUse(true);
         //当前手的武器(普通与特殊)类型复制
         m_CurrentLeftGunType = LeftGunType[m_CurrentLeftGunIndex];
-        m_CurrentRightGunType = RightGunType;
+        //m_CurrentRightGunType = RightGunType;
         #endregion
 
     }
@@ -174,6 +181,9 @@ public class WeaponManager : Singleton<WeaponManager>
 
     void Update ()
     {
+        //不可用武器系统
+        if (!WeaponManagerState) return;
+        
         //鼠标点击事件监听
         //MouseKeyListener();
 
@@ -182,15 +192,6 @@ public class WeaponManager : Singleton<WeaponManager>
         MouseWheelListener();
         //键盘监听事件
         KeyBoardListener();
-
-        
-        //血条扣血状态监听事件【消耗HP是不可使用特殊攻击】
-        //MpAndHpListener();【每次射击时再进行判断】
-    }
-
-    void FixedUpdate()
-    {
-  
     }
 
 
@@ -289,34 +290,9 @@ public class WeaponManager : Singleton<WeaponManager>
 
 
 
-    /// <summary>
-    /// 【用于维修站修改枪】
-    /// 修改主角当前拥有的枪
-    /// </summary>
-    /// <param name="targetLeftGunIndex">目标修改的武器槽</param>
-    /// <param name="currentChangeGunState">修改主武器 or 特殊武器枪</param>
-    /// <param name="targetGunType">修改成什么类型的枪</param>
-    private void ChangeGunType(GunState currentChangeGunState, GunType targetGunType, int targetLeftGunIndex = 0)
-    {
-        //todo 判断主副武器不能重复
-
-
-
-        switch (currentChangeGunState)
-        {
-            //修改主武器的枪
-            case GunState.NormalState:
-                break;
-            //修改特殊武器的枪
-            case GunState.SpecialState:
-                break;
-        }
-    }
-
-
 
     /// <summary>
-    /// 冷却状态
+    /// 冷却状态[内部调用判断]
     /// MP与HP数值使用监听
     /// 【每次射击时进行判断】
     /// </summary>
@@ -324,7 +300,7 @@ public class WeaponManager : Singleton<WeaponManager>
     {
         //todo 判断当前血条状态(调用外部进行判断)
         BloodConsumeState newBloodConsumeState = BloodConsumeState.Mp;
-
+        //if(){IfSpecialGunCanUse赋值}
 
 
 
@@ -347,7 +323,6 @@ public class WeaponManager : Singleton<WeaponManager>
 
     //-----------------------------------------------------------------------------------
     //外部调用
-
     /// <summary>
     /// 核心状态改变监听器
     /// </summary>
@@ -424,7 +399,7 @@ public class WeaponManager : Singleton<WeaponManager>
         return true;
     }
     #region 【特殊武器】使用后硬直计时
-    //【特殊武器】使用后硬直计时
+    //【特殊武器】使用后(武器)硬直计时
     IEnumerator SpecialGunShowTiming()
     {
         float specialGunShowTiming = 0;
@@ -585,7 +560,7 @@ public class WeaponManager : Singleton<WeaponManager>
                 currentGunType = m_CurrentLeftGunType;
                 break;
             case UseLeftOrRightGun.RightGun:
-                currentGunType = m_CurrentRightGunType;
+                currentGunType = RightGunType;
                 break;
         }
         //【判断当前是否核心攻击】
@@ -632,4 +607,66 @@ public class WeaponManager : Singleton<WeaponManager>
         return UnityEngine.Random.Range(scatter * -1.0f, scatter);
     }
 
+
+
+
+    //----------------------------------------------------------------------------------------------------
+    //外部调用
+    //捡武器  换武器等等
+
+
+    /// <summary>
+    /// 【用于维修站修改枪】
+    /// 修改主角当前拥有的枪
+    /// </summary>
+    /// <param name="targetLeftGunIndex">目标修改的武器槽</param>
+    /// <param name="currentChangeGunState">修改主武器 or 特殊武器枪</param>
+    /// <param name="targetGunType">修改成什么类型的枪</param>
+    public void ChangeGunType(GunState currentChangeGunState, GunType targetGunType, int targetLeftGunIndex = 0)
+    {
+        //todo 判断主副武器不能重复
+
+
+
+        switch (currentChangeGunState)
+        {
+            //修改主武器的枪
+            case GunState.NormalState:
+                break;
+            //修改特殊武器的枪
+            case GunState.SpecialState:
+                break;
+        }
+    }
+
+    /// <summary>
+    /// 获取新武器
+    /// </summary>
+    /// <param name="newGunType"></param>
+    public void GetGun(GunType newGunType)
+    {
+        if (newGunType == 0) return;
+
+        switch (newGunType)
+        {
+            //火箭筒（一次性）
+            case GunType.RocketGun:
+                break;
+            //其他（永久性）
+            default:
+                break;
+        }
+    }
+
+
+    /// <summary>
+    /// 当前武器系统是否可用
+    /// </summary>
+    /// <param name="newState">是否可用</param>
+    public void ChangeWeaponManagerState(bool newState)
+    {
+        WeaponManagerState = newState;
+        AllGunCDic[LeftGunType[m_CurrentLeftGunIndex]].IfGunCanUse(newState);
+        AllGunCDic[RightGunType].IfGunCanUse(newState);
+    }
 }

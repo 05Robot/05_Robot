@@ -76,10 +76,13 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294959103
   RaycastAdvance: 1
-  impactParticle: {fileID: 153632, guid: 1fb8456db4269c541a5ba4f757d65164, type: 2}
+  impactParticle: {fileID: 122632, guid: 6fb671374af826440a1491818a95ee9f, type: 2}
   impactParticleTime: 1
-  projectileParticle: {fileID: 191642, guid: f0d84ab61027090469df6616e1555598, type: 2}
-  projectileParticleTime: 0.5
-  muzzleParticle: {fileID: 196220, guid: b338d4f5bc8fb7a4fb2244375343c067, type: 2}
+  projectileParticle: {fileID: 149566, guid: 1740e813efa3c2f41a7dc05aefa20d45, type: 2}
+  projectileParticleTime: 0.05
+  muzzleParticle: {fileID: 195198, guid: ca25fe2673cb3714e8e7d511a7960c2c, type: 2}
   muzzleParticleTime: 0.8
   trailParticles: []
+  isCoreAttack: 0
+  coreAttributeBullet: 0
+  bulletBelongTo: 0

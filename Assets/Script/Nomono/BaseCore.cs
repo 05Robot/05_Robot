@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.Collections.Generic;
 
 namespace Assets.Script
 {
@@ -11,67 +12,65 @@ namespace Assets.Script
 
     public abstract class BaseCore
     {
-        //public BaseCore ()
-        //{
-        //    BaseHp = 100;
-        //    BaseMp = 100;
-        //    _incrementMp = 100;
-        //    _incrementHp = 100;
-        //    CoreLevel = 1;
-        //    HpPoint = 2;
-        //    MpPoint = 2;
-        //}
-
-        public BaseCore(int bsp,int bmp,int ihp,int imp,uint level,uint cp,CoreElement ce)
-        {
-            BaseHp = bsp;
-            BaseMp = bmp;
-            _incrementHp = ihp;
-            _incrementMp = imp;
-            CoreLevel = level;
-            CorePoint = RemaindPoint = cp;
-        }
-
-
+       
         public enum CoreElement
         {
+            Primary,
             Fire,
+            Amethyst,
+            Ice
+
         }
-        public enum CoreStatu
+        public BaseCore(int tp,int maxhp,int minhp,string name,CoreElement ce,string discription)
         {
-           Normal,
-           Injured,
-           WillDead
+            if (minhp>maxhp||maxhp>tp)
+            {
+                throw new Exception("核心初始化数据异常");
+            }
+           
+            TotalPoint = tp;
+            MaxHp = maxhp;
+            MinHp = minhp;
+            Discription = discription;
+            CurrentHpPoint = (MaxHp + MinHp) / 2;
+            Name = name;
+            Element = ce;
+            BaseCore.CoreList.Add(this);
+        }
+        /// <summary>
+        /// 处理玩家已经获得的核心
+        /// </summary>
+        public static List<BaseCore> CoreList=new List<BaseCore>();
+
+
+
+        public readonly CoreElement Element;
+        public readonly string Name;
+        public readonly string Discription;
+        public readonly int TotalPoint;
+        protected readonly int MaxHp;
+        protected readonly int MinHp;
+        public int CurrentHpPoint;
+
+
+
+
+        public bool SetHpPoint(int hppoint)
+        {
+            if (hppoint <= MaxHp && hppoint >= MinHp)
+            {
+                CurrentHpPoint = hppoint;
+                return true; 
+                
+            }
+            else
+                return false;
         }
 
-        public readonly CoreElement coreElement;
-        public readonly int BaseHp;
-        public readonly int BaseMp;
-        private readonly int _incrementHp;
-        private readonly int _incrementMp;
+        
+       
 
-        public CoreStatu coreStatu=CoreStatu.Normal;
-        public uint CoreLevel;
-        public uint CorePoint;
-        //todo 最多分配点和等级有关
-        public uint HpPoint=0;
-        public uint MpPoint=0;
-        public uint WeaponPoint=0;
-        public uint ItemPoint=0;
-        public uint RemaindPoint;
-
-        public int GetMaxHp()
-        {
-            return (int) (BaseHp + HpPoint*_incrementHp);
-        }
-        public int GetMaxMp()
-        {
-            return (int)(BaseMp + MpPoint * _incrementMp);
-        }
-        public virtual void CoreAttack()
-        {
-            
-        }
+      
 
     }
 }

@@ -12,19 +12,12 @@ using Assets.Script;
 **********************************************************************/
 namespace Assets.Script.Nomono
 {
- 
-    public class FireCore : BaseCore
+
+    public   class FireCore : BaseCore
     {
-        //测试数据
-        public static FireCore fc = new FireCore(1000,1000,10,10,1,15);
-
-        public FireCore(int bsp, int bmp, int ihp, int imp, uint level, uint cp): base( bsp,  bmp,  ihp,  imp,  level,  cp,CoreElement.Fire)
+        public FireCore() : base(1600,1400,1000,"火焰核心",CoreElement.Fire,"这是一个火焰核心")
         {
-           
-        }
-        public override void CoreAttack()
-        {
-
+          
         }
     }
 }

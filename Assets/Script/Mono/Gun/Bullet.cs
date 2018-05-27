@@ -132,8 +132,8 @@ public abstract class Bullet : MonoBehaviour
         DemageNums = s_DemageNums;
         GunName = s_GunName;
         StartFly = Flying = true;
-        isCoreAttack = s_isCoreAttack;
-        coreAttributeBullet = s_coreAttributeBullet;
+        //isCoreAttack = s_isCoreAttack;
+        //coreAttributeBullet = s_coreAttributeBullet;
 
         switch (bulletBelongTo)
         {
@@ -148,7 +148,7 @@ public abstract class Bullet : MonoBehaviour
                 m_ObjectPoolName = "Bullet/Enemy/";
                 break;
         }
-
+        print(m_ObjectPoolName);
         //产生子弹与枪口特效
         GenerateProjectileAndMuzzleParticles();
     }
@@ -224,20 +224,19 @@ public abstract class Bullet : MonoBehaviour
     /// <summary>
     /// 创建爆炸效果
     /// </summary>
-    private void GenerateExplosionEffect()
+    protected void GenerateExplosionEffect()
     {
         impactParticle = ObjectPool.Instance.Spawn(m_ObjectPoolName + impactParticleName);
         impactParticle.transform.position = transform.position;
         impactParticle.transform.rotation = Quaternion.FromToRotation(-transform.right, hitPoint.normal);
 
-        //foreach (GameObject trail in trailParticles)
+        /*foreach (GameObject trail in trailParticles)
         {
-            //GameObject curTrail = transform.Find(projectileParticle.name + "/" + trail.name).gameObject;
-           // curTrail.transform.parent = null;
-           // Destroy(curTrail, 3f);
+            GameObject curTrail = transform.Find(projectileParticle.name + "/" + trail.name).gameObject;
+            curTrail.transform.parent = null;
+            Destroy(curTrail, 3f);
         }
-
-        /*ParticleSystem[] trails = GetComponentsInChildren<ParticleSystem>();
+        ParticleSystem[] trails = GetComponentsInChildren<ParticleSystem>();
         for (int i = 1; i < trails.Length; i++)
         {
             ParticleSystem trail = trails[i];
@@ -246,7 +245,8 @@ public abstract class Bullet : MonoBehaviour
                 trail.transform.SetParent(null);
                 Destroy(trail.gameObject, 2f);
             }
-        }*/
+        }
+        */
     }
 
     //子弹消失（撞击或者超过距离）
