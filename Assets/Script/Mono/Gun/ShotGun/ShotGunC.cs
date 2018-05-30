@@ -117,6 +117,8 @@ public class ShotGunC : GunC {
         WeaponManager.Instance.ChangeBulletNum(3, 5);
         //开启特效
         StartCoroutine(StartBuffEffect());
+        //角色MPHP减少
+        PlayerMPHPChange((int)Gun_Data.SpecialComsumeMP, 0);
     }
     #region 开启特效
     IEnumerator StartBuffEffect()

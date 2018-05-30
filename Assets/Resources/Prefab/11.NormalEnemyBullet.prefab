@@ -74,7 +74,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   layerMask:
     serializedVersion: 2
-    m_Bits: 4294950911
+    m_Bits: 4294907903
   RaycastAdvance: 1
   impactParticle: {fileID: 129528, guid: a76202a1554acce4ca272b076ba03396, type: 2}
   impactParticleTime: 1

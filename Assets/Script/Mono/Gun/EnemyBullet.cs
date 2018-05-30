@@ -40,10 +40,13 @@ public class EnemyBullet : Bullet {
         switch (m_CurrentEnemyBulletType)
         {
             case EnemyBulletType.NormalEnemyBullet:
+
                 break;
             case EnemyBulletType.BulletScreen:
+
                 break;
             case EnemyBulletType.EliteEnemyBullet:
+
                 break;
         }
     }

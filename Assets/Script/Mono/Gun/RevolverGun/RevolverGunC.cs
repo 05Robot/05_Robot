@@ -82,6 +82,8 @@ public class RevolverGunC : GunC {
         WeaponManager.Instance.ChangeButtleDemagePercent(0.2f, 2);
         //开启特效
         StartCoroutine(StartBuffEffect());
+        //角色MPHP减少
+        PlayerMPHPChange((int)Gun_Data.SpecialComsumeMP, 0);
     }
 
     #region 开启特效

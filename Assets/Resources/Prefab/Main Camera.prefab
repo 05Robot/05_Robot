@@ -43,6 +43,23 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1779534816792906
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4487129029608114}
+  - component: {fileID: 20488072099989188}
+  - component: {fileID: 124295086622522362}
+  m_Layer: 5
+  m_Name: UICanvasCamera
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1787613040606292
 GameObject:
   m_ObjectHideFlags: 0
@@ -91,6 +108,19 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4653117860045228}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4487129029608114
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1779534816792906}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4653117860045228}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4505481246646336
@@ -104,7 +134,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4653117860045228}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4653117860045228
 Transform:
@@ -116,6 +146,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: -7.57}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 4487129029608114}
   - {fileID: 4335926852160958}
   - {fileID: 4505481246646336}
   - {fileID: 4962906467064718}
@@ -133,17 +164,17 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4653117860045228}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!20 &20834210456965044
+--- !u!20 &20488072099989188
 Camera:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1787613040606292}
+  m_GameObject: {fileID: 1779534816792906}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
+  m_ClearFlags: 3
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
@@ -159,7 +190,42 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 32
+  m_RenderingPath: -1
+  m_TargetTexture: {fileID: 0}
+  m_TargetDisplay: 0
+  m_TargetEye: 3
+  m_HDR: 1
+  m_AllowMSAA: 1
+  m_ForceIntoRT: 0
+  m_OcclusionCulling: 1
+  m_StereoConvergence: 10
+  m_StereoSeparation: 0.022
+--- !u!20 &20834210456965044
+Camera:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1787613040606292}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_ClearFlags: 3
+  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_NormalizedViewPortRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+  near clip plane: 0.3
+  far clip plane: 20
+  field of view: 60
+  orthographic: 1
+  orthographic size: 15
+  m_Depth: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967263
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -228,14 +294,16 @@ MonoBehaviour:
   m_AWMGun: {fileID: 0}
   m_Sword: {fileID: 0}
   m_Hammer: {fileID: 0}
-  LeftGunType: 030000000200000001000000
-  RightGunType: 5
-  m_CurrentCoreAttribute: 1
+  LeftGunType: 010000000000000000000000
+  RightGunType: 0
+  m_CurrentCoreAttribute: 0
   m_CoreBullet:
   - {fileID: 188780, guid: 62da081a7105b2f47ba2d59dac1d7c2e, type: 2}
   - {fileID: 122692, guid: c459528111eb04445b750633208bcff1, type: 2}
   - {fileID: 178846, guid: aa60f4e7e5e5fa64ab983acee98471b3, type: 2}
   - {fileID: 184960, guid: 2e59956b2f5ba1d4fb95338e85fe6be1, type: 2}
+  m_WeaponPos: []
+  ChangeLeftGunState: 1
 --- !u!114 &114715550203271164
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -309,6 +377,13 @@ MonoBehaviour:
   UseSoftBoundaries: 1
   Softness: 0.5
   SoftAreaSize: 0.1
+--- !u!124 &124295086622522362
+Behaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1779534816792906}
+  m_Enabled: 1
 --- !u!124 &124864325941254252
 Behaviour:
   m_ObjectHideFlags: 1

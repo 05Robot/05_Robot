@@ -74,7 +74,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   layerMask:
     serializedVersion: 2
-    m_Bits: 4294959103
+    m_Bits: 4294908927
   RaycastAdvance: 1
   impactParticle: {fileID: 106912, guid: bd6158adc637d9f4880c4af88ac98b97, type: 2}
   impactParticleTime: 1
@@ -83,3 +83,6 @@ MonoBehaviour:
   muzzleParticle: {fileID: 109106, guid: 55e625a2c51c2594ba0f64b4685e626e, type: 2}
   muzzleParticleTime: 1
   trailParticles: []
+  isCoreAttack: 0
+  coreAttributeBullet: 0
+  bulletBelongTo: 0

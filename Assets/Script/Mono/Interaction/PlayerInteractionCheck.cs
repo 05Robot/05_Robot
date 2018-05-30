@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerInteractionCheck : MonoBehaviour {
-
+    /*
     [Rename("当前主角")] [SerializeField] private GameObject m_Player;
     [Rename("检测范围/m")] [SerializeField] private float m_Radius = 3.0f;
     [SerializeField] private LayerMask m_LayerMask;
@@ -150,4 +150,5 @@ public class PlayerInteractionCheck : MonoBehaviour {
         }
         return false;
     }
+    */
 }

@@ -21,9 +21,13 @@ public abstract class GunC : MonoBehaviour
         set { m_SpriteRenderer.enabled = value; }
     }
     /// <summary>
-    /// 武器自身大小
+    /// 武器自身比例
     /// </summary>
     private Vector3 m_TransformScale;
+    /// <summary>
+    /// 武器旋转控制
+    /// </summary>
+    protected bool GunRotateControl = true;
     //------------------------------------------------------
     /// <summary>
     /// 角色对象
@@ -38,6 +42,11 @@ public abstract class GunC : MonoBehaviour
     /// 射击准心
     /// </summary>
     public GameObject GunTarget;
+
+    /// <summary>
+    /// 枪柄位置
+    /// </summary>
+    [Rename("枪柄位置")] [SerializeField] protected GameObject m_GunHandle;
     //------------------------------------------------------
     #region 枪械信息（公开）【只为了给策划提供的通道】
     [Header("--枪械信息--")]
@@ -102,7 +111,7 @@ public abstract class GunC : MonoBehaviour
     /// <summary>
     /// 瞄准的世界坐标位置
     /// </summary>
-    private Vector3 m_aimPos;
+    protected Vector3 m_aimPos;
     /// <summary>
     /// 鼠标左右键点击的各种状态判断
     /// </summary>
@@ -135,27 +144,23 @@ public abstract class GunC : MonoBehaviour
         m_TransformScale = transform.localScale;
     }
 
+    private Vector3 lastAimPos = Vector3.zero;
     protected virtual void Update()
     {
         #region 枪瞄准方向控制
         //枪方向-----------------------------------------------------------------
-        m_mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        m_aimPos = new Vector3(m_mousePos.x, m_mousePos.y, transform.position.z);
-        GunTarget.transform.position = m_aimPos;
-        float z;
-        if (m_aimPos.y > transform.position.y)//旋转角度
-            z = -Vector3.Angle(Vector3.left, m_aimPos - transform.position);
-        else
-            z = Vector3.Angle(Vector3.left, m_aimPos - transform.position);
-        if (m_aimPos.x > transform.position.x)
+        if (GunRotateControl)
         {
-            transform.localScale = new Vector3(m_TransformScale.x, -m_TransformScale.y, m_TransformScale.z);
+            m_mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            m_aimPos = new Vector3(m_mousePos.x, m_mousePos.y, transform.position.z);
+            GunTarget.transform.position = m_aimPos;
+            float z = Vector3.SignedAngle(-transform.right, m_aimPos - transform.position, Vector3.forward);
+            if (m_aimPos.x > m_player.transform.position.x)
+                transform.localScale = new Vector3(m_TransformScale.x, -m_TransformScale.y, m_TransformScale.z);
+            else
+                transform.localScale = m_TransformScale;
+            transform.RotateAround(m_GunHandle.transform.position, Vector3.forward, z);
         }
-        else
-        {
-            transform.localScale = m_TransformScale;
-        }
-        transform.localRotation = Quaternion.Euler(0, 0, z);
         #endregion
 
         //鼠标按下监听

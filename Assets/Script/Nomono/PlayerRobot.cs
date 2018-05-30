@@ -32,8 +32,8 @@ namespace Assets.Script.Nomono
             MoveSpeed = moveSpeed;
             CurrentHp = MaxHp = core.CurrentHpPoint;
             CurrentMp = MaxMp = core.TotalPoint-core.CurrentHpPoint;
-           
 
+            this.PRC = PRC;
             SecondAction += RecoverMp;
             SyncHpMp();
             
@@ -53,6 +53,7 @@ namespace Assets.Script.Nomono
         public override void Critical()
         {
             SecondAction -= RecoverMp;
+            //Debug.Log(PRC);
             PRC.StartCoroutine(MPCD());
             PRC.SetDelay(0.2f);
           

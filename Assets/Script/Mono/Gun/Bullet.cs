@@ -65,7 +65,7 @@ public abstract class Bullet : MonoBehaviour
     [SerializeField] private LayerMask layerMask;//检测层
     [SerializeField] private float RaycastAdvance = 2f;// 射线检测距离
     private Ray hitRay;//击中的射线
-    private RaycastHit hitPoint;// 击中的目标信息
+    private RaycastHit2D hitPoint;// 击中的目标信息
     #endregion
 
     #region 子弹自身组件
@@ -148,7 +148,6 @@ public abstract class Bullet : MonoBehaviour
                 m_ObjectPoolName = "Bullet/Enemy/";
                 break;
         }
-        print(m_ObjectPoolName);
         //产生子弹与枪口特效
         GenerateProjectileAndMuzzleParticles();
     }
@@ -204,14 +203,16 @@ public abstract class Bullet : MonoBehaviour
     /// 碰撞检测
     /// </summary>
     /// <param name="step">下一步移动方向</param>
-    //todo 修改Physics2D.Raycast
+    //Physics2D.Raycast
     private void OnCollision(Vector3 step)
     {
-        // 射线检测
-        if (Physics.Raycast(transform.position, -transform.right, out hitPoint, step.magnitude * RaycastAdvance, layerMask))
+        Vector2 origin = new Vector2(transform.position.x, transform.position.y);
+        Vector2 direction = new Vector2(-transform.right.x, -transform.right.y);
+
+        hitPoint = Physics2D.Raycast(origin, direction, step.magnitude * RaycastAdvance, layerMask);
+            
+        if (hitPoint.transform != null)
         {
-            //击中
-            //hitRay = new Ray(transform.position, -transform.right);
             if (!StartOnCollisionEnter)
             {
                 StartOnCollisionEnter = true;
