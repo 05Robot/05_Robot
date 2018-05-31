@@ -9,48 +9,16 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1264293763030902}
+  m_RootGameObject: {fileID: 1875901951635834}
   m_IsPrefabParent: 1
---- !u!1 &1264293763030902
+--- !u!1 &1785949664986552
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4542979838321928}
-  - component: {fileID: 212506638137981036}
-  - component: {fileID: 114159396446188866}
-  m_Layer: 15
-  m_Name: Sword_Gun
-  m_TagString: PlayerGun
-  m_Icon: {fileID: 2974397684917235467, guid: 0000000000000000d000000000000000, type: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!1 &1361857310064120
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 4207643505891060}
-  m_Layer: 15
-  m_Name: Handle
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!1 &1663248458029898
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 4492057435813702}
+  - component: {fileID: 4268211706527498}
   m_Layer: 15
   m_Name: Muzzle
   m_TagString: Untagged
@@ -58,95 +26,99 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4207643505891060
+--- !u!1 &1875901951635834
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4619740164605764}
+  - component: {fileID: 212159738693425260}
+  - component: {fileID: 114229483982674710}
+  m_Layer: 15
+  m_Name: Revolver_Gun
+  m_TagString: PlayerGun
+  m_Icon: {fileID: 3936346786652291628, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4268211706527498
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1361857310064120}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 8.9, y: -0.21, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 4542979838321928}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &4492057435813702
-Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1663248458029898}
+  m_GameObject: {fileID: 1785949664986552}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -9.49, y: 0.07, z: 0}
+  m_LocalPosition: {x: -1.011, y: 0.251, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 4542979838321928}
+  m_Father: {fileID: 4619740164605764}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &4542979838321928
+--- !u!4 &4619740164605764
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1264293763030902}
+  m_GameObject: {fileID: 1875901951635834}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -11.6, y: 0.58, z: -0.1}
-  m_LocalScale: {x: 0.7, y: 0.7, z: 1}
+  m_LocalPosition: {x: 10.643618, y: -1.0706203, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 4492057435813702}
-  - {fileID: 4207643505891060}
+  - {fileID: 4268211706527498}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114159396446188866
+--- !u!114 &114229483982674710
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1264293763030902}
+  m_GameObject: {fileID: 1875901951635834}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 651ae1e73c93d2a459b6d83681d77f8b, type: 3}
+  m_Script: {fileID: 11500000, guid: ee3e992d2964f0b4ea025498cb6deaed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_player: {fileID: 0}
-  GunTarget: {fileID: 0}
-  m_GunHandle: {fileID: 1361857310064120}
-  m_GunIndex: 6
-  m_GunName: Sword
+  m_player: {fileID: 1414011502341424, guid: f95f0462202c2114eb9d93f28b85532b, type: 2}
+  GunTarget: {fileID: 1340831007867134, guid: 7c4a2fb83cb104d4cb99c688096517c9, type: 2}
+  m_GunHandle: {fileID: 0}
+  m_GunIndex: 2
+  m_GunName: Revolver
   ShotType: 0000000004000000
-  m_MuzzlePos: {fileID: 1663248458029898}
-  m_ComsumeMP: 50
-  m_ComsumeHP: 40
-  m_DemageNums: 200
-  m_HardStraight: 2
-  m_BeatBack: 2
-  m_AttackDistance: 0
-  m_AttackCD: 1
-  m_buttle: {fileID: 0}
-  m_ButtleSpeed: 1
-  m_Scatter: 120
+  m_MuzzlePos: {fileID: 1785949664986552}
+  m_ComsumeMP: 100
+  m_ComsumeHP: 120
+  m_DemageNums: 600
+  m_HardStraight: 3
+  m_BeatBack: 3
+  m_AttackDistance: 10
+  m_AttackCD: 0
+  m_buttle: {fileID: 154426, guid: 682d8ff3505fdb743ba656a4181f3f99, type: 2}
+  m_ButtleSpeed: 10
+  m_Scatter: 15
   m_MaxEnergyTime: 0
   m_Enable: 0
-  m_SpecialComsumeMP: 70
+  m_SpecialComsumeMP: 300
   m_SpecialComsumeHP: 0
-  m_SpecialDemageNums: 300
-  m_SpecialHardStraight: 3
-  m_SpecialBeatBack: 3
+  m_SpecialDemageNums: 0
+  m_SpecialHardStraight: 0
+  m_SpecialBeatBack: 0
   m_SpecialAttackCD: 10
   m_SpecialMaxEnergyTime: 0
-  m_SpecialScatter: 360
-  m_SpecialButtleSpeed: 20
-  m_SpecialAttackDistance: 10
-  m_SpecialButtle: {fileID: 0}
+  m_SpecialScatter: 0
+  m_SpecialButtleSpeed: 0
+  m_SpecialAttackDistance: 0
+  m_SpecialButtle: {fileID: 1011810777255150, guid: 311c62658aeee524e8048adca0c9d789,
+    type: 2}
   m_SpecialEnable: 0
---- !u!212 &212506638137981036
+--- !u!212 &212159738693425260
 SpriteRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1264293763030902}
+  m_GameObject: {fileID: 1875901951635834}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -175,9 +147,9 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 8c91ab487fa60474492219348cdfa623, type: 3}
+  m_Sprite: {fileID: 21300070, guid: 9fb1d732cad740142941f7dcd42d7e4d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 1
+  m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 3.53, y: 1.2}

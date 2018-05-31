@@ -9,33 +9,33 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1106889463920024}
+  m_RootGameObject: {fileID: 1061755309934744}
   m_IsPrefabParent: 1
---- !u!1 &1106889463920024
+--- !u!1 &1061755309934744
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4024418570826850}
-  - component: {fileID: 212165220497515188}
-  - component: {fileID: 114175127938500624}
+  - component: {fileID: 4056664730692312}
+  - component: {fileID: 212133635710889414}
+  - component: {fileID: 114423431030155634}
   m_Layer: 15
-  m_Name: Shot_Gun
+  m_Name: AWM_Gun
   m_TagString: PlayerGun
-  m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
+  m_Icon: {fileID: 5721338939258241955, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &1934503031707286
+--- !u!1 &1710892260646230
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4655860240482442}
+  - component: {fileID: 4782158175576784}
   m_Layer: 15
   m_Name: Muzzle
   m_TagString: Untagged
@@ -43,81 +43,81 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4024418570826850
+--- !u!4 &4056664730692312
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1106889463920024}
+  m_GameObject: {fileID: 1061755309934744}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.3, y: 0.3, z: 1}
+  m_LocalPosition: {x: -0.105, y: -0.018, z: 0}
+  m_LocalScale: {x: 0.19636205, y: 0.18106148, z: 1}
   m_Children:
-  - {fileID: 4655860240482442}
+  - {fileID: 4782158175576784}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &4655860240482442
+--- !u!4 &4782158175576784
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1934503031707286}
+  m_GameObject: {fileID: 1710892260646230}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.473, y: 0.13, z: 0}
+  m_LocalPosition: {x: -1.979, y: 0.097, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 4024418570826850}
+  m_Father: {fileID: 4056664730692312}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114175127938500624
+--- !u!114 &114423431030155634
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1106889463920024}
+  m_GameObject: {fileID: 1061755309934744}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6b962bc886ad5b441bcf085ab87dfc2c, type: 3}
+  m_Script: {fileID: 11500000, guid: 58a6453e11145b24a9ab1a3941d7fbdf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_player: {fileID: 0}
-  GunTarget: {fileID: 0}
-  m_GunIndex: 3
-  m_GunName: Shot
-  ShotType: 0000000004000000
-  m_MuzzlePos: {fileID: 1934503031707286}
-  m_ComsumeMP: 200
-  m_ComsumeHP: 160
-  m_DemageNums: 300
-  m_HardStraight: 3
-  m_BeatBack: 3
-  m_AttackDistance: 10
-  m_AttackCD: 0.5
-  m_buttle: {fileID: 138876, guid: 815a081085a9ae34884e647acd9ba6c8, type: 2}
-  m_ButtleSpeed: 10
+  m_player: {fileID: 1414011502341424, guid: f95f0462202c2114eb9d93f28b85532b, type: 2}
+  GunTarget: {fileID: 1340831007867134, guid: 7c4a2fb83cb104d4cb99c688096517c9, type: 2}
+  m_GunHandle: {fileID: 0}
+  m_GunIndex: 0
+  m_GunName: AWM
+  ShotType: 0200000004000000
+  m_MuzzlePos: {fileID: 1710892260646230}
+  m_ComsumeMP: 20
+  m_ComsumeHP: 16
+  m_DemageNums: 200
+  m_HardStraight: 4
+  m_BeatBack: 4
+  m_AttackDistance: 50
+  m_AttackCD: 2
+  m_buttle: {fileID: 126566, guid: c61cbf5b5cac4b942ab30202e058b51e, type: 2}
+  m_ButtleSpeed: 20
   m_Scatter: 0
-  m_MaxEnergyTime: 0
+  m_MaxEnergyTime: 3
   m_Enable: 0
-  m_SpecialComsumeMP: 300
-  m_SpecialComsumeHP: 0
-  m_SpecialDemageNums: 0
-  m_SpecialHardStraight: 0
-  m_SpecialBeatBack: 0
-  m_SpecialAttackCD: 10
+  m_SpecialComsumeMP: 200
+  m_SpecialComsumeHP: 160
+  m_SpecialDemageNums: 800
+  m_SpecialHardStraight: 4
+  m_SpecialBeatBack: 4
+  m_SpecialAttackCD: 4
   m_SpecialMaxEnergyTime: 0
   m_SpecialScatter: 0
-  m_SpecialButtleSpeed: 0
-  m_SpecialAttackDistance: 0
-  m_SpecialButtle: {fileID: 1889642931148848, guid: 36bf6ce9cd820344a9d90a0d5fd86371,
-    type: 2}
+  m_SpecialButtleSpeed: 20
+  m_SpecialAttackDistance: 50
+  m_SpecialButtle: {fileID: 126566, guid: 1556b4376ec7a994f95939bd78f5a8a6, type: 2}
   m_SpecialEnable: 0
---- !u!212 &212165220497515188
+--- !u!212 &212133635710889414
 SpriteRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1106889463920024}
+  m_GameObject: {fileID: 1061755309934744}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -146,7 +146,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300006, guid: 9fb1d732cad740142941f7dcd42d7e4d, type: 3}
+  m_Sprite: {fileID: 21300018, guid: 9fb1d732cad740142941f7dcd42d7e4d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

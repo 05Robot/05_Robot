@@ -265,8 +265,10 @@ public class SwordGunC : GunC
     /// 武器飞出去
     /// </summary>
     /// <returns></returns>
-    //开启非敌人碰撞检测
+    //是否开启非敌人碰撞检测
     private bool StartToOtherColliderCheck = false;
+    //是否在特殊攻击中碰撞到其他非敌人物体
+    private bool m_collisionOthers = false;
     IEnumerator StartToFlyRotate(float direction)
     {
         StartToOtherColliderCheck = true;
@@ -278,8 +280,8 @@ public class SwordGunC : GunC
         Vector3 target = (m_aimPos - transform.position) * 20;
         while (true)
         {
+            if (m_collisionOthers) break;
             yield return null;
-            print("飞飞飞飞飞飞");
             Vector3 targetPos = Vector3.MoveTowards(transform.position, target, Gun_Data.SpecialButtleSpeed * Time.deltaTime * 0.5f);
             //飞行距离判断
             FlyRotateDistance += Vector3.Distance(transform.position, targetPos);
@@ -291,9 +293,9 @@ public class SwordGunC : GunC
             transform.position = targetPos;
             
         }
-        print("嘘嘘嘘");
         //飞行结束
-        StartCoroutine(StartToFlyBack(direction));
+        if(!m_collisionOthers)StartCoroutine(StartToFlyBack(direction));
+        m_collisionOthers = false;
     }
 
 
@@ -303,11 +305,10 @@ public class SwordGunC : GunC
     /// <returns></returns>
     IEnumerator StartToFlyBack(float direction)
     {
-        print("两次啊啊啊");
+        //关闭碰撞非敌人检测
+        StartToOtherColliderCheck = false;
         while (true)
         {
-            print("GunRotateControl:" + GunRotateControl);
-            print("飞回来");
             Vector3 target = (m_player.transform.position - transform.position) * 20;
             Vector3 targetPos = Vector3.MoveTowards(transform.position, target, Gun_Data.SpecialButtleSpeed * Time.deltaTime * 0.5f);
             //自身旋转
@@ -322,7 +323,6 @@ public class SwordGunC : GunC
         SwordGunNormalAttacking = false;//近战结束
         WeaponManager.Instance.ChangeLeftGunState = true;//可以切枪
         //开启武器旋转控制
-        print("修改为可以控制！！！");
         GunRotateControl = true;
         //todo 剑回到当前手上（结合玩家方向），WeaponManager
     }
@@ -377,8 +377,8 @@ public class SwordGunC : GunC
                 break;
             case GunState.SpecialState:
                 if ((AttackLayer >> other.gameObject.layer & 1) != 1 && StartToOtherColliderCheck)
-                { 
-                    StopCoroutine("StartToFlyRotate");
+                {
+                    m_collisionOthers = true;
                     //结束飞行
                     StartCoroutine(StartToFlyBack(SpecialRotateDirection));
                     //关闭碰撞非敌人检测

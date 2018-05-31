@@ -83,6 +83,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_player: {fileID: 1414011502341424, guid: f95f0462202c2114eb9d93f28b85532b, type: 2}
   GunTarget: {fileID: 1340831007867134, guid: 7c4a2fb83cb104d4cb99c688096517c9, type: 2}
+  m_GunHandle: {fileID: 0}
   m_GunIndex: 1
   m_GunName: AK47
   ShotType: 000000000100000006000000

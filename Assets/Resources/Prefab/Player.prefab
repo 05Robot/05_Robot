@@ -738,7 +738,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_player: {fileID: 1414011502341424}
-  GunTarget: {fileID: 0}
+  GunTarget: {fileID: 1340831007867134, guid: 7c4a2fb83cb104d4cb99c688096517c9, type: 2}
   m_GunHandle: {fileID: 1088601501037808}
   m_GunIndex: 0
   m_GunName: AWM
@@ -806,7 +806,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_player: {fileID: 1414011502341424}
-  GunTarget: {fileID: 0}
+  GunTarget: {fileID: 1340831007867134, guid: 7c4a2fb83cb104d4cb99c688096517c9, type: 2}
   m_GunHandle: {fileID: 1788980346529770}
   m_GunIndex: 2
   m_GunName: Revolver
@@ -849,7 +849,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_player: {fileID: 1414011502341424}
-  GunTarget: {fileID: 0}
+  GunTarget: {fileID: 1340831007867134, guid: 7c4a2fb83cb104d4cb99c688096517c9, type: 2}
   m_GunHandle: {fileID: 1240157193241890}
   m_GunIndex: 4
   m_GunName: Rocket
@@ -879,7 +879,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_player: {fileID: 1414011502341424}
-  GunTarget: {fileID: 0}
+  GunTarget: {fileID: 1340831007867134, guid: 7c4a2fb83cb104d4cb99c688096517c9, type: 2}
   m_GunHandle: {fileID: 1687659054052282}
   m_GunIndex: 3
   m_GunName: Shot
@@ -922,7 +922,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_player: {fileID: 1414011502341424}
-  GunTarget: {fileID: 0}
+  GunTarget: {fileID: 1340831007867134, guid: 7c4a2fb83cb104d4cb99c688096517c9, type: 2}
   m_GunHandle: {fileID: 1115015545307586}
   m_GunIndex: 6
   m_GunName: Sword
@@ -945,7 +945,7 @@ MonoBehaviour:
   m_SpecialDemageNums: 300
   m_SpecialHardStraight: 3
   m_SpecialBeatBack: 3
-  m_SpecialAttackCD: 10
+  m_SpecialAttackCD: 1
   m_SpecialMaxEnergyTime: 0
   m_SpecialScatter: 360
   m_SpecialButtleSpeed: 35
@@ -955,7 +955,7 @@ MonoBehaviour:
   SwordTrail: {fileID: 114182689796064890}
   AttackLayer:
     serializedVersion: 2
-    m_Bits: 4294843391
+    m_Bits: 60416
 --- !u!114 &114846290794749802
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -968,7 +968,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_player: {fileID: 1414011502341424}
-  GunTarget: {fileID: 0}
+  GunTarget: {fileID: 1340831007867134, guid: 7c4a2fb83cb104d4cb99c688096517c9, type: 2}
   m_GunHandle: {fileID: 1968094134794606}
   m_GunIndex: 1
   m_GunName: AK47
@@ -1021,7 +1021,7 @@ MonoBehaviour:
     SpecialSpeed: 0
   FastMoveCD: 3
   FastMoveDistance: 5
-  MoveSpeed: 5
+  MoveSpeed: 10
 --- !u!212 &212269769752376938
 SpriteRenderer:
   m_ObjectHideFlags: 1

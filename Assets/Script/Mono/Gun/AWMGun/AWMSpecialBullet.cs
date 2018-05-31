@@ -16,7 +16,7 @@ public class AWMSpecialBullet : Bullet {
 
 
     /// <summary>
-    /// todo 子弹穿透敌人（连续击打好多个敌人）
+    /// 子弹穿透敌人（连续击打好多个敌人）
     /// </summary>
     protected override void Vanish()
     {
@@ -63,6 +63,7 @@ public class AWMSpecialBullet : Bullet {
         }
     }
 
+    //todo 对敌人进行伤害，每个敌人伤害一次
     /// <summary>
     /// 正常造成伤害
     /// </summary>
