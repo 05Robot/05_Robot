@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3376340}
   - component: {fileID: 13573014}
   - component: {fileID: 114081478485973962}
+  - component: {fileID: 114870630703676546}
   m_Layer: 13
   m_Name: AK47NormalBullet
   m_TagString: Untagged
@@ -74,7 +75,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   layerMask:
     serializedVersion: 2
-    m_Bits: 4294908927
+    m_Bits: 4294777855
   RaycastAdvance: 1
   impactParticle: {fileID: 122632, guid: 6fb671374af826440a1491818a95ee9f, type: 2}
   impactParticleTime: 1
@@ -86,3 +87,19 @@ MonoBehaviour:
   isCoreAttack: 0
   coreAttributeBullet: 0
   bulletBelongTo: 0
+--- !u!114 &114870630703676546
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 184960}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6090da511f8374135a15dd8655adcd44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _recordingInterval: 0.5
+  _mode: 1
+  _globalClockKey: Player
+  _rewindable: 0
+  _recordingDuration: 30

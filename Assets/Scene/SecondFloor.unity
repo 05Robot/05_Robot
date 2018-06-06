@@ -359,6 +359,11 @@ Camera:
   m_PrefabParentObject: {fileID: 20488072099989188, guid: f2d6c77ebf30fb04c9dc1d13e9e30922,
     type: 2}
   m_PrefabInternal: {fileID: 1816715158}
+--- !u!1 &464132598 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1479695193447992, guid: f95f0462202c2114eb9d93f28b85532b,
+    type: 2}
+  m_PrefabInternal: {fileID: 892772857}
 --- !u!1 &529618469 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 1142622068838070, guid: f95f0462202c2114eb9d93f28b85532b,
@@ -381,6 +386,11 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 114909345839236510, guid: f95f0462202c2114eb9d93f28b85532b,
+        type: 2}
+      propertyPath: Sprites.Array.size
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 4237760354261850, guid: f95f0462202c2114eb9d93f28b85532b, type: 2}
       propertyPath: m_LocalPosition.x
       value: -12.36
@@ -443,6 +453,55 @@ Prefab:
       propertyPath: GunTarget
       value: 
       objectReference: {fileID: 683460790}
+    - target: {fileID: 1386349581598408, guid: f95f0462202c2114eb9d93f28b85532b, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1713984232179332, guid: f95f0462202c2114eb9d93f28b85532b, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114748779335171808, guid: f95f0462202c2114eb9d93f28b85532b,
+        type: 2}
+      propertyPath: GunTarget
+      value: 
+      objectReference: {fileID: 683460790}
+    - target: {fileID: 114909345839236510, guid: f95f0462202c2114eb9d93f28b85532b,
+        type: 2}
+      propertyPath: Sprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: fcf774f6a1cd73249b7da854299d85f7,
+        type: 3}
+    - target: {fileID: 114909345839236510, guid: f95f0462202c2114eb9d93f28b85532b,
+        type: 2}
+      propertyPath: Sprites.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300000, guid: b3f1a820b203cdc4dbb924504660b09e,
+        type: 3}
+    - target: {fileID: 114909345839236510, guid: f95f0462202c2114eb9d93f28b85532b,
+        type: 2}
+      propertyPath: Sprites.Array.data[2]
+      value: 
+      objectReference: {fileID: 21300000, guid: 750fc5db134d7b240a68717ad4065175,
+        type: 3}
+    - target: {fileID: 114909345839236510, guid: f95f0462202c2114eb9d93f28b85532b,
+        type: 2}
+      propertyPath: Sprites.Array.data[3]
+      value: 
+      objectReference: {fileID: 21300000, guid: db0f3cb739b628949b28ead3685d899e,
+        type: 3}
+    - target: {fileID: 114909345839236510, guid: f95f0462202c2114eb9d93f28b85532b,
+        type: 2}
+      propertyPath: Sprites.Array.data[4]
+      value: 
+      objectReference: {fileID: 21300000, guid: a8c85708aa5520547beb64df7a0c5524,
+        type: 3}
+    - target: {fileID: 114909345839236510, guid: f95f0462202c2114eb9d93f28b85532b,
+        type: 2}
+      propertyPath: Sprites.Array.data[5]
+      value: 
+      objectReference: {fileID: 21300000, guid: a174d3efa4f740a4c8b4f30f803252ef,
+        type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f95f0462202c2114eb9d93f28b85532b, type: 2}
   m_IsPrefabParent: 0
@@ -586,7 +645,7 @@ Prefab:
         type: 2}
       propertyPath: m_Hammer
       value: 
-      objectReference: {fileID: 1514282687}
+      objectReference: {fileID: 464132598}
     - target: {fileID: 114380427697345884, guid: f2d6c77ebf30fb04c9dc1d13e9e30922,
         type: 2}
       propertyPath: CameraTargets.Array.data[0].TargetTransform
@@ -601,6 +660,16 @@ Prefab:
         type: 2}
       propertyPath: far clip plane
       value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 114950180973307678, guid: f2d6c77ebf30fb04c9dc1d13e9e30922,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114457129821185670, guid: f2d6c77ebf30fb04c9dc1d13e9e30922,
+        type: 2}
+      propertyPath: LeftGunType.Array.data[0]
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f2d6c77ebf30fb04c9dc1d13e9e30922, type: 2}

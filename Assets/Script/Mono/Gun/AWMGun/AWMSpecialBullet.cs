@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class AWMSpecialBullet : Bullet {
 
+
     protected override void Awake()
     {
         base.Awake();
@@ -63,13 +64,48 @@ public class AWMSpecialBullet : Bullet {
         }
     }
 
-    //todo 对敌人进行伤害，每个敌人伤害一次
+    //对敌人进行伤害，每个敌人伤害一次
     /// <summary>
     /// 正常造成伤害
     /// </summary>
+    private bool HaveEnemyShield = false;
+    
     protected override void GenerateDemage()
     {
+        for (int i = 0; i < hitPoint.Length; i++)
+        {
+            switch (hitPoint[i].transform.gameObject.layer)
+            {
+                //击中敌人护盾
+                case 18:
+                    HaveEnemyShield = true;
+                    break;
+                //击中敌人内部
+                case 11:
+                    HaveEnemyShield = false;
+                    break;
+            }
 
+            //敌人有护盾//对敌人进行伤害（应该是扣mp）
+            if (HaveEnemyShield)
+            {
+
+            }
+            //敌人没有护盾//对敌人进行伤害（应该是扣hp）
+            else
+            {
+
+            }
+
+            if (LastHitPointID != hitPoint[i].transform.GetInstanceID())
+            {
+                LastHitPointID = hitPoint[i].transform.GetInstanceID();
+                //todo 进行伤害
+
+            }
+
+            HitPointIDHashSet.Add(hitPoint[i].transform.GetInstanceID());
+        }
     }
 
 }

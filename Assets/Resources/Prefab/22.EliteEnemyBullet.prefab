@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3369338}
   - component: {fileID: 13505662}
   - component: {fileID: 114467343620950106}
+  - component: {fileID: 114465089110778320}
   m_Layer: 14
   m_Name: 22.EliteEnemyBullet
   m_TagString: Untagged
@@ -61,6 +62,22 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 179554}
   m_IsPrefabParent: 1
+--- !u!114 &114465089110778320
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 179554}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6090da511f8374135a15dd8655adcd44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _recordingInterval: 0.5
+  _mode: 1
+  _globalClockKey: Enemy
+  _rewindable: 0
+  _recordingDuration: 30
 --- !u!114 &114467343620950106
 MonoBehaviour:
   m_ObjectHideFlags: 1

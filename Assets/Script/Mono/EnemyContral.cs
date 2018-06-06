@@ -26,6 +26,7 @@ namespace Assets.Script.Mono
         public float MoveSpeed=3;
         public EnemyRobot ER;
         public EnemyAi EAI;
+
     
         /// <summary>
         /// 是否可以控制
@@ -33,6 +34,7 @@ namespace Assets.Script.Mono
         /// 
         private bool _isContral = true;
 
+        public bool IsDead = false;
         private Vector2 Startpoint;
         [HideInInspector]
         public bool Contral
@@ -61,13 +63,13 @@ namespace Assets.Script.Mono
         }
 
         // Update is called once per frame
-         void FixedUpdate()
+         void Update()
         {
             if (AiStart)
             {
                 if (Contral)
                 {
-                    EAI.UpdateFixed();
+                    EAI.UpdateLogic();
 
                 }
             }
@@ -88,22 +90,63 @@ namespace Assets.Script.Mono
         IEnumerator WaiteToGoBack()
         {
             yield return new WaitForSeconds(SecondsToGoBack);
-            EAI.Move(Startpoint);
+            EAI.Move(Startpoint,ER.MoveSpeed);
 
         }
 
+        IEnumerator BeOutOfContral(float time)
+        {
+            Contral = false;
+            yield return new WaitForSeconds(time);
+            Contral = true;
+        }
         public void Dead()
         {
             GetComponent<BoxCollider2D>().enabled = false;
             //播放死亡动画
             AiStart = false;
             Contral = false;
+            IsDead = true;
         }
 
-        void StartAi()
+
+
+        #region 接口
+        void StartAi(bool isStart)
         {
-            AiStart = true;
+            AiStart = isStart;
+        }
+        /// <summary>
+        /// 真实伤害
+        /// </summary>
+        /// <param name="hpdamage"></param>
+        public void GetRealDamage(int hpdamage)
+        {
+            ER.GetReallyDamage(hpdamage);
+        }
+        /// <summary>
+        /// 设置硬直
+        /// </summary>
+        public void SetDelay(float seconds, int delayconfficient)
+        {
+            if (delayconfficient > ER.DelayCoefficient)
+            {
+                StartCoroutine(BeOutOfContral(seconds));
+            }
+        }
+        /// <summary>
+        /// 设置击退
+        /// </summary>
+        /// <param name="distance"></param>
+        public void SetKnockback(Vector2 diriction,float distance,int delayconfficient)
+        {
+            if (delayconfficient > ER.DelayCoefficient)
+            {
+                transform.Translate(((Vector2)transform.position - diriction).normalized * distance, Space.World);
+            }
+        
         }
 
+        #endregion
     }
 }

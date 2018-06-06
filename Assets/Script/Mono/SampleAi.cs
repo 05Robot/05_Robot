@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class SampleAi : EnemyAi {
 
-    public override void UpdateFixed()
+    public override void UpdateLogic()
     {
         //每帧判断玩家与本单位的距离，判断是否可以射击
         PlayerRobotContral prc = GameObject.FindObjectOfType<PlayerRobotContral>();
@@ -26,7 +26,7 @@ public class SampleAi : EnemyAi {
             float pos_y = UnityEngine.Random.Range(-MoveDistance, MoveDistance);
             Vector2 target = new Vector2(transform.position.x + pos_x, transform.position.y + pos_y);
             Debug.Log(target);
-            Move(target);
+            Move(target,EC.ER.MoveSpeed);
         }
 
     }
@@ -53,7 +53,7 @@ public class SampleAi : EnemyAi {
 
     }
 
-    public override void Move(Vector2 target)
+    public override void Move(Vector2 target,float seppd)
     {
       
         //射线检测是否有障碍物
@@ -64,47 +64,18 @@ public class SampleAi : EnemyAi {
             if (rh.transform.gameObject.layer == 10 || rh.transform.gameObject.layer == 12)
             {
                 target = (Vector2)EC.transform.position + target.normalized * (Vector2.Distance(EC.transform.position, rh.point) - 1);
-                EC.StartCoroutine(WaiteForMoveCD(target));
+                EC.StartCoroutine(WaiteForMoveCD(target, seppd));
                 break;
             }
         }
-        EC.StartCoroutine(WaiteForMoveCD(target));
+        EC.StartCoroutine(WaiteForMoveCD(target, seppd));
 
 
     }
 
-    IEnumerator WaiteForShootCD()
-    {
-        IsShootCD = true;
-        yield return new WaitForSeconds(ShootCD);
-        IsShootCD = false;
-    }
-    IEnumerator WaiteForMoveCD(Vector2 target)
-    {
-        IsMoveCD = true;
 
-        // DateTime dt = DateTime.Now;
-        while (Vector2.Distance(EC.transform.position, target) > 1)
-        {
-            if (!EC.Contral)
-                break;
 
-            EC.transform.position = Vector3.MoveTowards(EC.transform.position, target, EC.ER.MoveSpeed * Time.fixedDeltaTime);
-            //if ((DateTime.Now - dt).Seconds > 5)
-            //    break;
-            yield return 0;
-        }
-        Debug.Log("enemy move over");
-        yield return new WaitForSeconds(MoveCD);
-        IsMoveCD = false;
-    }
-
-    IEnumerator BeOutOfContral(float time)
-    {
-        EC.Contral = false;
-        yield return new WaitForSeconds(time);
-        EC.Contral = true;
-    }
+   
 
 	
 }

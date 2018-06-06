@@ -97,6 +97,7 @@ GameObject:
   - component: {fileID: 19915652}
   - component: {fileID: 8217334}
   - component: {fileID: 114305140484472556}
+  - component: {fileID: 114036607470828194}
   m_Layer: 0
   m_Name: 1.AmethystCoreImpact
   m_TagString: Untagged
@@ -23720,6 +23721,22 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 154236}
   m_IsPrefabParent: 1
+--- !u!114 &114036607470828194
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 154236}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6090da511f8374135a15dd8655adcd44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _recordingInterval: 0.5
+  _mode: 1
+  _globalClockKey: Player
+  _rewindable: 0
+  _recordingDuration: 30
 --- !u!114 &114305140484472556
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Chronos;
 using UnityEngine;
 /*********************************************************************
 ****	作者 ZMK 
@@ -64,13 +65,19 @@ public abstract class Bullet : MonoBehaviour
 
     [SerializeField] private LayerMask layerMask;//检测层
     [SerializeField] private float RaycastAdvance = 2f;// 射线检测距离
-    private Ray hitRay;//击中的射线
-    private RaycastHit2D hitPoint;// 击中的目标信息
+    //private Ray hitRay;//击中的射线
+    protected RaycastHit2D[] hitPoint;// 击中的目标信息
+    protected int LastHitPointID = -1;//击中的物体的ID
+    protected HashSet<int> HitPointIDHashSet;//击中的物体的ID集合
     #endregion
 
     #region 子弹自身组件
     //protected PolygonCollider2D mPolygonCollider2D;
     //protected Rigidbody Rigidbody;
+    public Timeline Time
+    {
+        get { return GetComponent<Timeline>(); }
+    }
     #endregion
 
     #region 子弹样式
@@ -94,6 +101,8 @@ public abstract class Bullet : MonoBehaviour
     [SerializeField] private CoreAttribute coreAttributeBullet;
     [SerializeField] private BulletBelongTo bulletBelongTo = BulletBelongTo.Player;
     #endregion
+
+
 
     //子弹创建初始化
     protected virtual void Awake()
@@ -134,6 +143,8 @@ public abstract class Bullet : MonoBehaviour
         StartFly = Flying = true;
         //isCoreAttack = s_isCoreAttack;
         //coreAttributeBullet = s_coreAttributeBullet;
+        LastHitPointID = -1;
+        HitPointIDHashSet = new HashSet<int>();
 
         switch (bulletBelongTo)
         {
@@ -209,15 +220,18 @@ public abstract class Bullet : MonoBehaviour
         Vector2 origin = new Vector2(transform.position.x, transform.position.y);
         Vector2 direction = new Vector2(-transform.right.x, -transform.right.y);
 
-        hitPoint = Physics2D.Raycast(origin, direction, step.magnitude * RaycastAdvance, layerMask);
-            
-        if (hitPoint.transform != null)
+        hitPoint = Physics2D.RaycastAll(origin, direction, step.magnitude * RaycastAdvance, layerMask);
+
+        for (int i = 0; i < hitPoint.Length; i++)
         {
-            if (!StartOnCollisionEnter)
+            if (hitPoint[i].transform != null)
             {
-                StartOnCollisionEnter = true;
-                //击中创建爆炸效果
-                GenerateExplosionEffect();
+                if (!StartOnCollisionEnter)
+                {
+                    StartOnCollisionEnter = true;
+                    //击中创建爆炸效果
+                    GenerateExplosionEffect();
+                }
             }
         }
     }
@@ -227,9 +241,12 @@ public abstract class Bullet : MonoBehaviour
     /// </summary>
     protected void GenerateExplosionEffect()
     {
-        impactParticle = ObjectPool.Instance.Spawn(m_ObjectPoolName + impactParticleName);
-        impactParticle.transform.position = transform.position;
-        impactParticle.transform.rotation = Quaternion.FromToRotation(-transform.right, hitPoint.normal);
+        for (int i = 0; i < hitPoint.Length; i++)
+        {
+            impactParticle = ObjectPool.Instance.Spawn(m_ObjectPoolName + impactParticleName);
+            impactParticle.transform.position = transform.position;
+            impactParticle.transform.rotation = Quaternion.FromToRotation(-transform.right, hitPoint[i].normal);
+        }
 
         /*foreach (GameObject trail in trailParticles)
         {
@@ -281,13 +298,40 @@ public abstract class Bullet : MonoBehaviour
 
     /// <summary>
     /// 普通攻击  碰撞后产生伤害
+    /// todo 打在护盾上或者是人物身上
     /// </summary>
     protected virtual void GenerateDemage()
     {
-        //todo 普通子弹造成的基本伤害
+        for (int i = 0; i < hitPoint.Length; i++)
+        {
+            switch (hitPoint[i].transform.gameObject.layer)
+            {
+                //击中玩家护盾
+                case 17:
+                    //对玩家进行伤害（应该是扣mp）
+                    //hitPoint.transform.GetComponent<ShieldProtect>().ProtectAimGameObject.GetComponent<PlayerRobotContral>().
+                    break;
+                //击中玩家内部
+                case 10:
+                    //对玩家进行伤害（应该是扣hp）
+                    break;
+                //击中敌人护盾
+                case 18:
+                    //对敌人进行伤害（应该是扣mp）
+                    break;
+                //击中敌人内部
+                case 11:
+                    //对敌人进行伤害（应该是扣hp）
+                    break;
+            }
+
+            //todo 普通子弹造成的基本伤害
 
 
-        //todo CoreAttribute CurrentCoreAttribute
-        //todo 不同的核心产生不同的AOE伤害 + 附加状态 + 持续伤害/速度/无视Mp
+            //todo CoreAttribute CurrentCoreAttribute
+            //todo 不同的核心产生不同的AOE伤害 + 附加状态 + 持续伤害/速度/无视Mp
+        }
+
+
     }
 }

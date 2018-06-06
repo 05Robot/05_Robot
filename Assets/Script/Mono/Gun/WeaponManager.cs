@@ -120,7 +120,7 @@ public class WeaponManager : Singleton<WeaponManager>
             {GunType.RocketGun, m_RocketGun},
             {GunType.AWMGun, m_AWMGun},
             {GunType.Sword, m_Sword},
-            // {GunType.Hammer, m_Hammer}
+            {GunType.Hammer, m_Hammer}
         };
         //脚本获取------ todo 可能出错，待定
         m_Ak47GunC = m_AK47Gun.GetComponent<AK47GunC>();
@@ -129,7 +129,7 @@ public class WeaponManager : Singleton<WeaponManager>
         m_RocketGunC = m_RocketGun.GetComponent<RocketGunC>();
         m_AWMGunC = m_AWMGun.GetComponent<AWMGunC>();
         m_SwordGunC = m_Sword.GetComponent<SwordGunC>();
-      //  m_HammerGunC = m_Hammer.GetComponent<HammerGunC>();
+        m_HammerGunC = m_Hammer.GetComponent<HammerGunC>();
         AllGunCDic = new Dictionary<GunType, GunC>
         {
             {GunType.AK47Gun, m_Ak47GunC},
@@ -138,7 +138,7 @@ public class WeaponManager : Singleton<WeaponManager>
             {GunType.RocketGun, m_RocketGunC},
             {GunType.AWMGun, m_AWMGunC},
             {GunType.Sword, m_SwordGunC},
-            // {GunType.Hammer, m_HammerGunC}
+            {GunType.Hammer, m_HammerGunC}
         };
         //所有抢设为不可见
         foreach (var keyValuePair in AllGunCDic)

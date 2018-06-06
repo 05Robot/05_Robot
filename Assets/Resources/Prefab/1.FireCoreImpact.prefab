@@ -46,6 +46,7 @@ GameObject:
   - component: {fileID: 19927030}
   - component: {fileID: 8263042}
   - component: {fileID: 114221158767216184}
+  - component: {fileID: 114178043256291356}
   m_Layer: 0
   m_Name: 1.FireCoreImpact
   m_TagString: Untagged
@@ -23720,6 +23721,22 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 134082}
   m_IsPrefabParent: 1
+--- !u!114 &114178043256291356
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 134082}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6090da511f8374135a15dd8655adcd44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _recordingInterval: 0.5
+  _mode: 1
+  _globalClockKey: Player
+  _rewindable: 0
+  _recordingDuration: 30
 --- !u!114 &114221158767216184
 MonoBehaviour:
   m_ObjectHideFlags: 1

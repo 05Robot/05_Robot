@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3382366}
   - component: {fileID: 13595516}
   - component: {fileID: 114658658687211666}
+  - component: {fileID: 114037119149489524}
   m_Layer: 13
   m_Name: Ak47SpecialBullet
   m_TagString: Untagged
@@ -61,6 +62,22 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 158282}
   m_IsPrefabParent: 1
+--- !u!114 &114037119149489524
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 158282}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6090da511f8374135a15dd8655adcd44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _recordingInterval: 0.5
+  _mode: 1
+  _globalClockKey: Player
+  _rewindable: 0
+  _recordingDuration: 30
 --- !u!114 &114658658687211666
 MonoBehaviour:
   m_ObjectHideFlags: 1

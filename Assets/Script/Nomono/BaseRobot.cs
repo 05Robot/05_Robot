@@ -32,7 +32,8 @@ namespace Assets.Script
         public int CurrentHp;
         [HideInInspector]
         public int CurrentMp;
-     
+        [HideInInspector]
+        public int DelayCoefficient=3;
         [HideInInspector]
         public Action SecondAction;
         [HideInInspector]

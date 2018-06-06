@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4936937260392806}
   - component: {fileID: 198577495091202096}
   - component: {fileID: 199341875985940036}
+  - component: {fileID: 114899335118200334}
   m_Layer: 13
   m_Name: BlueBuff
   m_TagString: Untagged
@@ -210,6 +211,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotateVector: {x: 0, y: 0, z: 240}
   rotateSpace: 0
+--- !u!114 &114899335118200334
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1011810777255150}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6090da511f8374135a15dd8655adcd44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _recordingInterval: 0.5
+  _mode: 1
+  _globalClockKey: Player
+  _rewindable: 0
+  _recordingDuration: 30
 --- !u!198 &198132679787312460
 ParticleSystem:
   m_ObjectHideFlags: 1

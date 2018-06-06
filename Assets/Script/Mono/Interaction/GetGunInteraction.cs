@@ -35,7 +35,7 @@ public class GetGunInteraction : InteractionCheckBase
     protected override void OnTriggerStay2D(Collider2D other)
     {
         base.OnTriggerStay2D(other);
-        GunTip.SetActive(true);
+        if(ifInInteractionRange)GunTip.SetActive(true);
     }
 
     /// <summary>
@@ -45,7 +45,7 @@ public class GetGunInteraction : InteractionCheckBase
     protected override void OnTriggerExit2D(Collider2D other)
     {
         base.OnTriggerExit2D(other);
-        GunTip.SetActive(false);
+        if(!ifInInteractionRange) GunTip.SetActive(false);
 
 
     }

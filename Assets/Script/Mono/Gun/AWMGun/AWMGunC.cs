@@ -39,10 +39,14 @@ public class AWMGunC : GunC
     [Rename("特殊攻击是否可用")] [SerializeField] private bool m_SpecialEnable;
     #endregion
 
+    //蓄能攻击特效
+    private GameObject BlueEnergyEffect;
+
     protected override void Awake()
     {
         base.Awake();
         SaveGunSpecialData();
+        BlueEnergyEffect = m_player.transform.Find("BlueEnergyEffect").gameObject;
     }
 
     protected override void Update()
@@ -74,6 +78,8 @@ public class AWMGunC : GunC
             CanFire = true;
             //瞄准Target数值变换
             Target.Instance.ChangeTargetSlider(Gun_Data.MaxEnergyTime, base.LeftEnergyTime);
+            //蓄能特效生成
+            BlueEnergyEffect.SetActive(true);
         }
         else//如果不能射击
         {
@@ -101,6 +107,9 @@ public class AWMGunC : GunC
         //-------------------------------------------------------
         //开始计时
         StartCoroutine(ShotCD());
+        //-------------------------------------------------------
+        //蓄能特效消失
+        BlueEnergyEffect.SetActive(false);
         //-------------------------------------------------------
         //生成子弹（调整位置与角度）
         WeaponManager.Instance.GenerateNormalButton(Gun_Data.Buttle.name,

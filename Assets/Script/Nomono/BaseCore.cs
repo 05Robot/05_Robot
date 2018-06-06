@@ -48,8 +48,8 @@ namespace Assets.Script
         public readonly string Name;
         public readonly string Discription;
         public readonly int TotalPoint;
-        protected readonly int MaxHp;
-        protected readonly int MinHp;
+        public readonly int MaxHp;
+        public readonly int MinHp;
         public int CurrentHpPoint;
 
 

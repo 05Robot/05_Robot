@@ -39,6 +39,7 @@ public class SwordGunC : GunC
 
     [Header("--特殊信息--")]
     [Rename("剑影")][SerializeField]private MeleeWeaponTrail SwordTrail;
+    [Header("特殊攻击能够穿过的对象")]
     [SerializeField] private LayerMask AttackLayer;
     private bool SwordGunNormalAttacking = false;//是否攻击中
 
@@ -63,10 +64,10 @@ public class SwordGunC : GunC
     {
         base.Update();
 
-        if (Gun_Data.Enable)
-            SwordTrail.Use = true;
+        if (SwordGunNormalAttacking && (Gun_Data.Enable || Gun_Data.SpecialEnable))
+            SwordTrail.Emit = true;
         else
-            SwordTrail.Use = false;
+            SwordTrail.Emit = false;
     }
     protected override void FixedUpdate()
     {
@@ -231,7 +232,6 @@ public class SwordGunC : GunC
                 StartToSpecialAttack(AttackDirection.ClockWise);
                 break;
         }
-
         //角色MPHP减少
         PlayerMPHPChange((int)Gun_Data.SpecialComsumeMP, 0);
     }
@@ -325,6 +325,10 @@ public class SwordGunC : GunC
         //开启武器旋转控制
         GunRotateControl = true;
         //todo 剑回到当前手上（结合玩家方向），WeaponManager
+
+        //-------------------------------------------------------
+        //隐藏剑
+        WeaponManager.Instance.SpecialGunToNormalGun();
     }
 
     #region 右键特殊攻击CD判断

@@ -34,7 +34,7 @@ public class HockContral : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
         if (isEnable)
         {
@@ -47,7 +47,7 @@ public class HockContral : MonoBehaviour
                     isRetern = true;
                     return;
                 }
-                transform.Translate(Direction * Speed * Time.fixedDeltaTime,Space.World);
+                transform.Translate(Direction * Speed * Time.deltaTime, Space.World);
             }
             else  
             {
@@ -64,7 +64,7 @@ public class HockContral : MonoBehaviour
                     }
                     else
                     {
-                        transform.Translate(-Direction * Speed * Time.fixedDeltaTime, Space.World);
+                        transform.Translate(-Direction * Speed * Time.deltaTime, Space.World);
                     }
                    
                 }
@@ -79,8 +79,8 @@ public class HockContral : MonoBehaviour
                     }
                     else
                     {
-                        transform.Translate(-Direction * Speed * Time.fixedDeltaTime, Space.World);
-                        target.transform.Translate(-Direction * Speed * Time.fixedDeltaTime, Space.World);
+                        transform.Translate(-Direction * Speed * Time.deltaTime, Space.World);
+                        target.transform.Translate(-Direction * Speed * Time.deltaTime, Space.World);
                     }
                 }
                 else if(target.layer == 12)
@@ -93,7 +93,7 @@ public class HockContral : MonoBehaviour
                         SetEnable(false);
                     }
                     else
-                        PRC.transform.Translate(Direction * Speed * Time.fixedDeltaTime, Space.World);
+                        PRC.transform.Translate(Direction * Speed * Time.deltaTime, Space.World);
                     
                 }
                 

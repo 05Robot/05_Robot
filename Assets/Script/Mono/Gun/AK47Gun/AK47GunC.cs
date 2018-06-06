@@ -35,10 +35,15 @@ public class AK47GunC : GunC  {
     //特殊攻击是否可用/开启
     [Rename("特殊攻击是否可用")][SerializeField] private bool m_SpecialEnable;
     #endregion
+
+    //蓄能攻击特效
+    private GameObject BlueEnergyEffect;
+
     protected override void Awake()
     {
         base.Awake();
         SaveGunSpecialData();
+        BlueEnergyEffect = m_player.transform.Find("BlueEnergyEffect").gameObject;
     }
     protected override void Update()
     {
@@ -80,6 +85,8 @@ public class AK47GunC : GunC  {
             CanFire = true;
             //更新蓄能时间条
             Target.Instance.ChangeTargetSlider(Gun_Data.SpecialMaxEnergyTime, base.RightEnergyTime);
+            //蓄能特效生成
+            BlueEnergyEffect.SetActive(true);
         }
         else//如果不能射击
         {
@@ -110,6 +117,9 @@ public class AK47GunC : GunC  {
         //-------------------------------------------------------
         //开始计时
         StartCoroutine(SpecialShotCD());
+        //-------------------------------------------------------
+        //蓄能特效消失
+        BlueEnergyEffect.SetActive(false);
         //-------------------------------------------------------
         WeaponManager.Instance.SpecialGunToNormalGun();
         //-------------------------------------------------------

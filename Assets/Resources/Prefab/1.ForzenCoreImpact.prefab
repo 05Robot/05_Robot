@@ -46,6 +46,7 @@ GameObject:
   - component: {fileID: 19935962}
   - component: {fileID: 8250280}
   - component: {fileID: 114219001106943586}
+  - component: {fileID: 114268074128840984}
   m_Layer: 0
   m_Name: 1.ForzenCoreImpact
   m_TagString: Untagged
@@ -23731,3 +23732,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b88c4400b6fb5f4ab2438b0237c2fb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114268074128840984
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 134280}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6090da511f8374135a15dd8655adcd44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _recordingInterval: 0.5
+  _mode: 1
+  _globalClockKey: Player
+  _rewindable: 0
+  _recordingDuration: 30
