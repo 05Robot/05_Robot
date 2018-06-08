@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Assets.Script.Nomono;
+using Chronos;
 using UnityEngine;
 
 public class SampleAi : EnemyAi {
@@ -8,7 +9,7 @@ public class SampleAi : EnemyAi {
     public override void UpdateLogic()
     {
         //每帧判断玩家与本单位的距离，判断是否可以射击
-        PlayerRobotContral prc = GameObject.FindObjectOfType<PlayerRobotContral>();
+        //PlayerRobotContral prc = GameObject.FindObjectOfType<PlayerRobotContral>();
         if (Mathf.Abs(Vector2.Distance(EC.transform.position, prc.transform.position)) < AttentionDistence)
         {
             if (!IsShootCD)
@@ -21,11 +22,22 @@ public class SampleAi : EnemyAi {
 
         if (!IsMoveCD)
         {
-            //随机找一点
-            float pos_x = UnityEngine.Random.Range(-MoveDistance, MoveDistance);
-            float pos_y = UnityEngine.Random.Range(-MoveDistance, MoveDistance);
+            //随机找一点，要求在靠近玩家
+            float pos_x;
+            float pos_y;
+            if (transform.position.x-prc.transform.position.x>0)
+            {
+                 pos_x = UnityEngine.Random.Range(-MoveDistance, 0);
+                 pos_y = UnityEngine.Random.Range(-MoveDistance, MoveDistance);
+            }
+            else
+            {
+                 pos_x = UnityEngine.Random.Range(0, MoveDistance);
+                 pos_y = UnityEngine.Random.Range(-MoveDistance, MoveDistance);
+            }
+           
             Vector2 target = new Vector2(transform.position.x + pos_x, transform.position.y + pos_y);
-            Debug.Log(target);
+           // Debug.Log(target);
             Move(target,EC.ER.MoveSpeed);
         }
 
@@ -53,7 +65,7 @@ public class SampleAi : EnemyAi {
 
     }
 
-    public override void Move(Vector2 target,float seppd)
+    public override void Move(Vector2 target,float speed)
     {
       
         //射线检测是否有障碍物
@@ -64,18 +76,21 @@ public class SampleAi : EnemyAi {
             if (rh.transform.gameObject.layer == 10 || rh.transform.gameObject.layer == 12)
             {
                 target = (Vector2)EC.transform.position + target.normalized * (Vector2.Distance(EC.transform.position, rh.point) - 1);
-                EC.StartCoroutine(WaiteForMoveCD(target, seppd));
+                EC.StartCoroutine(WaiteForMoveCD(target, speed));
                 break;
             }
         }
-        EC.StartCoroutine(WaiteForMoveCD(target, seppd));
+        EC.StartCoroutine(WaiteForMoveCD(target, speed));
 
 
     }
 
 
+    public Timeline Time
+    {
+        get { return GetComponent<Timeline>(); }
+    }
 
-   
 
-	
+
 }

@@ -6,14 +6,14 @@ using UnityEngine;
 
 public enum GunType//枪种类
 {
-    Null = 0,//没有枪
-    AK47Gun = 1,//突击步枪
-    RevolverGun = 2,//左轮
-    ShotGun = 3,//霰弹枪
-    RocketGun = 4,//火箭筒
-    AWMGun = 5,//狙击枪
-    Sword = 6,//剑
-    Hammer = 7//锤子
+    Null = 7,//没有枪
+    AK47Gun = 0,//突击步枪
+    RevolverGun = 1,//左轮
+    ShotGun = 2,//霰弹枪
+    RocketGun = 6,//火箭筒
+    AWMGun = 3,//狙击枪
+    Sword = 4,//剑
+    Hammer = 5//锤子
 }
 /// <summary>
 /// 左手为主武器，右手为特殊武器
@@ -76,9 +76,13 @@ public class WeaponManager : Singleton<WeaponManager>
     #endregion
 
     #region 与主角角色属性有关
+    private PlayerRobotContral m_PlayerRobotContral;
     private BloodConsumeState m_CurrentBloodConsumeState = BloodConsumeState.Mp;//消耗状态
     private UseLeftOrRightGun m_CurrentUseGunis = UseLeftOrRightGun.LeftGun;//当前用的是左手右手
-    [Header("--有关核心--")]public CoreAttribute m_CurrentCoreAttribute = CoreAttribute.Null;//当前核心状态
+    [Header("--有关核心--")]
+    //public CoreAttribute m_CurrentCoreAttribute = CoreAttribute.Null;//当前核心状态
+    public BaseCore m_CurrentBaseCore = null;//当前核心状态
+
     [SerializeField] private GameObject[] m_CoreBullet;//核心攻击子弹
     [SerializeField] private GameObject[] m_WeaponPos;//各个武器位置
     #endregion
@@ -174,6 +178,8 @@ public class WeaponManager : Singleton<WeaponManager>
         //m_CurrentRightGunType = RightGunType;
         #endregion
 
+        //获取人物控制
+        m_PlayerRobotContral = GameObject.FindWithTag("Player").GetComponent<PlayerRobotContral>();
 
         //todo 读取xml文件
     }
@@ -361,11 +367,10 @@ public class WeaponManager : Singleton<WeaponManager>
             return;
         }
 
-        //todo 判断当前血条状态(调用外部进行判断)
         BloodConsumeState newBloodConsumeState = BloodConsumeState.Mp;
-        //if(){IfSpecialGunCanUse赋值}
-
-
+        //判断当前血条状态(调用外部进行判断)
+        //当前不用核心，即当前消耗的是MP，如果核心不为空，即当前小号的是HP
+        newBloodConsumeState = m_CurrentBaseCore == null ? BloodConsumeState.Mp : BloodConsumeState.Hp;
 
         //对不同消耗状态进行操作
         //【特殊武器 在消耗Hp情况下不能攻击】
@@ -392,8 +397,34 @@ public class WeaponManager : Singleton<WeaponManager>
     /// <param name="currentCore">角色当前的核心</param>
     public void CoreChangeLister(BaseCore currentCore)
     {
-        //todo  判断当前核心 修改伤害加成比例
-        //todo 为m_CurrentCoreAttribute赋值
+        m_CurrentBaseCore = currentCore;
+
+        //当前不使用核心
+        if (m_CurrentBaseCore == null)
+            ChangeButtleDemagePercent(0.0f);
+        else
+        {
+            //当前使用核心
+            switch (m_CurrentBaseCore.Element)
+            {
+                //普通核心
+                case BaseCore.CoreElement.Primary:
+                    ChangeButtleDemagePercent(0.1f);
+                    break;
+                //火焰核心
+                case BaseCore.CoreElement.Fire:
+                    ChangeButtleDemagePercent(0.1f);
+                    break;
+                //冰冻核心
+                case BaseCore.CoreElement.Ice:
+                    ChangeButtleDemagePercent(0.2f);
+                    break;
+                //紫水晶
+                case BaseCore.CoreElement.Amethyst:
+                    ChangeButtleDemagePercent(0.4f);
+                    break;
+            }
+        }
     }
 
     /// <summary>
@@ -507,6 +538,7 @@ public class WeaponManager : Singleton<WeaponManager>
     /// <param name="durationTime">持续时间</param>
     public void ChangeButtleDemagePercent(float offsetPercent, int durationTime = 0)
     {
+        m_CurrentButtleDemagePercent = 1;
         m_CurrentButtleDemagePercent += offsetPercent;
         if (durationTime != 0)
         {
@@ -634,22 +666,28 @@ public class WeaponManager : Singleton<WeaponManager>
         }
         //【判断当前是否核心攻击】
         string currentBulletName = "Bullet/" + currentGunType + "/" + ButtleName;
-        switch (m_CurrentCoreAttribute)
+        CoreAttribute currentCoreAttribute = CoreAttribute.Initial;
+        if (m_CurrentBaseCore != null)
         {
-            case CoreAttribute.Null:
-                break;
-            case CoreAttribute.Initial:
-                currentBulletName = "Bullet/Core/" + m_CurrentCoreAttribute + "/" + m_CoreBullet[0].name;
-                break;
-            case CoreAttribute.Fire:
-                currentBulletName = "Bullet/Core/" + m_CurrentCoreAttribute + "/" + m_CoreBullet[1].name;
-                break;
-            case CoreAttribute.Amethyst:
-                currentBulletName = "Bullet/Core/" + m_CurrentCoreAttribute + "/" + m_CoreBullet[2].name;
-                break;
-            case CoreAttribute.Frozen:
-                currentBulletName = "Bullet/Core/" + m_CurrentCoreAttribute + "/" + m_CoreBullet[3].name;
-                break;
+            switch (m_CurrentBaseCore.Element)
+            {
+                case BaseCore.CoreElement.Primary:
+                    currentBulletName = "Bullet/Core/Initial/" + m_CoreBullet[0].name;
+                    currentCoreAttribute = CoreAttribute.Initial;
+                    break;
+                case BaseCore.CoreElement.Fire:
+                    currentBulletName = "Bullet/Core/Fire/" + m_CoreBullet[1].name;
+                    currentCoreAttribute = CoreAttribute.Fire;
+                    break;
+                case BaseCore.CoreElement.Amethyst:
+                    currentBulletName = "Bullet/Core/Amethyst/" + m_CoreBullet[2].name;
+                    currentCoreAttribute = CoreAttribute.Amethyst;
+                    break;
+                case BaseCore.CoreElement.Ice:
+                    currentBulletName = "Bullet/Core/Frozen/" + m_CoreBullet[3].name;
+                    currentCoreAttribute = CoreAttribute.Frozen;
+                    break;
+            }
         }
         //currentBulletName = ButtleName;//敌人子弹测试
         GameObject buttleGameObject = ObjectPool.Instance.Spawn(currentBulletName);
@@ -659,7 +697,7 @@ public class WeaponManager : Singleton<WeaponManager>
         //子弹数据填充
         Bullet buttle = buttleGameObject.GetComponent<Bullet>();
         float currentDeamge = DemageNums * m_CurrentButtleDemagePercent;//伤害比例加成
-        buttle.BulletStart(ButtleSpeed, AttackDistance, currentDeamge, currentGunType.ToString());
+        buttle.BulletStart(ButtleSpeed, AttackDistance, currentDeamge, currentGunType.ToString(), currentCoreAttribute);
         
         //更新当前使用左/右手
         m_CurrentUseGunis = UseLeftOrRightGun.LeftGun;
@@ -720,7 +758,7 @@ public class WeaponManager : Singleton<WeaponManager>
     /// <param name="newGunType"></param>
     public void GetGun(GunType newGunType)
     {
-        if (newGunType == 0) return;
+        if ((int)newGunType == 7) return;
 
         switch (newGunType)
         {

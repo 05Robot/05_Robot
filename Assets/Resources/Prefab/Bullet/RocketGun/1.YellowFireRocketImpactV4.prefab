@@ -10,7 +10,7 @@ GameObject:
   - component: {fileID: 416364}
   - component: {fileID: 19825220}
   - component: {fileID: 19935270}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Smoke
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27,7 +27,7 @@ GameObject:
   - component: {fileID: 428336}
   - component: {fileID: 19807376}
   - component: {fileID: 19919820}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: EmberDeath
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44,7 +44,7 @@ GameObject:
   - component: {fileID: 413148}
   - component: {fileID: 19837312}
   - component: {fileID: 19971364}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Embers
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -61,7 +61,7 @@ GameObject:
   - component: {fileID: 458496}
   - component: {fileID: 10831018}
   - component: {fileID: 11432118}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Point light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -78,7 +78,7 @@ GameObject:
   - component: {fileID: 413004}
   - component: {fileID: 19822722}
   - component: {fileID: 19979458}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Glow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 480202}
   - component: {fileID: 19891034}
   - component: {fileID: 19998256}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: TrailedEmbers
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -113,7 +113,8 @@ GameObject:
   - component: {fileID: 19846312}
   - component: {fileID: 19941168}
   - component: {fileID: 8215498}
-  m_Layer: 0
+  - component: {fileID: 114848217257268326}
+  m_Layer: 13
   m_Name: 1.YellowFireRocketImpactV4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -130,7 +131,7 @@ GameObject:
   - component: {fileID: 491360}
   - component: {fileID: 19850180}
   - component: {fileID: 19982936}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: SmokeTrail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23719,3 +23720,19 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 167312}
   m_IsPrefabParent: 1
+--- !u!114 &114848217257268326
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 167312}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6090da511f8374135a15dd8655adcd44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _recordingInterval: 0.5
+  _mode: 1
+  _globalClockKey: Player
+  _rewindable: 0
+  _recordingDuration: 30

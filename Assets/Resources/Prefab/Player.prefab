@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4943412059100862}
   - component: {fileID: 198885448741313532}
   - component: {fileID: 199525292064431722}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Lightning
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -51,7 +51,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4044229546415260}
-  m_Layer: 15
+  m_Layer: 10
   m_Name: base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -66,7 +66,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4073634926592536}
-  m_Layer: 15
+  m_Layer: 10
   m_Name: tip
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -81,7 +81,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4296670992929472}
-  m_Layer: 15
+  m_Layer: 10
   m_Name: Handle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -96,7 +96,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4556859401171198}
-  m_Layer: 15
+  m_Layer: 10
   m_Name: Handle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -113,7 +113,7 @@ GameObject:
   - component: {fileID: 4020666896806928}
   - component: {fileID: 212982836349139806}
   - component: {fileID: 114846290794749802}
-  m_Layer: 15
+  m_Layer: 10
   m_Name: AK47_Gun
   m_TagString: PlayerGun
   m_Icon: {fileID: 2974397684917235467, guid: 0000000000000000d000000000000000, type: 0}
@@ -130,7 +130,7 @@ GameObject:
   - component: {fileID: 4620923764007028}
   - component: {fileID: 198503429400577818}
   - component: {fileID: 199083126665698786}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Glow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -148,7 +148,7 @@ GameObject:
   - component: {fileID: 198902902122562826}
   - component: {fileID: 199258620192757368}
   - component: {fileID: 114765993297336202}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Particles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -178,7 +178,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4363283375753996}
-  m_Layer: 15
+  m_Layer: 10
   m_Name: Handle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -193,7 +193,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4120651099930404}
-  m_Layer: 15
+  m_Layer: 10
   m_Name: Handle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -211,7 +211,7 @@ GameObject:
   - component: {fileID: 198792686688483154}
   - component: {fileID: 199385871459427022}
   - component: {fileID: 96921863986486716}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: RedJetFlame
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -226,7 +226,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4725153935436900}
-  m_Layer: 15
+  m_Layer: 10
   m_Name: Muzzle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -258,7 +258,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4840089323893232}
-  m_Layer: 15
+  m_Layer: 10
   m_Name: Muzzle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -274,8 +274,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4078039894758900}
   - component: {fileID: 114886288424250860}
-  m_Layer: 13
-  m_Name: 0.PlaySprintLightEffect
+  m_Layer: 10
+  m_Name: FastMove
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -291,7 +291,7 @@ GameObject:
   - component: {fileID: 4065975578559928}
   - component: {fileID: 198331996591028998}
   - component: {fileID: 199134455614816602}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: RedEnergyEffect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -306,13 +306,13 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4923539922265458}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: RedDashEffect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1399651561922012
 GameObject:
   m_ObjectHideFlags: 0
@@ -323,7 +323,7 @@ GameObject:
   - component: {fileID: 4259548101240392}
   - component: {fileID: 212761628997381100}
   - component: {fileID: 114298211601763666}
-  m_Layer: 15
+  m_Layer: 10
   m_Name: Revolver_Gun
   m_TagString: PlayerGun
   m_Icon: {fileID: 3936346786652291628, guid: 0000000000000000d000000000000000, type: 0}
@@ -338,7 +338,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4607055715182088}
-  m_Layer: 15
+  m_Layer: 10
   m_Name: Muzzle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -357,9 +357,10 @@ GameObject:
   - component: {fileID: 114909345839236510}
   - component: {fileID: 50228245066102888}
   - component: {fileID: 61041558737610958}
+  - component: {fileID: 114517881233413678}
   m_Layer: 10
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -372,7 +373,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4287029101303954}
-  m_Layer: 15
+  m_Layer: 10
   m_Name: SwordTrail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -395,7 +396,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1473317305521134
 GameObject:
   m_ObjectHideFlags: 1
@@ -406,7 +407,7 @@ GameObject:
   - component: {fileID: 4395938458451024}
   - component: {fileID: 198832801114453130}
   - component: {fileID: 199534556996238540}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Lightning
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -425,7 +426,7 @@ GameObject:
   - component: {fileID: 114748779335171808}
   - component: {fileID: 70638976780108414}
   - component: {fileID: 114984638369386916}
-  m_Layer: 15
+  m_Layer: 10
   m_Name: Hammer_Gun
   m_TagString: PlayerGun
   m_Icon: {fileID: 419385456094870383, guid: 0000000000000000d000000000000000, type: 0}
@@ -442,7 +443,7 @@ GameObject:
   - component: {fileID: 4755018735745672}
   - component: {fileID: 212469369827336992}
   - component: {fileID: 114531286818892384}
-  m_Layer: 15
+  m_Layer: 10
   m_Name: Rocket_Gun
   m_TagString: PlayerGun
   m_Icon: {fileID: -1412012063857583412, guid: 0000000000000000d000000000000000, type: 0}
@@ -459,7 +460,7 @@ GameObject:
   - component: {fileID: 4030012196929422}
   - component: {fileID: 198337047761735308}
   - component: {fileID: 199523254792799984}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: BlueEnergyEffect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -474,7 +475,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4559533653958604}
-  m_Layer: 15
+  m_Layer: 10
   m_Name: Muzzle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -493,7 +494,7 @@ GameObject:
   - component: {fileID: 114776069689220122}
   - component: {fileID: 70330102287972376}
   - component: {fileID: 114182689796064890}
-  m_Layer: 15
+  m_Layer: 10
   m_Name: Sword_Gun
   m_TagString: PlayerGun
   m_Icon: {fileID: 7250588514170254948, guid: 0000000000000000d000000000000000, type: 0}
@@ -510,7 +511,7 @@ GameObject:
   - component: {fileID: 4638297456375128}
   - component: {fileID: 212269769752376938}
   - component: {fileID: 114534012765853134}
-  m_Layer: 15
+  m_Layer: 10
   m_Name: Shot_Gun
   m_TagString: PlayerGun
   m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
@@ -527,7 +528,7 @@ GameObject:
   - component: {fileID: 4743418025294616}
   - component: {fileID: 198242394761448210}
   - component: {fileID: 199149331082645506}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Directional Particles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -542,7 +543,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4084822718519344}
-  m_Layer: 15
+  m_Layer: 10
   m_Name: base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -557,7 +558,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4572206461922144}
-  m_Layer: 15
+  m_Layer: 10
   m_Name: Muzzle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -572,7 +573,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4877368883177512}
-  m_Layer: 15
+  m_Layer: 10
   m_Name: tip
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -603,7 +604,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4592300912157946}
-  m_Layer: 15
+  m_Layer: 10
   m_Name: Handle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -618,7 +619,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4372289315391950}
-  m_Layer: 15
+  m_Layer: 10
   m_Name: Muzzle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -670,7 +671,7 @@ GameObject:
   - component: {fileID: 4786397055447764}
   - component: {fileID: 198470504695345480}
   - component: {fileID: 199990238794842466}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: LensFlare
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -687,7 +688,7 @@ GameObject:
   - component: {fileID: 4229750771591802}
   - component: {fileID: 198296608210798834}
   - component: {fileID: 199644086949685976}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Funnel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -702,7 +703,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4431298257967980}
-  m_Layer: 15
+  m_Layer: 10
   m_Name: Muzzle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -719,7 +720,7 @@ GameObject:
   - component: {fileID: 4247295954873560}
   - component: {fileID: 198101081864119564}
   - component: {fileID: 199884917121757320}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Glow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -734,7 +735,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4884044194992180}
-  m_Layer: 15
+  m_Layer: 10
   m_Name: Handle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -749,7 +750,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4080996881415468}
-  m_Layer: 15
+  m_Layer: 10
   m_Name: SwordTrail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -783,7 +784,7 @@ GameObject:
   - component: {fileID: 4884092796936040}
   - component: {fileID: 198227655215400376}
   - component: {fileID: 199826855105706962}
-  m_Layer: 13
+  m_Layer: 10
   m_Name: Glow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -800,7 +801,7 @@ GameObject:
   - component: {fileID: 4735378709855762}
   - component: {fileID: 212693053710169246}
   - component: {fileID: 114176380240603312}
-  m_Layer: 15
+  m_Layer: 10
   m_Name: AWM_Gun
   m_TagString: PlayerGun
   m_Icon: {fileID: 5721338939258241955, guid: 0000000000000000d000000000000000, type: 0}
@@ -817,7 +818,7 @@ GameObject:
   - component: {fileID: 4536166757498006}
   - component: {fileID: 198325333779601700}
   - component: {fileID: 199727803602137460}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Glow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -834,7 +835,7 @@ GameObject:
   - component: {fileID: 4092571892063404}
   - component: {fileID: 198677308344127376}
   - component: {fileID: 199498839935015620}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Directional Particles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -849,7 +850,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4888475702650226}
-  m_Layer: 15
+  m_Layer: 10
   m_Name: Handle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -866,7 +867,7 @@ GameObject:
   - component: {fileID: 4639044524869250}
   - component: {fileID: 198840116472147004}
   - component: {fileID: 199401318605582260}
-  m_Layer: 13
+  m_Layer: 10
   m_Name: BlueLightJump
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -884,7 +885,7 @@ GameObject:
   - component: {fileID: 198515533052661888}
   - component: {fileID: 199924546506671898}
   - component: {fileID: 114317727780850020}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Particles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -901,7 +902,7 @@ GameObject:
   - component: {fileID: 4840628652220158}
   - component: {fileID: 198911749086144094}
   - component: {fileID: 199939697129216346}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Funnel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -918,7 +919,7 @@ GameObject:
   - component: {fileID: 4209986983716522}
   - component: {fileID: 198312826288656338}
   - component: {fileID: 199498857255085856}
-  m_Layer: 13
+  m_Layer: 10
   m_Name: SmokeLinger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -935,7 +936,7 @@ GameObject:
   - component: {fileID: 4070839535061222}
   - component: {fileID: 108820268123004440}
   - component: {fileID: 114915175395114444}
-  m_Layer: 13
+  m_Layer: 10
   m_Name: Point light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -952,7 +953,7 @@ GameObject:
   - component: {fileID: 4371909980035764}
   - component: {fileID: 198253508594264510}
   - component: {fileID: 199353325466386092}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: LensFlare
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -969,7 +970,7 @@ GameObject:
   - component: {fileID: 4445259851702038}
   - component: {fileID: 198979530150269106}
   - component: {fileID: 199691900409883290}
-  m_Layer: 13
+  m_Layer: 10
   m_Name: LineLinger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1227,7 +1228,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1414011502341424}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -9.29, y: 0, z: 0}
+  m_LocalPosition: {x: -11.13, y: 0, z: -1}
   m_LocalScale: {x: 0.2, y: 0.2, z: 1}
   m_Children:
   - {fileID: 4638297456375128}
@@ -1852,14 +1853,14 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 14.58, y: 18.57}
-    newSize: {x: 14.58, y: 18.57}
+    oldSize: {x: 15.44, y: 19.98}
+    newSize: {x: 15.44, y: 19.98}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.38, y: 0.48}
+  m_Size: {x: 13, y: 17.89}
   m_EdgeRadius: 0
 --- !u!70 &70330102287972376
 CapsuleCollider2D:
@@ -2197,7 +2198,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbb9f09e6fdc00a409eeb4e36d851f66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ProtectAimGameObject: {fileID: 0}
+  ProtectAimGameObject: {fileID: 1414011502341424}
+  m_ProtectAimShieldType: 0
+  m_layerMask:
+    serializedVersion: 2
+    m_Bits: 16384
+--- !u!114 &114517881233413678
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1414011502341424}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6090da511f8374135a15dd8655adcd44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _recordingInterval: 0.5
+  _mode: 1
+  _globalClockKey: Player
+  _rewindable: 0
+  _recordingDuration: 30
 --- !u!114 &114531286818892384
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2442,14 +2463,24 @@ MonoBehaviour:
     MaxMp: 0
     CurrentHp: 0
     CurrentMp: 0
+    DelayCoefficient: 0
     MoveSpeed: 0
     IsUseCore: 1
     IsConsumeMp: 0
-    MPRecoverInterval: 0
+    MPRecoverInterval: 1000
     SpecialSpeed: 0
   FastMoveCD: 3
   FastMoveDistance: 5
   MoveSpeed: 10
+  Sprites:
+  - {fileID: 21300000, guid: fcf774f6a1cd73249b7da854299d85f7, type: 3}
+  - {fileID: 21300000, guid: b3f1a820b203cdc4dbb924504660b09e, type: 3}
+  - {fileID: 21300000, guid: 750fc5db134d7b240a68717ad4065175, type: 3}
+  - {fileID: 21300000, guid: db0f3cb739b628949b28ead3685d899e, type: 3}
+  - {fileID: 21300000, guid: a8c85708aa5520547beb64df7a0c5524, type: 3}
+  - {fileID: 21300000, guid: a174d3efa4f740a4c8b4f30f803252ef, type: 3}
+  SR: {fileID: 0}
+  AS: {fileID: 0}
 --- !u!114 &114915175395114444
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -82959,12 +82990,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 26d4e21c5d6f6e3428835ba705cf737e, type: 3}
+  m_Sprite: {fileID: 21300000, guid: fcf774f6a1cd73249b7da854299d85f7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 14.58, y: 18.57}
+  m_Size: {x: 15.44, y: 19.98}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1

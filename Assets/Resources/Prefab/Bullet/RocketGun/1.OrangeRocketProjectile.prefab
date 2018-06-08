@@ -10,7 +10,7 @@ GameObject:
   - component: {fileID: 415052}
   - component: {fileID: 3353328}
   - component: {fileID: 2380072}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Capsule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -26,7 +26,7 @@ GameObject:
   m_Component:
   - component: {fileID: 488066}
   - component: {fileID: 10821598}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Point light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 436896}
   - component: {fileID: 19846474}
   - component: {fileID: 19972576}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: SmokeTrail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -60,7 +60,7 @@ GameObject:
   - component: {fileID: 429540}
   - component: {fileID: 19864116}
   - component: {fileID: 19935378}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Fire
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -78,7 +78,8 @@ GameObject:
   - component: {fileID: 19889706}
   - component: {fileID: 19922256}
   - component: {fileID: 8247532}
-  m_Layer: 0
+  - component: {fileID: 114358999129717266}
+  m_Layer: 13
   m_Name: 1.OrangeRocketProjectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,7 +96,7 @@ GameObject:
   - component: {fileID: 473274}
   - component: {fileID: 19879402}
   - component: {fileID: 19915160}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: FireTrail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13585,3 +13586,19 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 179992}
   m_IsPrefabParent: 1
+--- !u!114 &114358999129717266
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 179992}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6090da511f8374135a15dd8655adcd44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _recordingInterval: 0.5
+  _mode: 1
+  _globalClockKey: Player
+  _rewindable: 0
+  _recordingDuration: 30

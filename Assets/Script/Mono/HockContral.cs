@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using Assets.Script.Mono;
 using Assets.Script.Nomono;
+using Chronos;
 using UnityEngine;
 
 [RequireComponent(typeof(BoxCollider2D))]
@@ -181,6 +182,9 @@ public class HockContral : MonoBehaviour
         
     }
 
-
+    public Timeline Time
+    {
+        get { return GetComponent<Timeline>(); }
+    }
 
 }

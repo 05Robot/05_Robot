@@ -10,7 +10,7 @@ GameObject:
   - component: {fileID: 467966}
   - component: {fileID: 19895344}
   - component: {fileID: 19927082}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Trail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27,7 +27,7 @@ GameObject:
   - component: {fileID: 489458}
   - component: {fileID: 19825718}
   - component: {fileID: 19994238}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Glow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43,7 +43,7 @@ GameObject:
   m_Component:
   - component: {fileID: 465808}
   - component: {fileID: 10812790}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Point light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -61,7 +61,8 @@ GameObject:
   - component: {fileID: 19966000}
   - component: {fileID: 19833738}
   - component: {fileID: 8243040}
-  m_Layer: 0
+  - component: {fileID: 114264130117852150}
+  m_Layer: 14
   m_Name: 33.PurpleSparklerMissile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10261,3 +10262,19 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 159786}
   m_IsPrefabParent: 1
+--- !u!114 &114264130117852150
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 159786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6090da511f8374135a15dd8655adcd44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _recordingInterval: 0.5
+  _mode: 1
+  _globalClockKey: Enemy
+  _rewindable: 0
+  _recordingDuration: 30

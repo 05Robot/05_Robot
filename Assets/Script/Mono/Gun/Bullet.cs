@@ -1,5 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using Assets.Script;
+using Assets.Script.Mono;
+using Assets.Script.Nomono;
 using Chronos;
 using UnityEngine;
 /*********************************************************************
@@ -9,11 +13,11 @@ using UnityEngine;
 **********************************************************************/
 public enum CoreAttribute
 {
-    Null = 0,
-    Initial = 1,//初始
-    Fire = 2,//火焰
-    Amethyst = 3,//紫水晶
-    Frozen = 4,//冰冻
+    Null = 4,
+    Initial = 0,//初始
+    Fire = 1,//火焰
+    Amethyst = 2,//紫水晶
+    Frozen = 3,//冰冻
 }
 public enum BulletBelongTo{
     Player = 0,//玩家
@@ -67,8 +71,7 @@ public abstract class Bullet : MonoBehaviour
     [SerializeField] private float RaycastAdvance = 2f;// 射线检测距离
     //private Ray hitRay;//击中的射线
     protected RaycastHit2D[] hitPoint;// 击中的目标信息
-    protected int LastHitPointID = -1;//击中的物体的ID
-    protected HashSet<int> HitPointIDHashSet;//击中的物体的ID集合
+    //protected int LastHitPointID = -1;//击中的物体的ID
     #endregion
 
     #region 子弹自身组件
@@ -93,7 +96,7 @@ public abstract class Bullet : MonoBehaviour
     [Rename("子弹拖尾特效")]public GameObject[] trailParticles;
 
     [Header("-----------------")]
-    //todo 一下需要外部赋值进来
+    //需要外部赋值进来
     //是否是核心攻击
     [SerializeField]private bool isCoreAttack = false;
     private string m_ObjectPoolName;
@@ -132,19 +135,16 @@ public abstract class Bullet : MonoBehaviour
 
 
     //被开启时的初始化过程
-    //todo 传进当前核心
+    //传进当前核心
     public void BulletStart(uint s_Speed, float s_FlyDistance, float s_DemageNums, 
-        string s_GunName = "AK47Gun", bool s_isCoreAttack = false, CoreAttribute s_coreAttributeBullet = CoreAttribute.Initial)
+        string s_GunName = "AK47Gun", CoreAttribute s_coreAttributeBullet = CoreAttribute.Initial)
     {
         Speed = s_Speed;
         FlyDistance = s_FlyDistance;
         DemageNums = s_DemageNums;
         GunName = s_GunName;
         StartFly = Flying = true;
-        //isCoreAttack = s_isCoreAttack;
-        //coreAttributeBullet = s_coreAttributeBullet;
-        LastHitPointID = -1;
-        HitPointIDHashSet = new HashSet<int>();
+        coreAttributeBullet = s_coreAttributeBullet;
 
         switch (bulletBelongTo)
         {
@@ -298,40 +298,119 @@ public abstract class Bullet : MonoBehaviour
 
     /// <summary>
     /// 普通攻击  碰撞后产生伤害
-    /// todo 打在护盾上或者是人物身上
+    /// 打在护盾上或者是人物身上
     /// </summary>
     protected virtual void GenerateDemage()
     {
+        //伤害取整
+        int Damage = Convert.ToInt32(DemageNums);
         for (int i = 0; i < hitPoint.Length; i++)
         {
+            EnemyContral hitEnemyContral = null;
             switch (hitPoint[i].transform.gameObject.layer)
             {
                 //击中玩家护盾
                 case 17:
                     //对玩家进行伤害（应该是扣mp）
-                    //hitPoint.transform.GetComponent<ShieldProtect>().ProtectAimGameObject.GetComponent<PlayerRobotContral>().
+                    hitPoint[i].transform.GetComponent<ShieldProtect>().GetPlayerControl().GetDamage(Damage, Damage);
                     break;
                 //击中玩家内部
                 case 10:
                     //对玩家进行伤害（应该是扣hp）
+                    hitPoint[i].transform.GetComponent<PlayerRobotContral>().GetRealDamage(Damage);
                     break;
                 //击中敌人护盾
                 case 18:
                     //对敌人进行伤害（应该是扣mp）
+                    hitEnemyContral = hitPoint[i].transform.GetComponent<ShieldProtect>().GetEnemyControl();
+                    hitEnemyContral.GetDamage(Damage, Damage);
                     break;
                 //击中敌人内部
                 case 11:
                     //对敌人进行伤害（应该是扣hp）
+                    hitEnemyContral = hitPoint[i].transform.GetComponent<EnemyContral>();
+                    hitEnemyContral.GetRealDamage(Damage);
                     break;
             }
-
-            //todo 普通子弹造成的基本伤害
-
-
-            //todo CoreAttribute CurrentCoreAttribute
-            //todo 不同的核心产生不同的AOE伤害 + 附加状态 + 持续伤害/速度/无视Mp
+            
+            //-----------------------------------------------------------------------------------------------------------------
+            //核心攻击 AOE + 特殊效果
+            //当前是否核心攻击 && 是否打中敌人护盾/敌人内部
+            if (isCoreAttack && hitEnemyContral != null)
+            {
+                //不同的核心产生不同的AOE伤害
+                switch (m_CurrentCoreAttribute)
+                {
+                    case CoreAttribute.Initial:
+                        //3个范围内200伤害
+                        EnemyDamage(CurrentAoeCollider2D(3),200);
+                        break;
+                    case CoreAttribute.Fire:
+                        //3个范围内200伤害
+                        EnemyDamage(CurrentAoeCollider2D(3),200);
+                        //燃烧效果，敌人持续减血
+                        hitEnemyContral.ER.AddAbnormalState(new AbnormalState_Burn(hitEnemyContral.ER, 3));
+                        break;
+                    case CoreAttribute.Amethyst:
+                        //5个范围内400伤害
+                        EnemyDamage(CurrentAoeCollider2D(5),400);
+                        //todo 无视MP，修改紫水晶子弹检测layer，不添加敌人护盾检测，直接打在敌人身上
+                        break;
+                    case CoreAttribute.Frozen:
+                        //3个范围内200伤害
+                        EnemyDamage(CurrentAoeCollider2D(3), 200);
+                        //冰冻效果，敌人持续减速
+                        hitEnemyContral.ER.AddAbnormalState(new AbnormalState_Frozen(hitEnemyContral.ER, 3));
+                        break;
+                }
+            }
         }
 
 
+    }
+
+    /// <summary>
+    /// 敌人伤害
+    /// </summary>
+    private void EnemyDamage(Collider2D[] AllCollider2D, int DamageNums)
+    {
+        for (int i = 0; i < AllCollider2D.Length; i++)
+        {
+            EnemyContral hitEnemyContral = null;
+            switch (AllCollider2D[i].transform.gameObject.layer)
+            {
+                //敌人护盾
+                case 18:
+                    hitEnemyContral = hitPoint[i].transform.GetComponent<ShieldProtect>().GetEnemyControl();
+                    break;
+                //敌人内部
+                case 11:
+                    hitEnemyContral = hitPoint[i].transform.GetComponent<EnemyContral>();
+                    break;
+            }
+
+            if (hitEnemyContral != null)
+            {
+                hitEnemyContral.GetDamage(DamageNums, DamageNums);
+                //todo 硬直
+                //hitEnemyBaseRobot.EC.SetDelay(0.5f,4);
+                Vector2 hitEnemyPos = new Vector2(hitEnemyContral.transform.position.x,
+                    hitEnemyContral.transform.position.y);
+                Vector2 thisBulletPos = new Vector2(transform.position.x, transform.position.y);
+                //todo 击退
+                //hitEnemyContral.SetKnockback(hitEnemyPos - thisBulletPos,);
+            }
+        }
+    }
+
+
+    /// <summary>
+    /// 圆型AOE检测
+    /// </summary>
+    /// <param name="Range">检测范围</param>
+    /// <returns>检测结果</returns>
+    private Collider2D[] CurrentAoeCollider2D(int Range)
+    {
+        return Physics2D.OverlapCircleAll(new Vector2(transform.position.x, transform.position.y), Range, layerMask);//Physics.OverlapSphere()：球形范围内的碰撞器
     }
 }

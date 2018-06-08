@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Timers;
 using Assets.Script.Nomono;
+using Chronos;
 using UnityEngine;
 using Timer = System.Timers.Timer;
 
@@ -20,20 +21,24 @@ namespace Assets.Script.Mono
     [RequireComponent(typeof(EnemyAi))]
     public class EnemyContral:MonoBehaviorBase
     {
+
         public string Name;
         public int MaxHp=1000;
         public int MaxMp=1000;
         public float MoveSpeed=3;
         public EnemyRobot ER;
         public EnemyAi EAI;
+        [Rename("左面图")]
+        public Sprite LeftSprite;
+        [Rename("右面图")]
+        public Sprite RightSprite;
 
-    
         /// <summary>
         /// 是否可以控制
         /// </summary>
         /// 
         private bool _isContral = true;
-
+        [HideInInspector]
         public bool IsDead = false;
         private Vector2 Startpoint;
         [HideInInspector]
@@ -47,7 +52,7 @@ namespace Assets.Script.Mono
         public float SecondsToGoBack=5;
 
 
-
+        private SpriteRenderer SR;
         void Awake()
         {
             ER=new EnemyRobot(name,MaxHp,MaxMp,MoveSpeed);
@@ -57,9 +62,11 @@ namespace Assets.Script.Mono
         void Start()
         {
             EAI = GetComponent<EnemyAi>();
+            SR = GetComponent<SpriteRenderer>();
             EAI.EC = this;
             Startpoint = transform.position;
             AiStart = true;
+
         }
 
         // Update is called once per frame
@@ -69,6 +76,12 @@ namespace Assets.Script.Mono
             {
                 if (Contral)
                 {
+                    PlayerRobotContral prc = GameObject.FindObjectOfType<PlayerRobotContral>();
+                    if (prc.transform.position.x<transform.position.x)
+                        SR.sprite = LeftSprite;
+                    else
+                        SR.sprite = RightSprite;
+
                     EAI.UpdateLogic();
 
                 }
@@ -148,5 +161,10 @@ namespace Assets.Script.Mono
         }
 
         #endregion
+
+        public Timeline Time
+        {
+            get { return GetComponent<Timeline>(); }
+        }
     }
 }

@@ -19,7 +19,7 @@ public class RocketGunC : GunC {
 
     /// <summary>
     /// 左普通攻击
-    /// 1、 todo 击中敌人后产生一个伤害为1000的3个单位的AOE
+    /// 1、击中敌人后产生一个伤害为1000的3个单位的AOE
     /// </summary>
     protected override void LeftNormalShot()
     {

@@ -11,7 +11,8 @@ GameObject:
   - component: {fileID: 8285160}
   - component: {fileID: 19915446}
   - component: {fileID: 19822242}
-  m_Layer: 0
+  - component: {fileID: 114977498079542984}
+  m_Layer: 14
   m_Name: 22.PurpleLaserImpact
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28,7 +29,7 @@ GameObject:
   - component: {fileID: 472308}
   - component: {fileID: 10809866}
   - component: {fileID: 11461044}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Point light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45,7 +46,7 @@ GameObject:
   - component: {fileID: 404560}
   - component: {fileID: 19811418}
   - component: {fileID: 19930840}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Glow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -62,7 +63,7 @@ GameObject:
   - component: {fileID: 470854}
   - component: {fileID: 19814620}
   - component: {fileID: 19994510}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Dust
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10554,7 +10555,35 @@ Prefab:
       propertyPath: InitialModule.startLifetime.minScalar
       value: 0.3000
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: InitialModule.startSpeed.minScalar
+      value: 2.0000
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: InitialModule.startSize.minScalar
+      value: 0.6000
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: InitialModule.startLifetime.minScalar
+      value: 0.3000
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 106912}
   m_IsPrefabParent: 1
+--- !u!114 &114977498079542984
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 106912}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6090da511f8374135a15dd8655adcd44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _recordingInterval: 0.5
+  _mode: 1
+  _globalClockKey: Enemy
+  _rewindable: 0
+  _recordingDuration: 30

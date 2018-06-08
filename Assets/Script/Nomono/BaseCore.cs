@@ -59,6 +59,7 @@ namespace Assets.Script
         {
             if (hppoint <= MaxHp && hppoint >= MinHp)
             {
+
                 CurrentHpPoint = hppoint;
                 return true; 
                 

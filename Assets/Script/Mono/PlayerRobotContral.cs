@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Assets.Script;
 using Assets.Script.Mono;
 using Assets.Script.Nomono;
+using Chronos;
 using UnityEngine;
 
 [RequireComponent(typeof(SpriteRenderer))]
@@ -226,8 +227,13 @@ public class PlayerRobotContral : MonoBehaviour
     /// <param name="MaxHppoint"></param>
     public void SetMaxHppoint(int MaxHppoint)
     {
+        float HpRate = _mPlayerRobot.CurrentHp /(float) _mPlayerRobot.MaxHp;
         if (_mPlayerRobot.Core.SetHpPoint(MaxHppoint))
+        {
+            _mPlayerRobot.MaxHp = _mPlayerRobot.Core.CurrentHpPoint;
+            _mPlayerRobot.CurrentHp = (int)(_mPlayerRobot.MaxHp * HpRate);
             _mPlayerRobot.SyncHpMp();
+        }
         else
         {
             //todo 显示错误信息
@@ -308,6 +314,14 @@ public class PlayerRobotContral : MonoBehaviour
         }
     }
 
+    public void ChangeCore(BaseCore core)
+    {
+        float HpRate = _mPlayerRobot.CurrentHp / (float)_mPlayerRobot.MaxHp;
+        this._mPlayerRobot.Core = core;
+        _mPlayerRobot.MaxHp = core.CurrentHpPoint;
+        _mPlayerRobot.CurrentHp = (int)(_mPlayerRobot.MaxHp * HpRate);
+
+    }
 
     /// <summary>
     /// 普通伤害接口
@@ -346,7 +360,10 @@ public class PlayerRobotContral : MonoBehaviour
 
     #endregion
 
-
+    public Timeline Time
+    {
+        get { return GetComponent<Timeline>(); }
+    }
 
 
 }

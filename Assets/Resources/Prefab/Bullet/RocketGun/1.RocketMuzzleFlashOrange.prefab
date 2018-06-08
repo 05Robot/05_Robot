@@ -10,7 +10,7 @@ GameObject:
   - component: {fileID: 464200}
   - component: {fileID: 19807266}
   - component: {fileID: 19917824}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Smoke
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27,7 +27,8 @@ GameObject:
   - component: {fileID: 489640}
   - component: {fileID: 19834146}
   - component: {fileID: 19924526}
-  m_Layer: 0
+  - component: {fileID: 114713469401774474}
+  m_Layer: 13
   m_Name: 1.RocketMuzzleFlashOrange
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44,7 +45,7 @@ GameObject:
   - component: {fileID: 419486}
   - component: {fileID: 19812914}
   - component: {fileID: 19939252}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Sparks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10219,3 +10220,19 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 145922}
   m_IsPrefabParent: 1
+--- !u!114 &114713469401774474
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 145922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6090da511f8374135a15dd8655adcd44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _recordingInterval: 0.5
+  _mode: 1
+  _globalClockKey: Player
+  _rewindable: 0
+  _recordingDuration: 30

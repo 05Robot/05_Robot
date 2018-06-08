@@ -10,7 +10,7 @@ GameObject:
   - component: {fileID: 428946}
   - component: {fileID: 19827028}
   - component: {fileID: 19965348}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: LaserBolt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -26,7 +26,7 @@ GameObject:
   m_Component:
   - component: {fileID: 416604}
   - component: {fileID: 10849494}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Point light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 400436}
   - component: {fileID: 19807028}
   - component: {fileID: 19910696}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Glow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -61,7 +61,8 @@ GameObject:
   - component: {fileID: 8257536}
   - component: {fileID: 19979554}
   - component: {fileID: 19849110}
-  m_Layer: 0
+  - component: {fileID: 114693297032428138}
+  m_Layer: 14
   m_Name: 22.PurpleLaserProjectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -77,7 +78,7 @@ GameObject:
   m_Component:
   - component: {fileID: 487164}
   - component: {fileID: 9648942}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Trail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10650,3 +10651,19 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 196044}
   m_IsPrefabParent: 1
+--- !u!114 &114693297032428138
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 196044}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6090da511f8374135a15dd8655adcd44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _recordingInterval: 0.5
+  _mode: 1
+  _globalClockKey: Enemy
+  _rewindable: 0
+  _recordingDuration: 30

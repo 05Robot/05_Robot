@@ -36,6 +36,7 @@ namespace Assets.Script.Nomono
             this.PRC = PRC;
             SecondAction += RecoverMp;
             SyncHpMp();
+          
             
         }
 
@@ -56,7 +57,7 @@ namespace Assets.Script.Nomono
             //Debug.Log(PRC);
             PRC.StartCoroutine(MPCD());
             PRC.SetDelay(0.2f);
-          
+            WeaponManager.Instance.CoreChangeLister(this.Core);
 
         }
 
@@ -80,6 +81,7 @@ namespace Assets.Script.Nomono
             CurrentMp = MaxMp;
             SyncHpMp();
             IsUseCore = false;
+            WeaponManager.Instance.CoreChangeLister(null);
         } 
     }
 }

@@ -1,9 +1,15 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using Assets.Script.Mono;
+using Assets.Script.Nomono;
 using UnityEngine;
 
 public class AWMSpecialBullet : Bullet {
 
+    protected HashSet<int> HitPointIDHashSet = new HashSet<int>();//击中的物体的ID集合
+
+    private bool FirstToFly = true;
 
     protected override void Awake()
     {
@@ -13,6 +19,17 @@ public class AWMSpecialBullet : Bullet {
     protected override void Update()
     {
         base.Update();
+
+        if (Flying && FirstToFly)
+        {
+            HitPointIDHashSet.Clear();
+            FirstToFly = false;
+        }
+
+        if (!Flying)
+        {
+            FirstToFly = true;
+        }
     }
 
 
@@ -67,44 +84,48 @@ public class AWMSpecialBullet : Bullet {
     //对敌人进行伤害，每个敌人伤害一次
     /// <summary>
     /// 正常造成伤害
+    /// todo 设置硬直与击退
     /// </summary>
-    private bool HaveEnemyShield = false;
-    
     protected override void GenerateDemage()
     {
         for (int i = 0; i < hitPoint.Length; i++)
         {
-            switch (hitPoint[i].transform.gameObject.layer)
+            //击中敌人护盾
+            if (hitPoint[i].transform.gameObject.layer == 18)
             {
-                //击中敌人护盾
-                case 18:
-                    HaveEnemyShield = true;
-                    break;
-                //击中敌人内部
-                case 11:
-                    HaveEnemyShield = false;
-                    break;
+                //已经击中过这个护盾了
+                if (HitPointIDHashSet.Contains(hitPoint[i].transform.GetInstanceID()))
+                {
+                    //不做任何操作
+                }
+                //没有击中过这个护盾了
+                else
+                {
+                    //对这个敌人进行MP扣除
+                    hitPoint[i].transform.GetComponent<ShieldProtect>().GetEnemyControl().GetDamage(Convert.ToInt32(DemageNums), Convert.ToInt32(DemageNums));
+                    //添加击中的护盾的ID
+                    HitPointIDHashSet.Add(hitPoint[i].transform.GetInstanceID());
+                    //添加护盾里的敌人ID
+                    HitPointIDHashSet.Add(hitPoint[i].transform.GetComponent<ShieldProtect>().ProtectAimGameObject.GetInstanceID());
+                }
             }
-
-            //敌人有护盾//对敌人进行伤害（应该是扣mp）
-            if (HaveEnemyShield)
+            //击中敌人内部
+            if (hitPoint[i].transform.gameObject.layer == 11)
             {
-
+                //已经击中过这个敌人了
+                if (HitPointIDHashSet.Contains(hitPoint[i].transform.GetInstanceID()))
+                {
+                    //不做操作
+                }
+                //没有击中过这个敌人
+                else
+                {
+                    //对这个敌人进行HP扣除
+                    hitPoint[i].transform.GetComponent<EnemyContral>().GetRealDamage(Convert.ToInt32(DemageNums));
+                    //添加敌人ID
+                    HitPointIDHashSet.Add(hitPoint[i].transform.GetInstanceID());
+                }
             }
-            //敌人没有护盾//对敌人进行伤害（应该是扣hp）
-            else
-            {
-
-            }
-
-            if (LastHitPointID != hitPoint[i].transform.GetInstanceID())
-            {
-                LastHitPointID = hitPoint[i].transform.GetInstanceID();
-                //todo 进行伤害
-
-            }
-
-            HitPointIDHashSet.Add(hitPoint[i].transform.GetInstanceID());
         }
     }
 

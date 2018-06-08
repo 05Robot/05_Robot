@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8285160}
   - component: {fileID: 19881718}
   - component: {fileID: 19952734}
+  - component: {fileID: 114729135825277424}
   m_Layer: 13
   m_Name: BluePlasmaImpact 1
   m_TagString: Untagged
@@ -10666,7 +10667,39 @@ Prefab:
       propertyPath: RotationModule.curve.minScalar
       value: -8.9361
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: InitialModule.startSpeed.minScalar
+      value: 6.0000
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: InitialModule.startSize.minScalar
+      value: 2.0000
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: InitialModule.startLifetime.minScalar
+      value: 0.5500
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: RotationModule.curve.minScalar
+      value: -8.9361
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 106912}
   m_IsPrefabParent: 1
+--- !u!114 &114729135825277424
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 106912}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6090da511f8374135a15dd8655adcd44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _recordingInterval: 0.5
+  _mode: 1
+  _globalClockKey: Player
+  _rewindable: 0
+  _recordingDuration: 30

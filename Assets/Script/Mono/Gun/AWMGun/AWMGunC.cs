@@ -155,7 +155,7 @@ public class AWMGunC : GunC
     /// 右键点射(特殊攻击)
     /// 1、冷却状态（消耗HP）无法使用
     /// 2、子弹穿透敌人
-    /// 3、todo 玩家自身硬直0.3s，后退0.5单位
+    /// 3、玩家自身硬直0.3s，后退0.5单位
     /// </summary>
     protected override void RightNormalShot()
     {
@@ -174,6 +174,9 @@ public class AWMGunC : GunC
             Gun_Data.SpecialButtleSpeed, Gun_Data.SpecialAttackDistance, Gun_Data.SpecialDemageNums);
         //角色MPHP减少
         PlayerMPHPChange(Gun_Data.SpecialComsumeMP, Gun_Data.SpecialComsumeHP);
+        //玩家自身硬直与击退
+        m_playerRobotContral.SetDelay(0.3f);
+        m_playerRobotContral.SetKnockback(0.5f);
     }
     private float m_SpecialCurrent = 0;//当前射击的CD
     private bool CanSpecialShotNext = true;//达到CD时间，可以射击下一回合

@@ -10,6 +10,7 @@ GameObject:
   - component: {fileID: 495460}
   - component: {fileID: 19829538}
   - component: {fileID: 19911470}
+  - component: {fileID: 114714268214849296}
   m_Layer: 13
   m_Name: FireBallMuzzleFlashRed
   m_TagString: Untagged
@@ -10219,3 +10220,19 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 100764}
   m_IsPrefabParent: 1
+--- !u!114 &114714268214849296
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100764}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6090da511f8374135a15dd8655adcd44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _recordingInterval: 0.5
+  _mode: 1
+  _globalClockKey: Player
+  _rewindable: 0
+  _recordingDuration: 30

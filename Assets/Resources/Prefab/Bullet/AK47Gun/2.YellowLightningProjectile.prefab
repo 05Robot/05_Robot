@@ -10,7 +10,7 @@ GameObject:
   - component: {fileID: 465538}
   - component: {fileID: 19872450}
   - component: {fileID: 19912386}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: BackArc
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27,7 +27,7 @@ GameObject:
   - component: {fileID: 485446}
   - component: {fileID: 19819986}
   - component: {fileID: 19906456}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Arcs
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44,7 +44,7 @@ GameObject:
   - component: {fileID: 438800}
   - component: {fileID: 19884284}
   - component: {fileID: 19902612}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Glow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -60,7 +60,7 @@ GameObject:
   m_Component:
   - component: {fileID: 475406}
   - component: {fileID: 10822780}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Point light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -77,7 +77,7 @@ GameObject:
   - component: {fileID: 451708}
   - component: {fileID: 19829980}
   - component: {fileID: 19982746}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: TrailParticles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 498754}
   - component: {fileID: 19876660}
   - component: {fileID: 19917306}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: EnergySphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -110,7 +110,8 @@ GameObject:
   m_Component:
   - component: {fileID: 441272}
   - component: {fileID: 8237434}
-  m_Layer: 0
+  - component: {fileID: 114833929808618002}
+  m_Layer: 13
   m_Name: 2.YellowLightningProjectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16971,3 +16972,19 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 180268}
   m_IsPrefabParent: 1
+--- !u!114 &114833929808618002
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 180268}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6090da511f8374135a15dd8655adcd44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _recordingInterval: 0.5
+  _mode: 1
+  _globalClockKey: Player
+  _rewindable: 0
+  _recordingDuration: 30

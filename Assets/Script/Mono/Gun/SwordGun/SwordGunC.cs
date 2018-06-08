@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using Assets.Script.Mono;
 using UnityEngine;
 /*********************************************************************
 ****	作者 ZMK 
@@ -42,6 +44,8 @@ public class SwordGunC : GunC
     [Header("特殊攻击能够穿过的对象")]
     [SerializeField] private LayerMask AttackLayer;
     private bool SwordGunNormalAttacking = false;//是否攻击中
+    private HashSet<int> HitPointIDHashSet;//普通攻击中的敌人与敌人护盾的ID
+    //private HashSet<int> SpecialHitPoint
 
     private enum AimQuadrant
     {
@@ -59,6 +63,7 @@ public class SwordGunC : GunC
     {
         base.Awake();
         SaveGunSpecialData();
+        HitPointIDHashSet = new HashSet<int>();
     }
     protected override void Update()
     {
@@ -74,7 +79,7 @@ public class SwordGunC : GunC
         base.FixedUpdate();
     }
 
-
+    #region 普通攻击
     /// <summary>
     /// 左键普通攻击
     /// </summary>
@@ -85,6 +90,8 @@ public class SwordGunC : GunC
             return;
         //武器射击CD计时
         StartCoroutine(ShotCD());
+        //刷新击中敌人集合
+        HitPointIDHashSet.Clear();
         //击打动作
         AimQuadrant currentAimQuadrant = CheckAimQuadrant();
         switch (currentAimQuadrant)
@@ -200,8 +207,10 @@ public class SwordGunC : GunC
         //开启武器旋转控制
         GunRotateControl = true;
     }
+    #endregion
 
 
+    #region 特殊攻击
     /// <summary>
     /// 剑 - 特殊攻击
     /// 1、冷却状态（消耗HP）无法使用
@@ -356,6 +365,7 @@ public class SwordGunC : GunC
         CanSpecialShotNext = true;
     }
     #endregion
+    #endregion
 
 
 
@@ -369,17 +379,29 @@ public class SwordGunC : GunC
         //是否攻击中
         if (!SwordGunNormalAttacking) return;
 
-        //todo 对敌人造成伤害
+        //对敌人造成伤害
         switch (Gun_Data.GunState)
         {
+            //剑的普通攻击
             case GunState.NormalState:
-                if (other.gameObject.layer == 10)
+                //击中敌人护盾 && 不重复击中
+                if (other.gameObject.layer == 18 && !HitPointIDHashSet.Contains(other.GetInstanceID()))
                 {
-                    //todo 对敌人进行普通伤害
-
+                    other.transform.GetComponent<ShieldProtect>().ProtectAimGameObject.GetComponent<EnemyContral>().GetDamage(Convert.ToInt32(Gun_Data.DemageNums), Convert.ToInt32(Gun_Data.DemageNums));
+                    HitPointIDHashSet.Add(other.GetInstanceID());
+                    HitPointIDHashSet.Add(other.transform.GetComponent<ShieldProtect>().ProtectAimGameObject.GetInstanceID());
+                }
+                //否则，击中的是敌人内部
+                if (other.gameObject.layer == 11 && !HitPointIDHashSet.Contains(other.GetInstanceID()))
+                {
+                    other.transform.GetComponent<EnemyContral>().GetDamage(Convert.ToInt32(Gun_Data.DemageNums), Convert.ToInt32(Gun_Data.DemageNums));
+                    HitPointIDHashSet.Add(other.GetInstanceID());
                 }
                 break;
+            //剑的特殊攻击
             case GunState.SpecialState:
+                //不在攻击角色范围内 && 是第一次击中其他物体
+                //结束飞行，进行飞回
                 if ((AttackLayer >> other.gameObject.layer & 1) != 1 && StartToOtherColliderCheck)
                 {
                     m_collisionOthers = true;
@@ -388,14 +410,20 @@ public class SwordGunC : GunC
                     //关闭碰撞非敌人检测
                     StartToOtherColliderCheck = false;
                 }
+                //在攻击角色范围内
                 else
                 {
-                    if (other.gameObject.layer == 10)
+                    //击中敌人护盾 && 可重复击中
+                    if (other.gameObject.layer == 18)
                     {
-                        //todo 对敌人进行特殊伤害
+                        other.transform.GetComponent<ShieldProtect>().ProtectAimGameObject.GetComponent<EnemyContral>().GetDamage(Convert.ToInt32(Gun_Data.DemageNums), Convert.ToInt32(Gun_Data.DemageNums));
+                    }
+                    //击中敌人内部 && 是否没有护盾
+                    if (other.gameObject.layer == 11 && !other.transform.GetComponent<EnemyContral>().ER.IsConsumeMp)
+                    {
+                        other.transform.GetComponent<EnemyContral>().GetDamage(Convert.ToInt32(Gun_Data.DemageNums), Convert.ToInt32(Gun_Data.DemageNums));
                     }
                 }
-
                 break;
         }
     }

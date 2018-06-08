@@ -10,7 +10,7 @@ GameObject:
   - component: {fileID: 409728}
   - component: {fileID: 19879166}
   - component: {fileID: 19900260}
-  m_Layer: 14
+  m_Layer: 18
   m_Name: SharpRing
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28,7 +28,7 @@ GameObject:
   - component: {fileID: 19813026}
   - component: {fileID: 19916356}
   - component: {fileID: 114857285622572682}
-  m_Layer: 14
+  m_Layer: 18
   m_Name: 111.EnemyShield
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45,7 +45,7 @@ GameObject:
   - component: {fileID: 428210}
   - component: {fileID: 19805234}
   - component: {fileID: 19973732}
-  m_Layer: 14
+  m_Layer: 18
   m_Name: GlowRing
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -62,7 +62,7 @@ GameObject:
   - component: {fileID: 471312}
   - component: {fileID: 19813928}
   - component: {fileID: 19987276}
-  m_Layer: 14
+  m_Layer: 18
   m_Name: Particles
   m_TagString: Untagged
   m_Icon: {fileID: 0}

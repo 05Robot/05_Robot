@@ -27,6 +27,7 @@ GameObject:
   - component: {fileID: 456296}
   - component: {fileID: 19857224}
   - component: {fileID: 19996756}
+  - component: {fileID: 114046776327689740}
   m_Layer: 13
   m_Name: PlasmaMuzzleFlashBlue 1
   m_TagString: Untagged
@@ -10243,3 +10244,19 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 166282}
   m_IsPrefabParent: 1
+--- !u!114 &114046776327689740
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 166282}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6090da511f8374135a15dd8655adcd44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _recordingInterval: 0.5
+  _mode: 1
+  _globalClockKey: Player
+  _rewindable: 0
+  _recordingDuration: 30

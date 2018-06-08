@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using Assets.Script.Mono;
 using UnityEngine;
 
 public class AK47SpecialBullet : Bullet
@@ -34,7 +36,7 @@ public class AK47SpecialBullet : Bullet
     }
 
     /// <summary>
-    /// todo 【榴弹Bullet】枪榴弹爆炸后会造成周围3个单位内的敌人400点伤害
+    /// 【榴弹Bullet】枪榴弹爆炸后会造成周围3个单位内的敌人400点伤害
     /// todo 并且造成2s硬直和0.5个单位的击退
     /// 超过距离还是会爆炸
     /// </summary>
@@ -49,29 +51,36 @@ public class AK47SpecialBullet : Bullet
     /// <summary>
     /// 大范围爆炸
     /// </summary>
-    //todo 修改Physics2D.Raycast
+    //修改Physics2D.Raycast
     void ExplosionHitEffect()
     {
         Collider2D[] colliders = Physics2D.OverlapCircleAll(new Vector2(transform.position.x,transform.position.y), ExplosionRadius, layer);//Physics.OverlapSphere()：球形范围内的碰撞器
-        foreach (Collider2D collider in colliders)
+        for (int i = 0; i < colliders.Length; i++)
         {
-            /*if (!collider.attachedRigidbody)//若无刚体
+            EnemyContral hitEnemyContral = null;
+            switch (colliders[i].transform.gameObject.layer)
             {
-                continue;
+                //敌人护盾
+                case 18:
+                    hitEnemyContral = hitPoint[i].transform.GetComponent<ShieldProtect>().GetEnemyControl();
+                    break;
+                //敌人内部
+                case 11:
+                    hitEnemyContral = hitPoint[i].transform.GetComponent<EnemyContral>();
+                    break;
             }
-            if (collider.CompareTag("EnemyCollider"))
-            {
-                MainEnemy = collider.transform.parent;
-                for (; ; )
-                {
-                    if (MainEnemy.CompareTag("Enemy"))
-                    {
-                        break;
-                    }
-                    MainEnemy = MainEnemy.transform.parent;
-                }
 
-            }*/
+            if (hitEnemyContral != null)
+            {
+                hitEnemyContral.GetDamage(Convert.ToInt32(ExplosionDemage), Convert.ToInt32(ExplosionDemage));
+                //todo 硬直
+                hitEnemyContral.SetDelay(0.5f,4);
+                Vector2 hitEnemyPos = new Vector2(hitEnemyContral.transform.position.x,
+                    hitEnemyContral.transform.position.y);
+                Vector2 thisBulletPos = new Vector2(transform.position.x, transform.position.y);
+                //todo 击退
+                //hitEnemyContral.SetKnockback(hitEnemyPos - thisBulletPos,);
+            }
         }
     }
 }

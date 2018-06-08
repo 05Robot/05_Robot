@@ -10,7 +10,7 @@ GameObject:
   - component: {fileID: 423494}
   - component: {fileID: 19854976}
   - component: {fileID: 19945644}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Sparks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27,7 +27,7 @@ GameObject:
   - component: {fileID: 410744}
   - component: {fileID: 19803680}
   - component: {fileID: 19943878}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: LineTrail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45,7 +45,8 @@ GameObject:
   - component: {fileID: 8203944}
   - component: {fileID: 19939140}
   - component: {fileID: 19872010}
-  m_Layer: 0
+  - component: {fileID: 114734033692973042}
+  m_Layer: 13
   m_Name: 1.PurpleSharpImpact
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -62,7 +63,7 @@ GameObject:
   - component: {fileID: 422448}
   - component: {fileID: 19871924}
   - component: {fileID: 19906826}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Lines
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -79,7 +80,7 @@ GameObject:
   - component: {fileID: 438488}
   - component: {fileID: 19871948}
   - component: {fileID: 19965560}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Glow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16981,3 +16982,19 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 153632}
   m_IsPrefabParent: 1
+--- !u!114 &114734033692973042
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 153632}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6090da511f8374135a15dd8655adcd44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _recordingInterval: 0.5
+  _mode: 1
+  _globalClockKey: Player
+  _rewindable: 0
+  _recordingDuration: 30

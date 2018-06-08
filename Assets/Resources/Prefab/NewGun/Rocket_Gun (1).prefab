@@ -68,7 +68,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4531003246582290}
   - component: {fileID: 212752591773203188}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Tip
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -109,7 +109,7 @@ Transform:
   m_GameObject: {fileID: 1158576024947372}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 18, y: -7.83, z: -0.1}
-  m_LocalScale: {x: 0.90000004, y: 0.90000004, z: 1}
+  m_LocalScale: {x: 0.15, y: 0.15, z: 1}
   m_Children:
   - {fileID: 4895354131327382}
   - {fileID: 4191759885539702}
@@ -161,7 +161,7 @@ MonoBehaviour:
     m_Bits: 1024
   m_InteractionType: 02000000
   m_ExitInteractionType: 
-  currentGunType: 4
+  currentGunType: 6
   GunTip: {fileID: 1568097662007658}
 --- !u!212 &212227208069389936
 SpriteRenderer:
@@ -197,7 +197,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 9fb1d732cad740142941f7dcd42d7e4d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 4ca9b81f2139afe4e9134b6d5e367833, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

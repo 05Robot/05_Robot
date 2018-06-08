@@ -33,6 +33,7 @@ public class EnemyBullet : Bullet {
     }
 
 
+    /*
     //todo 敌人子弹伤害重写
     //todo 对玩家进行扣血：MP / HP
     protected override void GenerateDemage()
@@ -41,13 +42,17 @@ public class EnemyBullet : Bullet {
         {
             case EnemyBulletType.NormalEnemyBullet:
 
+
                 break;
             case EnemyBulletType.BulletScreen:
+
 
                 break;
             case EnemyBulletType.EliteEnemyBullet:
 
+
                 break;
         }
     }
+    */
 }

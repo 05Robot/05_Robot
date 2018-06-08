@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Assets.Script.Mono;
+using Chronos;
 using UnityEngine;
 
 
@@ -21,24 +22,36 @@ namespace Assets.Script.Nomono
     {
         [HideInInspector]
         public EnemyContral EC;
-
+        [Rename("警戒范围")]
         public float AttentionDistence=10;
+        [Rename("伤害")]
         public uint ButtleDamage=100;
+        [Rename("攻击距离")]
         public uint ButtleFlyDistance=50;
+        [Rename("子弹速度")]
         public uint ButtleSpeed=30;
+        [Rename("攻击间隔时间")]
         public float ShootCD=3;
+        [Rename("移动间隔时间")]
         public float MoveCD=5;
+        [Rename("最大移动距离")]
         public float MoveDistance=5;
         protected bool IsShootCD = false;
         protected bool IsMoveCD = false;
+        protected PlayerRobotContral prc;
 
 
+        void Start()
+        {
+            prc = FindObjectOfType<PlayerRobotContral>();
+        }
         public abstract void UpdateLogic();
         public abstract void Attack(Vector2 v2);
         public abstract void Move(Vector2 target,float speed);
         /// <summary>
         /// 专门为冲撞设置
         /// </summary>
+        [HideInInspector]
         public bool isFly = false;
 
         public IEnumerator WaiteForShootCD()
@@ -56,7 +69,7 @@ namespace Assets.Script.Nomono
             {
                 if (!EC.Contral && isFly == false)
                     break;
-                Debug.Log("ai 目标" + target);
+                //Debug.Log("ai 目标" + target);
                 EC.transform.position = Vector3.MoveTowards(EC.transform.position, target, speed * Time.deltaTime);
                 //if ((DateTime.Now - dt).Seconds > 5)
                 //    break;
@@ -66,7 +79,17 @@ namespace Assets.Script.Nomono
             yield return new WaitForSeconds(MoveCD);
             IsMoveCD = false;
         }
+
+
+
+
+
+
+
+
+        public Timeline Time
+        {
+            get { return GetComponent<Timeline>(); }
+        }
     }
-  
-   
 }

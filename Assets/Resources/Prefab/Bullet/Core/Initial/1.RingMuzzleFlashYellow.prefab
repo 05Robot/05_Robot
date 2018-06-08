@@ -11,7 +11,8 @@ GameObject:
   - component: {fileID: 19867530}
   - component: {fileID: 19934526}
   - component: {fileID: 82363477142724722}
-  m_Layer: 0
+  - component: {fileID: 114058174536312828}
+  m_Layer: 13
   m_Name: 1.RingMuzzleFlashYellow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28,7 +29,7 @@ GameObject:
   - component: {fileID: 472530}
   - component: {fileID: 19841364}
   - component: {fileID: 19978510}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Rings
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45,7 +46,7 @@ GameObject:
   - component: {fileID: 460268}
   - component: {fileID: 19891580}
   - component: {fileID: 19924798}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Sparks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10336,3 +10337,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
+--- !u!114 &114058174536312828
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 172760}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6090da511f8374135a15dd8655adcd44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _recordingInterval: 0.5
+  _mode: 1
+  _globalClockKey: Player
+  _rewindable: 0
+  _recordingDuration: 30

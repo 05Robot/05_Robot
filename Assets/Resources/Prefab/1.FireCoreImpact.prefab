@@ -10,7 +10,7 @@ GameObject:
   - component: {fileID: 463414}
   - component: {fileID: 19884714}
   - component: {fileID: 19965500}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Embers
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27,7 +27,7 @@ GameObject:
   - component: {fileID: 407194}
   - component: {fileID: 19848484}
   - component: {fileID: 19928096}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: SmokeTrail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -47,7 +47,7 @@ GameObject:
   - component: {fileID: 8263042}
   - component: {fileID: 114221158767216184}
   - component: {fileID: 114178043256291356}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: 1.FireCoreImpact
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -64,7 +64,7 @@ GameObject:
   - component: {fileID: 482256}
   - component: {fileID: 19859070}
   - component: {fileID: 19940580}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Smoke
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -81,7 +81,7 @@ GameObject:
   - component: {fileID: 440766}
   - component: {fileID: 19803540}
   - component: {fileID: 19992128}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Glow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -98,7 +98,7 @@ GameObject:
   - component: {fileID: 428760}
   - component: {fileID: 19840726}
   - component: {fileID: 19988336}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: EmberDeath
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -115,7 +115,7 @@ GameObject:
   - component: {fileID: 471006}
   - component: {fileID: 10872546}
   - component: {fileID: 11498472}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Point light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -132,7 +132,7 @@ GameObject:
   - component: {fileID: 438688}
   - component: {fileID: 19805952}
   - component: {fileID: 19918810}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: TrailedEmbers
   m_TagString: Untagged
   m_Icon: {fileID: 0}

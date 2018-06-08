@@ -10,7 +10,7 @@ GameObject:
   - component: {fileID: 464916}
   - component: {fileID: 19819460}
   - component: {fileID: 19987576}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Glow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27,7 +27,7 @@ GameObject:
   - component: {fileID: 491220}
   - component: {fileID: 19888228}
   - component: {fileID: 19984448}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Funnel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45,7 +45,7 @@ GameObject:
   - component: {fileID: 19840460}
   - component: {fileID: 19913588}
   - component: {fileID: 11460356}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Particles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -62,7 +62,8 @@ GameObject:
   - component: {fileID: 467814}
   - component: {fileID: 19836730}
   - component: {fileID: 19944368}
-  m_Layer: 0
+  - component: {fileID: 114434504313868720}
+  m_Layer: 13
   m_Name: RedBlueEnergyEffect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -79,7 +80,7 @@ GameObject:
   - component: {fileID: 445510}
   - component: {fileID: 19844744}
   - component: {fileID: 19907316}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: LensFlare
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -96,7 +97,7 @@ GameObject:
   - component: {fileID: 415254}
   - component: {fileID: 19819952}
   - component: {fileID: 19911566}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Lightning
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -113,7 +114,7 @@ GameObject:
   - component: {fileID: 450684}
   - component: {fileID: 19858862}
   - component: {fileID: 19977730}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Directional Particles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23680,3 +23681,19 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 142952}
   m_IsPrefabParent: 1
+--- !u!114 &114434504313868720
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 142952}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6090da511f8374135a15dd8655adcd44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _recordingInterval: 0.5
+  _mode: 1
+  _globalClockKey: Player
+  _rewindable: 0
+  _recordingDuration: 30

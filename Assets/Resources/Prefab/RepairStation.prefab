@@ -20,7 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4560815298545858}
   - component: {fileID: 212720210938072160}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Tip
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -36,7 +36,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4607917637341218}
   - component: {fileID: 61549905297683650}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}

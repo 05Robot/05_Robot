@@ -10,7 +10,7 @@ GameObject:
   - component: {fileID: 491916}
   - component: {fileID: 19830006}
   - component: {fileID: 19952388}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Rings
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27,7 +27,7 @@ GameObject:
   - component: {fileID: 443066}
   - component: {fileID: 10841292}
   - component: {fileID: 11449152}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Point light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44,7 +44,7 @@ GameObject:
   - component: {fileID: 498724}
   - component: {fileID: 19833234}
   - component: {fileID: 19926594}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Dust
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -61,7 +61,7 @@ GameObject:
   - component: {fileID: 461206}
   - component: {fileID: 19809404}
   - component: {fileID: 19942094}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Ring
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -79,7 +79,8 @@ GameObject:
   - component: {fileID: 8288486}
   - component: {fileID: 19943832}
   - component: {fileID: 19887524}
-  m_Layer: 0
+  - component: {fileID: 114251859776695526}
+  m_Layer: 13
   m_Name: 1.YellowRingImpact
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13609,3 +13610,19 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 178932}
   m_IsPrefabParent: 1
+--- !u!114 &114251859776695526
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 178932}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6090da511f8374135a15dd8655adcd44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _recordingInterval: 0.5
+  _mode: 1
+  _globalClockKey: Player
+  _rewindable: 0
+  _recordingDuration: 30

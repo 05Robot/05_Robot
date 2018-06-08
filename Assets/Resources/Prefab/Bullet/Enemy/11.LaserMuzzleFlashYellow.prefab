@@ -10,7 +10,7 @@ GameObject:
   - component: {fileID: 458598}
   - component: {fileID: 19867756}
   - component: {fileID: 19968630}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: SparkLinger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27,7 +27,7 @@ GameObject:
   - component: {fileID: 445876}
   - component: {fileID: 19886556}
   - component: {fileID: 19994132}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Smoke
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44,7 +44,7 @@ GameObject:
   - component: {fileID: 475984}
   - component: {fileID: 19815288}
   - component: {fileID: 19972238}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: LongSparks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -61,7 +61,8 @@ GameObject:
   - component: {fileID: 493538}
   - component: {fileID: 19812720}
   - component: {fileID: 19956984}
-  m_Layer: 0
+  - component: {fileID: 114263096698047736}
+  m_Layer: 14
   m_Name: 11.LaserMuzzleFlashYellow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13630,3 +13631,19 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 150096}
   m_IsPrefabParent: 1
+--- !u!114 &114263096698047736
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 150096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6090da511f8374135a15dd8655adcd44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _recordingInterval: 0.5
+  _mode: 1
+  _globalClockKey: Enemy
+  _rewindable: 0
+  _recordingDuration: 30
