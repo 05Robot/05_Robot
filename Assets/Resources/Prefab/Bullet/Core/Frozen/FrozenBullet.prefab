@@ -85,7 +85,7 @@ MonoBehaviour:
   muzzleParticleTime: 1
   trailParticles: []
   isCoreAttack: 1
-  coreAttributeBullet: 4
+  coreAttributeBullet: 3
   bulletBelongTo: 0
 --- !u!114 &114477561952561668
 MonoBehaviour:

@@ -68,10 +68,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0144e3ad8a88947298e2dca62625e6ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _localTimeScale: 0
+  _localTimeScale: 1
   _paused: 0
   _parentKey: Root
-  _parentBlend: 1
+  _parentBlend: 0
   _key: Player
 --- !u!114 &114483340771754676
 MonoBehaviour:
@@ -116,8 +116,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0144e3ad8a88947298e2dca62625e6ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _localTimeScale: 0
+  _localTimeScale: 1
   _paused: 0
   _parentKey: Root
-  _parentBlend: 1
+  _parentBlend: 0
   _key: Enemy

@@ -60,6 +60,7 @@ public class FightAi : EnemyAi
 
     IEnumerator Attack()
     {
+        transform.GetChild(0).GetComponent<EnemyWeponContral>().Attack();
         yield return new WaitForSeconds(AttakeDelay);
         if (Vector2.Distance(prc.transform.position, transform.position)<= ButtleFlyDistance)
             prc.GetDamage((int)ButtleDamage, (int)ButtleDamage);

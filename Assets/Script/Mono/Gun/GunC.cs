@@ -27,7 +27,7 @@ public abstract class GunC : MonoBehaviour
     /// <summary>
     /// 武器旋转控制
     /// </summary>
-    protected bool GunRotateControl = true;
+    public bool GunRotateControl = true;
     //------------------------------------------------------
     /// <summary>
     /// 角色对象
@@ -90,7 +90,7 @@ public abstract class GunC : MonoBehaviour
     /// <summary>
     /// 枪的所有具体数据
     /// </summary>
-    protected GunM Gun_Data;
+    public GunM Gun_Data;
 
     #region 公开武器属性，全局可用可修改属性
     //当前枪的状态类型

@@ -390,12 +390,24 @@ public class SwordGunC : GunC
                     other.transform.GetComponent<ShieldProtect>().ProtectAimGameObject.GetComponent<EnemyContral>().GetDamage(Convert.ToInt32(Gun_Data.DemageNums), Convert.ToInt32(Gun_Data.DemageNums));
                     HitPointIDHashSet.Add(other.GetInstanceID());
                     HitPointIDHashSet.Add(other.transform.GetComponent<ShieldProtect>().ProtectAimGameObject.GetInstanceID());
+                    //设置硬直击退
+                    other.transform.GetComponent<ShieldProtect>().ProtectAimGameObject.GetComponent<EnemyContral>().SetDelay(0.5f, 2);
+                    other.transform.GetComponent<ShieldProtect>().ProtectAimGameObject.GetComponent<EnemyContral>().SetKnockback(-transform.right.normalized, 0.5f, 2);
                 }
+
                 //否则，击中的是敌人内部
                 if (other.gameObject.layer == 11 && !HitPointIDHashSet.Contains(other.GetInstanceID()))
                 {
                     other.transform.GetComponent<EnemyContral>().GetDamage(Convert.ToInt32(Gun_Data.DemageNums), Convert.ToInt32(Gun_Data.DemageNums));
                     HitPointIDHashSet.Add(other.GetInstanceID());
+                    //设置硬直击退
+                    other.transform.GetComponent<EnemyContral>().SetDelay(0.5f, 2);
+                    other.transform.GetComponent<EnemyContral>().SetKnockback(-transform.right.normalized, 0.5f, 2);
+                }
+                //击中紫水晶与零件箱
+                if (other.gameObject.layer == 19 || other.gameObject.layer == 20)
+                {
+                    other.transform.GetComponent<HitCheckBase>().Broken();
                 }
                 break;
             //剑的特殊攻击
@@ -416,13 +428,22 @@ public class SwordGunC : GunC
                     //击中敌人护盾 && 可重复击中
                     if (other.gameObject.layer == 18)
                     {
-                        other.transform.GetComponent<ShieldProtect>().ProtectAimGameObject.GetComponent<EnemyContral>().GetDamage(Convert.ToInt32(Gun_Data.DemageNums), Convert.ToInt32(Gun_Data.DemageNums));
+                        other.transform.GetComponent<ShieldProtect>().ProtectAimGameObject.GetComponent<EnemyContral>().GetDamage(Convert.ToInt32(Gun_Data.SpecialDemageNums), Convert.ToInt32(Gun_Data.SpecialDemageNums));
+                        //设置硬直击退
+                        other.transform.GetComponent<ShieldProtect>().ProtectAimGameObject.GetComponent<EnemyContral>().SetDelay(0.5f, 3);
+                        other.transform.GetComponent<ShieldProtect>().ProtectAimGameObject.GetComponent<EnemyContral>().SetKnockback(-transform.right.normalized, 0.5f, 3);
                     }
                     //击中敌人内部 && 是否没有护盾
                     if (other.gameObject.layer == 11 && !other.transform.GetComponent<EnemyContral>().ER.IsConsumeMp)
                     {
-                        other.transform.GetComponent<EnemyContral>().GetDamage(Convert.ToInt32(Gun_Data.DemageNums), Convert.ToInt32(Gun_Data.DemageNums));
+                        other.transform.GetComponent<EnemyContral>().GetDamage(Convert.ToInt32(Gun_Data.SpecialDemageNums), Convert.ToInt32(Gun_Data.SpecialDemageNums));
+                        //设置硬直击退
+                        other.transform.GetComponent<EnemyContral>().SetDelay(0.5f, 3);
+                        other.transform.GetComponent<EnemyContral>().SetKnockback(-transform.right.normalized, 0.5f, 3);
                     }
+                    //击中紫水晶与零件箱
+                    if (other.gameObject.layer == 19 || other.gameObject.layer == 20)
+                        other.transform.GetComponent<HitCheckBase>().Broken();
                 }
                 break;
         }

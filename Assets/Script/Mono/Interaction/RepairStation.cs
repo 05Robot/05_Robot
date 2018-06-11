@@ -5,8 +5,17 @@ using UnityEngine;
 public class RepairStation : InteractionCheckBase
 {
     [Header("维修站信息：")]
-    [SerializeField] private GameObject RepairStationCanvas;
-    [SerializeField] private GameObject RepairStationTip;
+    [SerializeField] private GameObject _RepairStationUI;
+    //[SerializeField] private GameObject RepairStationTip;
+    [Header("开启维修站图片")]
+    [SerializeField] private Sprite _startRepairStationSprite;
+    [SerializeField] private Sprite _closeRepairStationSprite;
+    private SpriteRenderer _repairStationSpriteRenderer;
+
+    void Start()
+    {
+        _repairStationSpriteRenderer = GetComponent<SpriteRenderer>();
+    }
 
     /// <summary>
     /// 交互后触发事件
@@ -14,10 +23,8 @@ public class RepairStation : InteractionCheckBase
     protected override void InteractionEvent()
     {
         base.InteractionEvent();
-        //触发的事件
-        RepairStationCanvas.SetActive(true);
-
-
+        //游戏暂停
+        TimeManager.Instance.StopGame();
     }
 
     /// <summary>
@@ -26,9 +33,9 @@ public class RepairStation : InteractionCheckBase
     protected override void ExitInteractionEvent()
     {
         base.ExitInteractionEvent();
-        //退出事件
-
     }
+
+
 
     /// <summary>
     /// 进入触发范围事件
@@ -37,8 +44,10 @@ public class RepairStation : InteractionCheckBase
     protected override void OnTriggerStay2D(Collider2D other)
     {
         base.OnTriggerStay2D(other);
-        RepairStationTip.SetActive(true);
+        //RepairStationTip.SetActive(true);
+        _repairStationSpriteRenderer.sprite = _startRepairStationSprite;
 
+        TimeManager.Instance.InRepairStation = true;
     }
 
     /// <summary>
@@ -48,8 +57,9 @@ public class RepairStation : InteractionCheckBase
     protected override void OnTriggerExit2D(Collider2D other)
     {
         base.OnTriggerExit2D(other);
-        RepairStationTip.SetActive(false);
+        //RepairStationTip.SetActive(false);
+        _repairStationSpriteRenderer.sprite = _closeRepairStationSprite;
 
-
+        TimeManager.Instance.InRepairStation = false;
     }
 }

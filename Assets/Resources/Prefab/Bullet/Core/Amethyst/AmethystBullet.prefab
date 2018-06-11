@@ -101,5 +101,5 @@ MonoBehaviour:
   muzzleParticleTime: 1
   trailParticles: []
   isCoreAttack: 1
-  coreAttributeBullet: 3
+  coreAttributeBullet: 2
   bulletBelongTo: 0

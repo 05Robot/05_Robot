@@ -21,7 +21,7 @@ namespace Assets.Script
             Ice
 
         }
-        public BaseCore(int tp,int maxhp,int minhp,string name,CoreElement ce,string discription)
+        public BaseCore(int tp,int maxhp,int minhp,CoreElement ce)
         {
             if (minhp>maxhp||maxhp>tp)
             {
@@ -31,9 +31,9 @@ namespace Assets.Script
             TotalPoint = tp;
             MaxHp = maxhp;
             MinHp = minhp;
-            Discription = discription;
+        
             CurrentHpPoint = (MaxHp + MinHp) / 2;
-            Name = name;
+       
             Element = ce;
             BaseCore.CoreList.Add(this);
         }
@@ -45,8 +45,6 @@ namespace Assets.Script
 
 
         public readonly CoreElement Element;
-        public readonly string Name;
-        public readonly string Discription;
         public readonly int TotalPoint;
         public readonly int MaxHp;
         public readonly int MinHp;

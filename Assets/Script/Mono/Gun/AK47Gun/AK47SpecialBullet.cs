@@ -68,8 +68,18 @@ public class AK47SpecialBullet : Bullet
                 case 11:
                     hitEnemyContral = hitPoint[i].transform.GetComponent<EnemyContral>();
                     break;
+                //紫水晶与零件箱
+                case 19:
+                case 20:
+                    hitPoint[i].transform.GetComponent<HitCheckBase>().Broken();
+                    break;
             }
-
+            //设置硬直击退
+            if (hitEnemyContral != null)
+            {
+                hitEnemyContral.SetDelay(0.5f, 4);
+                hitEnemyContral.SetKnockback(-transform.right.normalized, 0.5f, 4);
+            }
             if (hitEnemyContral != null)
             {
                 hitEnemyContral.GetDamage(Convert.ToInt32(ExplosionDemage), Convert.ToInt32(ExplosionDemage));

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(CircleCollider2D))]
+[RequireComponent(typeof(Collider2D))]
 
 public abstract class InteractionCheckBase : MonoBehaviour
 {
@@ -20,13 +20,13 @@ public abstract class InteractionCheckBase : MonoBehaviour
         PressingE = 2,
         PressEsc = 3
     }
-    protected CircleCollider2D SelfCollider2D;
+    protected Collider2D SelfCollider2D;
     [Header("检测的对象：")]
     [SerializeField] private LayerMask m_layerMask;
     [Header("交互的方式:")]
     [SerializeField] private InteractionType[] m_InteractionType;
-    [Header("退出的交互方式：")]
-    [SerializeField] private ExitInteractionType[] m_ExitInteractionType;
+    //[Header("退出的交互方式：")]
+    //[SerializeField] private ExitInteractionType[] m_ExitInteractionType;
     //是否可以触发事件
     protected bool ifCaneInteractioning = false;
     //是否进入触发范围
@@ -39,7 +39,7 @@ public abstract class InteractionCheckBase : MonoBehaviour
     }
 
     // 按E最大持续时间
-    private const float PRESSING_E_TIME = 1.5f;
+    private const float PRESSING_E_TIME = 1.0f;
     // 按E当前持续时间
     private float pressingETimeing = 0.0f;
 

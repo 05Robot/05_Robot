@@ -102,11 +102,19 @@ public class AWMSpecialBullet : Bullet {
                 else
                 {
                     //对这个敌人进行MP扣除
-                    hitPoint[i].transform.GetComponent<ShieldProtect>().GetEnemyControl().GetDamage(Convert.ToInt32(DemageNums), Convert.ToInt32(DemageNums));
+                    hitPoint[i].transform.GetComponent<ShieldProtect>().GetEnemyControl()
+                        .GetDamage(Convert.ToInt32(DemageNums), Convert.ToInt32(DemageNums));
                     //添加击中的护盾的ID
                     HitPointIDHashSet.Add(hitPoint[i].transform.GetInstanceID());
                     //添加护盾里的敌人ID
-                    HitPointIDHashSet.Add(hitPoint[i].transform.GetComponent<ShieldProtect>().ProtectAimGameObject.GetInstanceID());
+                    HitPointIDHashSet.Add(hitPoint[i].transform.GetComponent<ShieldProtect>().ProtectAimGameObject
+                        .GetInstanceID());
+
+                    //设置硬直击退
+                    hitPoint[i].transform.GetComponent<ShieldProtect>().GetEnemyControl()
+                        .SetDelay(0.5f, 4);
+                    hitPoint[i].transform.GetComponent<ShieldProtect>().GetEnemyControl()
+                        .SetKnockback(-transform.right.normalized, 0.5f, 4);
                 }
             }
             //击中敌人内部
@@ -124,8 +132,18 @@ public class AWMSpecialBullet : Bullet {
                     hitPoint[i].transform.GetComponent<EnemyContral>().GetRealDamage(Convert.ToInt32(DemageNums));
                     //添加敌人ID
                     HitPointIDHashSet.Add(hitPoint[i].transform.GetInstanceID());
+
+                    //设置硬直击退
+                    hitPoint[i].transform.GetComponent<EnemyContral>().SetDelay(0.5f, 4);
+                    hitPoint[i].transform.GetComponent<EnemyContral>()
+                        .SetKnockback(-transform.right.normalized, 0.5f, 4);
                 }
             }
+
+
+            //击中紫水晶与零件箱
+            if(hitPoint[i].transform.gameObject.layer == 19 || hitPoint[i].transform.gameObject.layer == 20)
+                hitPoint[i].transform.GetComponent<HitCheckBase>().Broken();
         }
     }
 

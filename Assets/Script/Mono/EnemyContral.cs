@@ -117,12 +117,46 @@ namespace Assets.Script.Mono
         {
             GetComponent<BoxCollider2D>().enabled = false;
             //播放死亡动画
+            GetComponent<Animator>().Play("Dead");
             AiStart = false;
             Contral = false;
             IsDead = true;
+
+            //敌人死亡，核心爆炸
+            DeadCoreExplode();
         }
 
 
+        /// <summary>
+        /// 敌人死亡，核心爆炸
+        /// 2018.6.10 ZMK添加
+        /// </summary>
+        private void DeadCoreExplode()
+        {
+            if (!GameManager.Instance.PRC._mPlayerRobot.IsUseCore) return;
+            GameObject CoreExplode = null;
+            switch (GameManager.Instance.PRC._mPlayerRobot.Core.Element)
+            {
+                case BaseCore.CoreElement.Primary:
+                    CoreExplode = ObjectPool.Instance.Spawn("1.NormalCoreImpact");
+                    break;
+                case BaseCore.CoreElement.Fire:
+                    CoreExplode = ObjectPool.Instance.Spawn("1.FireCoreImpact");
+                    break;
+                case BaseCore.CoreElement.Amethyst:
+                    CoreExplode = ObjectPool.Instance.Spawn("1.AmethystCoreImpact");
+                    break;
+                case BaseCore.CoreElement.Ice:
+                    CoreExplode = ObjectPool.Instance.Spawn("1.ForzenCoreImpact");
+                    break;
+            }
+            CoreExplode.transform.position = transform.position;
+        }
+
+        public void ClearWeapon()
+        {
+            GetComponentInChildren<EnemyWeponContral>().gameObject.SetActive(false);
+        }
 
         #region 接口
         void StartAi(bool isStart)
@@ -162,9 +196,9 @@ namespace Assets.Script.Mono
 
         #endregion
 
-        public Timeline Time
-        {
-            get { return GetComponent<Timeline>(); }
-        }
+        //public Timeline Time
+        //{
+        //    get { return GetComponent<Timeline>(); }
+        //}
     }
 }

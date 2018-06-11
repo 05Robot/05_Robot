@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using Assets.Script.Mono;
 using UnityEngine;
 
 public class HammerGunC : GunC
@@ -36,9 +38,9 @@ public class HammerGunC : GunC
     #endregion
     [Header("--特殊信息--")]
     [Rename("锤影")]
-    [SerializeField]
-    private MeleeWeaponTrail HammerTrail;
+    [SerializeField]private MeleeWeaponTrail HammerTrail;
     private bool HammerGunNormalAttacking = false;//是否攻击中
+    private HashSet<int> HitPointIDHashSet;//普通攻击中的敌人与敌人护盾的ID
 
     //蓄能攻击特效
     private GameObject RedEnergyEffect;
@@ -67,6 +69,8 @@ public class HammerGunC : GunC
         RedEnergyEffect = m_player.transform.Find("RedEnergyEffect").gameObject;
 
         RedDashEffect = m_player.transform.Find("RedDashEffect").gameObject;
+
+        HitPointIDHashSet = new HashSet<int>();
     }
     protected override void Update()
     {
@@ -214,7 +218,72 @@ public class HammerGunC : GunC
     }
 
 
+    /// <summary>
+    /// 攻击触发机制
+    /// </summary>
+    /// <param name="other"></param>
+    void OnTriggerStay2D(Collider2D other)
+    {
+        //是否攻击中
+        if (!HammerGunNormalAttacking) return;
 
+        //对敌人造成伤害
+        switch (Gun_Data.GunState)
+        {
+            //锤子普通攻击
+            case GunState.NormalState:
+                //击中敌人护盾 && 不重复击中
+                if (other.gameObject.layer == 18 && !HitPointIDHashSet.Contains(other.GetInstanceID()))
+                {
+                    other.transform.GetComponent<ShieldProtect>().ProtectAimGameObject.GetComponent<EnemyContral>() .GetDamage(Convert.ToInt32(Gun_Data.DemageNums), Convert.ToInt32(Gun_Data.DemageNums));
+                    HitPointIDHashSet.Add(other.GetInstanceID());
+                    HitPointIDHashSet.Add(other.transform.GetComponent<ShieldProtect>().ProtectAimGameObject.GetInstanceID());
+
+                    //设置硬直击退
+                    other.transform.GetComponent<ShieldProtect>().ProtectAimGameObject.GetComponent<EnemyContral>().SetDelay(0.5f, 3);
+                    other.transform.GetComponent<ShieldProtect>().ProtectAimGameObject.GetComponent<EnemyContral>().SetKnockback(-transform.right.normalized, 0.5f, 3);
+                }
+
+                //否则，击中的是敌人内部
+                if (other.gameObject.layer == 11 && !HitPointIDHashSet.Contains(other.GetInstanceID()))
+                {
+                    other.transform.GetComponent<EnemyContral>().GetDamage(Convert.ToInt32(Gun_Data.DemageNums), Convert.ToInt32(Gun_Data.DemageNums));
+                    HitPointIDHashSet.Add(other.GetInstanceID());
+
+                    //设置硬直击退
+                    other.transform.GetComponent<EnemyContral>().SetDelay(0.5f, 3);
+                    other.transform.GetComponent<EnemyContral>().SetKnockback(-transform.right.normalized, 0.5f, 3);
+                }
+
+                //击中紫水晶与零件箱
+                if (other.gameObject.layer == 19 || other.gameObject.layer == 20)
+                    other.transform.GetComponent<HitCheckBase>().Broken();
+                break;
+            //锤子特殊攻击
+            case GunState.SpecialState:
+                //击中敌人护盾 && 可重复击中
+                if (other.gameObject.layer == 18)
+                {
+                    other.transform.GetComponent<ShieldProtect>().ProtectAimGameObject.GetComponent<EnemyContral>().GetDamage(Convert.ToInt32(Gun_Data.SpecialDemageNums), Convert.ToInt32(Gun_Data.SpecialDemageNums));
+                    //设置硬直击退
+                    other.transform.GetComponent<ShieldProtect>().ProtectAimGameObject.GetComponent<EnemyContral>().SetDelay(0.5f, 4);
+                    other.transform.GetComponent<ShieldProtect>().ProtectAimGameObject.GetComponent<EnemyContral>().SetKnockback(-transform.right.normalized, 0.5f, 4);
+                }
+
+                //击中敌人内部 && 是否没有护盾
+                if (other.gameObject.layer == 11 && !other.transform.GetComponent<EnemyContral>().ER.IsConsumeMp)
+                {
+                    other.transform.GetComponent<EnemyContral>().GetDamage(Convert.ToInt32(Gun_Data.SpecialDemageNums),Convert.ToInt32(Gun_Data.SpecialDemageNums));
+                    //设置硬直击退
+                    other.transform.GetComponent<EnemyContral>().SetDelay(0.5f, 4);
+                    other.transform.GetComponent<EnemyContral>().SetKnockback(-transform.right.normalized, 0.5f, 4);
+                }
+                //击中紫水晶与零件箱
+                if (other.gameObject.layer == 19 || other.gameObject.layer == 20)
+                    other.transform.GetComponent<HitCheckBase>().Broken();
+                break;
+        }
+    }
 
     /// <summary>
     /// 右键蓄能过程
@@ -251,9 +320,9 @@ public class HammerGunC : GunC
     /// <summary>
     /// 锤子 - 特殊攻击
     /// 1、冷却状态（消耗HP）无法使用
-    /// 2、todo 松开右键后，向鼠标指向方向冲刺，冲刺距离=子弹距离，冲刺速度=子弹速度，对沿途敌人造成相同伤害和1s硬直，会穿过敌人
-    /// 3、todo 移动距离：3+4t
-    /// 4、todo 移动速度：12+2t
+    /// 2、松开右键后，向鼠标指向方向冲刺，冲刺距离=子弹距离，冲刺速度=子弹速度，对沿途敌人造成相同伤害和1s硬直，会穿过敌人
+    /// 3、移动距离：3+4t
+    /// 4、移动速度：12+2t
     /// 右键蓄能攻击
     /// </summary>
     private bool CanFire = false;//蓄能所用，判断是否真的开始冲撞了
@@ -280,7 +349,9 @@ public class HammerGunC : GunC
         //-------------------------------------------------------
         //todo 调用人物冲撞函数（传进冲刺距离，冲刺速度，或者是伤害和硬直）
         GunRotateControl = false;
-        Invoke("RecoverSpecialDashRotate", 2.0f);
+        HammerGunNormalAttacking = true;
+        Invoke("RecoverSpecialDashRotate", 0.5f);
+        StartCoroutine(m_playerRobotContral.Bump(2 * RightEnergyTime + Gun_Data.SpecialButtleSpeed, 4 * RightEnergyTime + Gun_Data.SpecialAttackDistance));
 
         //角色MPHP减少
         PlayerMPHPChange((int)Gun_Data.SpecialComsumeMP + base.RightEnergyTime * 50.0f, 0);
@@ -323,6 +394,8 @@ public class HammerGunC : GunC
         WeaponManager.Instance.SpecialGunToNormalGun();
         //冲撞特效消失
         RedDashEffect.SetActive(false);
+
+        HammerGunNormalAttacking = false;
     }
 
     #region 枪械特殊信息（保存）

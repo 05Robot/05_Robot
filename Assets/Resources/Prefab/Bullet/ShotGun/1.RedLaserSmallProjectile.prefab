@@ -7179,6 +7179,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _recordingInterval: 0.5
   _mode: 1
-  _globalClockKey: 
+  _globalClockKey: Player
   _rewindable: 0
   _recordingDuration: 30

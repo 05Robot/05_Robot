@@ -210,16 +210,33 @@ public class PlayerRobotContral : MonoBehaviour
     #region 接口
   
     /// <summary>
-    /// 返回核心生命值上下限及描述
+    /// 返回核心生命值上下限
     /// </summary>
     /// <param name="minhp"></param>
     /// <param name="maxhp"></param>
     /// <param name="discription"></param>
-    public void GetCoreMinMaxHp(out int minhp, out int maxhp,out string discription)
+    public void GetCoreMinMaxHp(out int minhp, out int maxhp)
     {
        minhp = _mPlayerRobot.Core.MinHp;
        maxhp= _mPlayerRobot.Core.MaxHp;
-       discription = _mPlayerRobot.Core.Discription;
+       
+    }
+    /// <summary>
+    /// 返回当前生命值已经当前最大生命值，不会修改
+    /// </summary>
+    public void GetCurrentAndMaxHp(out int currenthp, out int maxhp)
+    {
+        currenthp = _mPlayerRobot.CurrentHp;
+        maxhp = _mPlayerRobot.MaxHp;
+    }
+
+    /// <summary>
+    /// 返回当前MP已经当前最大MP，不会修改
+    /// </summary>
+    public void GetCurrentAndMaxMP(out int currentmp, out int maxmp)
+    {
+        currentmp = _mPlayerRobot.CurrentMp;
+        maxmp = _mPlayerRobot.MaxMp ;
     }
     /// <summary>
     /// 设置核心最大生命值
@@ -360,10 +377,10 @@ public class PlayerRobotContral : MonoBehaviour
 
     #endregion
 
-    public Timeline Time
-    {
-        get { return GetComponent<Timeline>(); }
-    }
+    //public Timeline Time
+    //{
+    //    get { return GetComponent<Timeline>(); }
+    //}
 
 
 }

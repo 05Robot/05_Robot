@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Assets.Script.Mono;
-using Chronos;
 using UnityEngine;
 
 
@@ -67,7 +66,7 @@ namespace Assets.Script.Nomono
             // DateTime dt = DateTime.Now;
             while (Vector2.Distance(EC.transform.position, target) > 1)
             {
-                if (!EC.Contral && isFly == false)
+                if (!EC.Contral || isFly == true)
                     break;
                 //Debug.Log("ai 目标" + target);
                 EC.transform.position = Vector3.MoveTowards(EC.transform.position, target, speed * Time.deltaTime);
@@ -79,17 +78,8 @@ namespace Assets.Script.Nomono
             yield return new WaitForSeconds(MoveCD);
             IsMoveCD = false;
         }
-
-
-
-
-
-
-
-
-        public Timeline Time
-        {
-            get { return GetComponent<Timeline>(); }
-        }
     }
+  
+
+   
 }

@@ -4,7 +4,15 @@ using Assets.Script.Nomono;
 using Chronos;
 using UnityEngine;
 
-public class SampleAi : EnemyAi {
+public class SampleAi : EnemyAi
+{
+    private Transform ShootPoint;
+
+    void Start()
+    {
+        prc = FindObjectOfType<PlayerRobotContral>();
+        ShootPoint = transform.Find("ShootPoint");
+    }
 
     public override void UpdateLogic()
     {
@@ -47,7 +55,7 @@ public class SampleAi : EnemyAi {
     {
         GameObject buttle = ObjectPool.Instance.Spawn("11.NormalEnemyBullet");
 
-        buttle.transform.position = EC.transform.position;
+        buttle.transform.position = ShootPoint.position;
         buttle.transform.rotation = buttle.transform.rotation.LookTo2D(buttle.transform.position, v2);
         //Vector3 direction = (EC.transform.position - (Vector3)v2).normalized;
         //if (v2.y> buttle.transform.position.y)
@@ -86,10 +94,10 @@ public class SampleAi : EnemyAi {
     }
 
 
-    public Timeline Time
-    {
-        get { return GetComponent<Timeline>(); }
-    }
+    //public Timeline Time
+    //{
+    //    get { return GetComponent<Timeline>(); }
+    //}
 
 
 

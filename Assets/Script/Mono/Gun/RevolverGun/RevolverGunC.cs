@@ -60,7 +60,7 @@ public class RevolverGunC : GunC {
     /// <summary>
     /// 左轮手枪 - 特殊攻击
     /// 1、冷却状态（消耗HP）无法使用
-    /// 2、2s的子弹时间【1、会有一个20%的伤害提升；todo 2、这段时间内除玩家以外的东西（敌人）速度都变成原来的0.5倍】
+    /// 2、2s的子弹时间【1、会有一个20%的伤害提升；2、这段时间内除玩家以外的东西（敌人）速度都变成原来的0.5倍】
     /// 右键点击
     /// </summary>
     protected override void RightNormalShot()
@@ -75,8 +75,8 @@ public class RevolverGunC : GunC {
         //开始计时
         StartCoroutine(SpecialShotCD());
         //-------------------------------------------------------
-        //todo 时间控制【除玩家以外的东西（敌人）速度都变成原来的0.5倍】
-
+        //时间控制【除玩家以外的东西（敌人）速度都变成原来的0.5倍】
+        TimeManager.Instance.DelayTime(2.0f);
 
         //20%的伤害提升
         WeaponManager.Instance.ChangeButtleDemagePercent(0.2f, 2);

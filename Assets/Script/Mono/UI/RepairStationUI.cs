@@ -1,9 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Assets.Script;
+using Assets.Script.Nomono;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class RepairStationUI : MonoBehaviour
+public class RepairStationUI : Singleton<RepairStationUI>
 {
     #region 核心
     [Header("有关核心--------")]
@@ -24,6 +26,8 @@ public class RepairStationUI : MonoBehaviour
     [SerializeField] private Image m_CurrentCoreTextPos;
     //血管样式修改
     [Header("所有血管样式")][SerializeField]private Sprite[] m_AllHPMPStyle;
+    //血管高亮样式修改
+    [Header("所有高亮血管样式")][SerializeField]private Sprite[] m_AllHPMPHighLightStyle;
     //血管位置
     [Header("血管位置")] [SerializeField] private Image m_HPMPPos;
     //所有需要拖拽出来的核心的图片
@@ -34,7 +38,7 @@ public class RepairStationUI : MonoBehaviour
     /// <summary>
     /// 当前拥有的所有核心
     /// </summary>
-    public CoreAttribute[] m_AllCoreType;
+    public List<CoreAttribute> m_AllCoreType;
     /// <summary>
     /// 当前核心种类
     /// </summary>
@@ -103,15 +107,34 @@ public class RepairStationUI : MonoBehaviour
     [SerializeField]private Slider MainSlider_HP;
     [Header("左红条")] [SerializeField] private Slider HpSilder;
     [Header("右蓝条")] [SerializeField] private Slider MpSilder;
+    [Header("当前HPMP最大值显示：")]
+    [SerializeField] private Text HPMaxText;
+    [SerializeField] private Text MPMaxText;
+
     /// <summary>
     /// 当前主角拥有的HP与MP值
     /// </summary>
     public int m_CurrentHP, m_CurrentMP;
     /// <summary>
+    /// 当前主角拥有的HP与MP比例
+    /// </summary>
+    public float m_CurrentHPPercent, m_CurrentMPPercent;
+    /// <summary>
+    /// 当前主角最大的HP值和最大的MP值
+    /// </summary>
+    public int m_CurrentMaxHP, m_CurrentMaxMP;
+    /// <summary>
+    /// 当前滑块位置的比例
+    /// </summary>
+    public float m_CurrentMainSliderPosPercent;
+    /// <summary>
     /// 当前HP的上限和下限
     /// </summary>
     private CoreToBlood m_CurrentCoreToBlood;
-
+    /// <summary>
+    /// 是否可修改HP最大值
+    /// </summary>
+    private bool CanChangeBloodHPMax;
     #endregion
 
     #region 商店
@@ -123,22 +146,92 @@ public class RepairStationUI : MonoBehaviour
     /// <summary>
     /// 零件数目
     /// </summary>
-    private int m_PartNums = 0;
+    private int m_PartNums;
     /// <summary>
     /// 火箭筒个数
     /// </summary>
-    private int m_RocketNums = 0;
+    private int m_RocketNums ;
     /// <summary>
     /// 是否已有冰冻核心
     /// </summary>
-    private bool m_HavingFrozenCore = false;
+    private bool m_HavingFrozenCore;
     //是否可买
     private bool[] m_ifCanBuySomeThing;
     #endregion
+
+    #region 按钮管理（返回游戏【保存】、个人资料、主菜单、帮助）
+    [Header("各个按钮")]
+    [SerializeField] private GameObject SelfInfoUI, MainMenuUI, HelpUI;
+    private GameObject[] allUI;
+    #endregion
+
+    #region 主角
+    private PlayerRobotContral PlayerControl;
+    #endregion
+
     private void Start()
     {
-        //todo 获取当前拥有的武器种类，当前已经装备的武器种类
-        //WeaponManager.Instance.
+        PlayerControl = GameManager.Instance.PRC;
+        #region 获取所有信息
+        //保存
+        //核心
+        foreach (BaseCore BC in BaseCore.CoreList)
+        {
+            switch (BC.Element)
+            {
+                case BaseCore.CoreElement.Primary:
+                    m_AllCoreType.Add(CoreAttribute.Initial);
+                    break;
+                case BaseCore.CoreElement.Fire:
+                    m_AllCoreType.Add(CoreAttribute.Fire);
+                    break;
+                case BaseCore.CoreElement.Amethyst:
+                    m_AllCoreType.Add(CoreAttribute.Amethyst);
+                    break;
+                case BaseCore.CoreElement.Ice:
+                    m_AllCoreType.Add(CoreAttribute.Frozen);
+                    break;
+            }
+        }
+        switch (PlayerControl._mPlayerRobot.Core.Element)
+        {
+            case BaseCore.CoreElement.Primary:
+                m_CurrentCoreType = CoreAttribute.Initial;
+                break;
+            case BaseCore.CoreElement.Fire:
+                m_CurrentCoreType = CoreAttribute.Fire;
+                break;
+            case BaseCore.CoreElement.Amethyst:
+                m_CurrentCoreType = CoreAttribute.Amethyst;
+                break;
+            case BaseCore.CoreElement.Ice:
+                m_CurrentCoreType = CoreAttribute.Frozen;
+                break;
+        }
+        //m_AllCoreType当前拥有核心种类
+        //m_CurrentCoreType当前核心种类
+        //武器
+        WeaponManager.Instance.GetAllGunTypeAndCurrentGunType(out m_AllGunType, out m_CurrentGunType);
+        //m_AllGunType当前拥有的武器种类
+        //m_CurrentGunType当前装配上的武器种类
+        //HPMP
+        PlayerControl.GetCurrentAndMaxHp(out m_CurrentHP,out m_CurrentMaxHP);
+        PlayerControl.GetCurrentAndMaxMP(out m_CurrentMP, out m_CurrentMaxMP);
+        //m_CurrentHP, m_CurrentMP当前主角拥有的HP与MP值
+        //m_CurrentMaxHP, m_CurrentMaxMP当前主角最大的HP值和最大的MP值
+        //商店
+        m_PartNums = WeaponManager.Instance.PartNums;
+        //m_PartNums零件数目
+        m_RocketNums = WeaponManager.Instance.RocketGunNumber;
+        // m_RocketNums火箭筒个数
+        foreach (CoreAttribute CA in m_AllCoreType)
+            if (CA == CoreAttribute.Frozen)
+            {
+                m_HavingFrozenCore = true;
+                break;
+            }
+        //是否已有冰冻核心
+        #endregion
 
         m_AllCopyDraggingGun = new GameObject[6];
         m_AllCopyDraggingCore = new GameObject[4];
@@ -182,53 +275,165 @@ public class RepairStationUI : MonoBehaviour
         m_CurrentCoreTextPos.sprite = m_AllCoreText[(int) m_CurrentCoreType];
         m_AllCoreShow[(int)m_CurrentCoreType].transform.GetChild(4).gameObject.SetActive(true);
 
-        m_HPMPPos.sprite = m_AllHPMPStyle[(int) m_CurrentCoreType];
-
-        _CoreIndex = (int) m_CurrentCoreType;
+        _coreIndex = (int) m_CurrentCoreType;
         #endregion
-
         #region 商店管理（零件数量）
-        m_ifCanBuySomeThing = new bool[5]{true, true, true, true, true };
+        m_ifCanBuySomeThing = new bool[]{true, true, true, true, true };
+        foreach (GameObject go in m_CanNotBuyPos)
+            go.SetActive(false);
         m_PartText.text = m_PartNums.ToString();
         //禁止使用维修服务
-        /*if (m_PartNums > ??)
+        if (m_PartNums < 10)
         {
             m_ifCanBuySomeThing[0] = false;
-        }*/
+        }
         //禁止买火箭
         if (m_RocketNums == 1)
         {
             m_ifCanBuySomeThing[1] = false;
-            //todo 显示禁止买图片
-            //m_CanNotBuyPos[]
+            //显示禁止买图片
+            m_CanNotBuyPos[1].SetActive(true);
         }
         //禁止买冰冻核心
         if (m_HavingFrozenCore)
         {
             m_ifCanBuySomeThing[2] = false;
-            //todo 显示禁止买图片
+            //显示禁止买图片
+            m_CanNotBuyPos[2].SetActive(true);
         }
         #endregion
-
         #region 血条管理
-        m_AllCoreToBlood = new CoreToBlood[4] {Initial, Fire, Amethyst, Frozen};
+        m_AllCoreToBlood = new CoreToBlood[] { Initial, Fire, Amethyst, Frozen };
+        //------------------------------------------------------------------------
+        m_HPMPPos.sprite = m_AllHPMPStyle[(int)m_CurrentCoreType];
 
-        m_CurrentCoreToBlood = m_AllCoreToBlood[_CoreIndex];
+        m_CurrentCoreToBlood = m_AllCoreToBlood[_coreIndex];
 
+        //当前HPMP占总值百分比
+        m_CurrentHPPercent = m_CurrentHP / (m_CurrentMaxHP * 1.0f);
+        m_CurrentMPPercent = m_CurrentMP / (m_CurrentMaxMP * 1.0f);
+        //滑块初始化
+        //主滑块位置比例（HP下限 / HP最大值）
+        m_CurrentMainSliderPosPercent = (m_CurrentMaxHP - m_CurrentCoreToBlood.HPLowerNums) / (float) (m_CurrentCoreToBlood.HPUpperNums - m_CurrentCoreToBlood.HPLowerNums);
+
+        MainSlider_MP.maxValue = MainSlider_HP.maxValue = m_CurrentCoreToBlood.AllBloodNums;
+        MainSlider_MP.minValue = MainSlider_HP.minValue = 0;
+        MainSlider_MP.value = m_CurrentMaxMP;
+        MainSlider_HP.value = m_CurrentMaxHP;
+
+        HpSilder.maxValue = MainSlider_HP.value;
+        MpSilder.maxValue = MainSlider_MP.value;
+        HpSilder.minValue = MpSilder.minValue = 0;
+        HpSilder.value = m_CurrentHP;
+        MpSilder.value = m_CurrentMP;
+
+        //HPMP最大值显示
+        HPMaxText.text = m_CurrentMaxHP.ToString();
+        MPMaxText.text = m_CurrentMaxMP.ToString();
         #endregion
+        #region 按钮UI管理
+        allUI = new GameObject[] { SelfInfoUI, MainMenuUI, HelpUI};
+        #endregion
+        //可以修改HP最大值
+        CanChangeBloodHPMax = true;
     }
 
     #region 血条管理控制
+    //修改血管值
+    private void ChangeCoreSliderNums(int index)
+    {
+        //关闭修改HP最大值监听
+        CanChangeBloodHPMax = false;
+
+        //每次换核心才需调用当前主滑块位置百分比
+        m_CurrentMainSliderPosPercent = (m_CurrentMaxHP - m_CurrentCoreToBlood.HPLowerNums) / (float)(m_CurrentCoreToBlood.HPUpperNums - m_CurrentCoreToBlood.HPLowerNums);
+
+        //修改血管样式
+        m_HPMPPos.sprite = m_AllHPMPStyle[index];
+        //修改核心对应血条上下限
+        m_CurrentCoreToBlood = m_AllCoreToBlood[index];
+        
+        //当前HPMP最大值
+        print((m_CurrentCoreToBlood.HPUpperNums - m_CurrentCoreToBlood.HPLowerNums));
+        m_CurrentMaxHP = m_CurrentCoreToBlood.HPLowerNums + (int)((m_CurrentCoreToBlood.HPUpperNums - m_CurrentCoreToBlood.HPLowerNums)*m_CurrentMainSliderPosPercent);
+        m_CurrentMaxMP = m_CurrentCoreToBlood.AllBloodNums - m_CurrentMaxHP;
+        //当前HPMP占总值百分比
+        //m_CurrentHPPercent = m_CurrentHP / (m_CurrentMaxHP * 1.0f);
+        //m_CurrentMPPercent = m_CurrentMP / (m_CurrentMaxMP * 1.0f);
+        //当前HPMP值
+        m_CurrentHP = (int)(m_CurrentHPPercent * m_CurrentMaxHP);
+        m_CurrentMP = (int)(m_CurrentMPPercent * m_CurrentMaxMP);
+        //滑块初始化
+        //主滑块位置比例（HP下限 / HP最大值）
+        m_CurrentMainSliderPosPercent = (m_CurrentMaxHP - m_CurrentCoreToBlood.HPLowerNums) / (float)(m_CurrentCoreToBlood.HPUpperNums - m_CurrentCoreToBlood.HPLowerNums);
+
+        MainSlider_MP.maxValue = MainSlider_HP.maxValue = m_CurrentCoreToBlood.AllBloodNums;
+        MainSlider_MP.minValue = MainSlider_HP.minValue = 0;
+        MainSlider_MP.value = m_CurrentMaxMP;
+        MainSlider_HP.value = m_CurrentMaxHP;
+
+        HpSilder.maxValue = MainSlider_HP.value;
+        MpSilder.maxValue = MainSlider_MP.value;
+        HpSilder.minValue = MpSilder.minValue = 0;
+        HpSilder.value = m_CurrentHP;
+        MpSilder.value = m_CurrentMP;
+
+        //HPMP最大值显示
+        HPMaxText.text = m_CurrentMaxHP.ToString();
+        MPMaxText.text = m_CurrentMaxMP.ToString();
+        //开启修改HP最大值监听
+        CanChangeBloodHPMax = true;
+    }
 
 
 
     /// <summary>
-    /// 主控制
+    /// 主滑块控制
     /// </summary>
     public void MainSliderDragging()
     {
-        //MainSlider_HP.value = m_CurrentCoreToBlood.AllBloodNums - MainSlider_MP.value;
-        MainSlider_HP.value = 1 - MainSlider_MP.value;
+        //无法修改HP最大值
+        if (!CanChangeBloodHPMax) return;
+        //滑块移动进行限制
+        if (MainSlider_MP.value > m_CurrentCoreToBlood.MPUpperNums)
+        {
+            MainSlider_MP.value = m_CurrentCoreToBlood.MPUpperNums;
+        }else if(MainSlider_MP.value < m_CurrentCoreToBlood.MPLowerNums)
+        {
+            MainSlider_MP.value = m_CurrentCoreToBlood.MPLowerNums;
+        }
+
+        //赋值
+        m_CurrentMaxHP = (int) MainSlider_HP.value;
+        m_CurrentMaxMP = m_CurrentCoreToBlood.AllBloodNums - m_CurrentMaxHP;
+
+        m_CurrentHP = (int) (m_CurrentMaxHP * m_CurrentHPPercent);
+        m_CurrentMP = (int) (m_CurrentMaxMP * m_CurrentMPPercent);
+
+        //两主滑块位置一样
+        MainSlider_HP.value = m_CurrentCoreToBlood.AllBloodNums - MainSlider_MP.value;
+        //两边滑块赋值
+        HpSilder.maxValue = MainSlider_HP.value;
+        MpSilder.maxValue = MainSlider_MP.value;
+        HpSilder.minValue = MpSilder.minValue = 0;
+        HpSilder.value = m_CurrentHP;
+        MpSilder.value = m_CurrentMP;
+        //HPMP最大值显示
+        HPMaxText.text = m_CurrentMaxHP.ToString();
+        MPMaxText.text = m_CurrentMaxMP.ToString();
+    }
+
+    /// <summary>
+    /// 高亮控制
+    /// </summary>
+    public void HightLight()
+    {
+        m_HPMPPos.sprite = m_AllHPMPHighLightStyle[(int)m_CurrentCoreType];
+    }
+
+    public void NotHightLight()
+    {
+        m_HPMPPos.sprite = m_AllHPMPStyle[(int) m_CurrentCoreType];
     }
     #endregion
 
@@ -236,9 +441,8 @@ public class RepairStationUI : MonoBehaviour
 
 
 
-
     #region 商店管理
-    private int _storeThingIndex = 0;
+    private int _storeThingIndex;
     /// <summary>
     /// 选中要买的物体
     /// </summary>
@@ -249,86 +453,112 @@ public class RepairStationUI : MonoBehaviour
     }
     public void Buy()
     {
+
         //不可买
-        if (!m_ifCanBuySomeThing[_storeThingIndex]) return;
+        if (_storeThingIndex == -1) return;//没选中
+        if (!m_ifCanBuySomeThing[_storeThingIndex]) return;//卖空
+        if (m_PartNums < m_AllThingPrice[_storeThingIndex]) return;//没钱买
         //扣钱
+        int lastPartNums = m_PartNums;
         m_PartNums -= m_AllThingPrice[_storeThingIndex];
         //获取物品
         switch (_storeThingIndex)
         {
             //维修服务
             case 0:
-                //todo 补血
+                m_CurrentHPPercent += 0.1f;
+                if (m_CurrentHPPercent >= 1) m_CurrentHPPercent = 1;
+                m_CurrentHP = (int)(m_CurrentMaxHP * m_CurrentHPPercent);
+                HpSilder.value = m_CurrentHP;
                 break;
             //火箭筒
             case 1:
                 m_RocketNums = 1;
                 m_ifCanBuySomeThing[1] = false;
-                //todo 显示禁止购买画面
+                //显示禁止购买画面
+                m_CanNotBuyPos[1].SetActive(true);
                 break;
             //冰冻核心
             case 2:
                 m_HavingFrozenCore = true;
-                m_ifCanBuySomeThing[1] = false;
-                //todo 显示禁止购买画面
+                m_ifCanBuySomeThing[2] = false;
+                //显示禁止购买画面
+                m_CanNotBuyPos[2].SetActive(true);
                 break;
         }
+        StartCoroutine(StartToChangePartNums(lastPartNums, m_PartNums));
+        _storeThingIndex = -1;
     }
 
+    IEnumerator StartToChangePartNums(int LastPartNums, int CurrentPartNums)
+    {
+        int detal = (LastPartNums - CurrentPartNums) / 10;
+        while (true)
+        {
+            yield return null;
+            LastPartNums -= detal;
+            m_PartText.text = LastPartNums.ToString();
+            if (LastPartNums <= CurrentPartNums)
+            {
+                LastPartNums = CurrentPartNums;
+                m_PartText.text = LastPartNums.ToString();
+                break;
+            }
+        }
+    }
     #endregion
 
 
     #region 核心拖拽装配系统
     //当前拖动装备的核心索引
-    private int _CoreIndex;
+    private int _coreIndex;
     /// <summary>
     /// 装备核心
     /// </summary>
     public void CoreDrop()
     {
         //当前武器已经装配
-        if (CheckCoreIsTaking(_CoreIndex))
+        if (CheckCoreIsTaking(_coreIndex))
             return;
         //-------------------------------------------
-        m_CurrentCorePos.sprite = m_AllCore[_CoreIndex];
-        m_CurrentCoreTextPos.sprite = m_AllCoreText[_CoreIndex];
+        m_CurrentCorePos.sprite = m_AllCore[_coreIndex];
+        m_CurrentCoreTextPos.sprite = m_AllCoreText[_coreIndex];
 
         //数据修改
         CoreAttribute oldCoreAttribute = m_CurrentCoreType;
         //修改装备栏核心类型
-        m_CurrentCoreType = (CoreAttribute) _CoreIndex;
+        m_CurrentCoreType = (CoreAttribute) _coreIndex;
         //开启装备的核心的Equipped
-        m_AllCoreShow[_CoreIndex].transform.GetChild(4).gameObject.SetActive(true);
+        m_AllCoreShow[_coreIndex].transform.GetChild(4).gameObject.SetActive(true);
         //关闭之前武器的Equipped
         m_AllCoreShow[(int)oldCoreAttribute].transform.GetChild(4).gameObject.SetActive(false);
 
         //血管有关
-        //修改血管样式
-        m_HPMPPos.sprite = m_AllHPMPStyle[_CoreIndex];
-        //修改核心对应血条上下限
-        m_CurrentCoreToBlood = m_AllCoreToBlood[_CoreIndex];
-        //todo 修改血管
+        //修改血管
+        ChangeCoreSliderNums(_coreIndex);
 
-        DestroyImmediate(m_AllCopyDraggingCore[_CoreIndex]);
+
+        DestroyImmediate(m_AllCopyDraggingCore[_coreIndex]);
     }
     //结束拖拽【先放下再结束拖拽】
     public void CoreEndDrag()
     {
-        if (m_AllCopyDraggingCore[_CoreIndex] != null)
+        if (m_AllCopyDraggingCore[_coreIndex] != null)
         {
-            DestroyImmediate(m_AllCopyDraggingCore[_CoreIndex]);
+            DestroyImmediate(m_AllCopyDraggingCore[_coreIndex]);
         }
     }
 
     //开始拖动
     public void BeginToDragCore(int target)
     {
+        _coreIndex = target;
+
         //当前核心已经装配
         if (CheckCoreIsTaking(target))
             return;
         //-------------------------------------------
 
-        _CoreIndex = target;
         m_AllCopyDraggingCore[target] = Instantiate(m_AllDragCore[target], m_AllDragCore[target].transform.position, m_AllDragCore[target].transform.rotation, transform);
         m_AllCopyDraggingCore[target].transform.localScale = new Vector3(1, 1, 1);
     }
@@ -337,13 +567,13 @@ public class RepairStationUI : MonoBehaviour
     public void DraggingCoreToShowAndFollow()
     {
         //当前核心已经装配
-        if (CheckCoreIsTaking(_CoreIndex))
+        if (CheckCoreIsTaking(_coreIndex))
             return;
         //-------------------------------------------
 
-        Vector3 m_mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Vector3 m_aimPos = new Vector3(m_mousePos.x, m_mousePos.y, m_AllCopyDraggingCore[_CoreIndex].transform.position.z);
-        m_AllCopyDraggingCore[_CoreIndex].transform.position = m_aimPos;
+        Vector3 mMousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector3 mAimPos = new Vector3(mMousePos.x, mMousePos.y, m_AllCopyDraggingCore[_coreIndex].transform.position.z);
+        m_AllCopyDraggingCore[_coreIndex].transform.position = mAimPos;
     }
 
     /// <summary>
@@ -367,7 +597,7 @@ public class RepairStationUI : MonoBehaviour
     /// <summary>
     /// 当前需要转移的武器索引
     /// </summary>
-    private int _HaveGunIndex = 0;
+    private int _HaveGunIndex;
     /// <summary>
     /// 当前需要转移的武器的位置
     /// </summary>
@@ -511,12 +741,14 @@ public class RepairStationUI : MonoBehaviour
     //开始拖动
     public void BeginToDrag(int target)
     {
+
+        _GunIndex = target;
         //当前武器已经装配
         if (CheckGunIsTaking(target))
             return;
         //-------------------------------------------
 
-        _GunIndex = target;
+        
         m_AllCopyDraggingGun[target] = Instantiate(m_AllDragGun[target], m_AllDragGun[target].transform.position, m_AllDragGun[target].transform.rotation, transform);
         m_AllCopyDraggingGun[target].transform.localScale = new Vector3(1, 1, 1);
     }
@@ -552,8 +784,101 @@ public class RepairStationUI : MonoBehaviour
 
     #region 按钮管理（返回游戏【保存】、个人资料、主菜单、帮助）
 
-    
+    /// <summary>
+    /// 返回游戏
+    /// </summary>
+    public void BackToGame()
+    {
+        foreach (GameObject go in allUI)
+        {
+            go.SetActive(false);
+        }
 
+        //保存
+        //核心
+        switch (m_CurrentCoreType)
+        {
+            case CoreAttribute.Initial:
+                PlayerControl.ChangeCore(new PrimaryCore());
+                break;
+            case CoreAttribute.Fire:
+                PlayerControl.ChangeCore(new FireCore());
+                break;
+            case CoreAttribute.Amethyst:
+                PlayerControl.ChangeCore(new AmethystCore());
+                break;
+            case CoreAttribute.Frozen:
+                PlayerControl.ChangeCore(new IceCore());
+                break;
+        }
+        //m_AllCoreType当前拥有核心种类
+        //m_CurrentCoreType当前核心种类
+        //武器
+        WeaponManager.Instance.SaveAllGunTypeAndCurrentGunType(m_AllGunType, m_CurrentGunType);
+        //m_AllGunType当前拥有的武器种类
+        //m_CurrentGunType当前装配上的武器种类
+        //HPMP
+        PlayerControl._mPlayerRobot.CurrentHp = m_CurrentHP;
+        PlayerControl._mPlayerRobot.CurrentMp = m_CurrentMP;
+        //m_CurrentHP, m_CurrentMP当前主角拥有的HP与MP值
+        PlayerControl._mPlayerRobot.MaxHp = m_CurrentHP;
+        PlayerControl._mPlayerRobot.MaxMp = m_CurrentMP;
+        //m_CurrentMaxHP, m_CurrentMaxMP当前主角最大的HP值和最大的MP值
+        //商店
+        WeaponManager.Instance.PartNums = m_PartNums;
+        // m_PartNums零件数目
+        WeaponManager.Instance.RocketGunNumber = m_RocketNums;
+        // m_RocketNums火箭筒个数
+        bool checkFrozen = false;
+        foreach (CoreAttribute CA in m_AllCoreType)
+        {
+            if (CA == CoreAttribute.Frozen)
+            {
+                checkFrozen = true;
+                break;
+            }
+        }
+        if (!m_HavingFrozenCore && !checkFrozen)
+        {
+            BaseCore.CoreList.Add(new IceCore());
+        }
+        // m_HavingFrozenCore冰冻核心
+
+    }
+
+    /// <summary>
+    /// 个人资料
+    /// </summary>
+    public void SelfInfo()
+    {
+        foreach (GameObject go in allUI)
+        {
+            go.SetActive(false);
+        }
+        SelfInfoUI.SetActive(true);
+    }
+    /// <summary>
+    /// 主菜单
+    /// </summary>
+    public void MainMenu()
+    {
+        foreach (GameObject go in allUI)
+        {
+            go.SetActive(false);
+        }
+        MainMenuUI.SetActive(true);
+    }
+    /// <summary>
+    /// 帮助
+    /// </summary>
+    public void Help()
+    {
+        foreach (GameObject go in allUI)
+        {
+            go.SetActive(false);
+        }
+        HelpUI.SetActive(true);
+    }
     #endregion
 
 

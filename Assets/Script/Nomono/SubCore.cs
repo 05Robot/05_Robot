@@ -15,9 +15,34 @@ namespace Assets.Script.Nomono
 
     public   class FireCore : BaseCore
     {
-        public FireCore() : base(1600,1400,1000,"火焰核心",CoreElement.Fire,"这是一个火焰核心")
+
+        public FireCore() : base(1600,1400,1000,CoreElement.Fire)
         {
           
+        }
+    }
+    public class IceCore : BaseCore
+    {
+
+        public IceCore() : base(1400, 1000, 300, CoreElement.Ice)
+        {
+
+        }
+    }
+    public class PrimaryCore : BaseCore
+    {
+
+        public PrimaryCore() : base(2000, 1500, 500, CoreElement.Primary)
+        {
+
+        }
+    }
+    public class AmethystCore : BaseCore
+    {
+
+        public AmethystCore() : base(2300, 1800, 1300, CoreElement.Amethyst)
+        {
+
         }
     }
 }

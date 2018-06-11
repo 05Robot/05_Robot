@@ -182,9 +182,9 @@ public class HockContral : MonoBehaviour
         
     }
 
-    public Timeline Time
-    {
-        get { return GetComponent<Timeline>(); }
-    }
+    //public Timeline Time
+    //{
+    //    get { return GetComponent<Timeline>(); }
+    //}
 
 }
