@@ -1,8 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Chronos;
 using UnityEngine;
 
 public class RevolverGunC : GunC {
+    public Timeline Time
+    {
+        get { return GetComponent<Timeline>(); }
+    }
     [Header("--特殊攻击信息--")]
     #region 特殊攻击内容
     //特殊消耗的MP
@@ -91,7 +96,7 @@ public class RevolverGunC : GunC {
     {
         GameObject effectPlayer = Instantiate(Gun_Data.SpecialButtle, m_player.transform.position + new Vector3(0, -1, 0), transform.rotation);
         effectPlayer.transform.rotation = Quaternion.Euler(-90, 0, 0);
-        yield return new WaitForSeconds(2f);
+        yield return Time.WaitForSeconds(2f);
         Destroy(effectPlayer);
     }
     #endregion

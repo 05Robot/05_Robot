@@ -84,12 +84,17 @@ public class AWMSpecialBullet : Bullet {
     //对敌人进行伤害，每个敌人伤害一次
     /// <summary>
     /// 正常造成伤害
-    /// todo 设置硬直与击退
+    /// 设置硬直与击退
     /// </summary>
     protected override void GenerateDemage()
     {
         for (int i = 0; i < hitPoint.Length; i++)
         {
+            if (hitPoint[0].transform.gameObject.layer == 12)
+            {
+                VanishCompletely();
+                return;
+            }
             //击中敌人护盾
             if (hitPoint[i].transform.gameObject.layer == 18)
             {
@@ -114,7 +119,7 @@ public class AWMSpecialBullet : Bullet {
                     hitPoint[i].transform.GetComponent<ShieldProtect>().GetEnemyControl()
                         .SetDelay(0.5f, 4);
                     hitPoint[i].transform.GetComponent<ShieldProtect>().GetEnemyControl()
-                        .SetKnockback(-transform.right.normalized, 0.5f, 4);
+                        .SetKnockback(transform.position, 0.5f, 4);
                 }
             }
             //击中敌人内部
@@ -136,7 +141,7 @@ public class AWMSpecialBullet : Bullet {
                     //设置硬直击退
                     hitPoint[i].transform.GetComponent<EnemyContral>().SetDelay(0.5f, 4);
                     hitPoint[i].transform.GetComponent<EnemyContral>()
-                        .SetKnockback(-transform.right.normalized, 0.5f, 4);
+                        .SetKnockback(transform.position, 0.5f, 4);
                 }
             }
 

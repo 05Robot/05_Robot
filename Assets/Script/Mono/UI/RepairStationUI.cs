@@ -5,7 +5,7 @@ using Assets.Script.Nomono;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class RepairStationUI : Singleton<RepairStationUI>
+public class RepairStationUI : MonoBehaviour
 {
     #region 核心
     [Header("有关核心--------")]
@@ -160,8 +160,9 @@ public class RepairStationUI : Singleton<RepairStationUI>
     #endregion
 
     #region 按钮管理（返回游戏【保存】、个人资料、主菜单、帮助）
+
     [Header("各个按钮")]
-    [SerializeField] private GameObject SelfInfoUI, MainMenuUI, HelpUI;
+    [SerializeField] private GameObject RepairUI, SelfInfoUI, MainMenuUI, HelpUI;
     private GameObject[] allUI;
     #endregion
 
@@ -173,7 +174,6 @@ public class RepairStationUI : Singleton<RepairStationUI>
     {
         PlayerControl = GameManager.Instance.PRC;
         #region 获取所有信息
-        //保存
         //核心
         foreach (BaseCore BC in BaseCore.CoreList)
         {
@@ -236,11 +236,11 @@ public class RepairStationUI : Singleton<RepairStationUI>
         m_AllCopyDraggingGun = new GameObject[6];
         m_AllCopyDraggingCore = new GameObject[4];
         #region 当前拥有的武器进行显示
-        foreach (GunType gt in m_AllGunType)
+        for (int i = 0; i < m_AllGunType.Length; i++)
         {
             //未获得该武器
-            if (gt == GunType.Null) continue;
-            m_AllGunShow[(int) gt].SetActive(true);
+            if (m_AllGunType[i] == GunType.Null) continue;
+            m_AllGunShow[(int)m_AllGunType[i]].SetActive(true);
         }
         #endregion
         #region 当前装备的武器进行显示,装备Equipped显示
@@ -286,6 +286,8 @@ public class RepairStationUI : Singleton<RepairStationUI>
         if (m_PartNums < 10)
         {
             m_ifCanBuySomeThing[0] = false;
+            //显示禁止买图片
+            m_CanNotBuyPos[0].SetActive(true);
         }
         //禁止买火箭
         if (m_RocketNums == 1)
@@ -332,11 +334,185 @@ public class RepairStationUI : Singleton<RepairStationUI>
         MPMaxText.text = m_CurrentMaxMP.ToString();
         #endregion
         #region 按钮UI管理
-        allUI = new GameObject[] { SelfInfoUI, MainMenuUI, HelpUI};
+        allUI = new GameObject[] { RepairUI, SelfInfoUI, MainMenuUI, HelpUI};
         #endregion
         //可以修改HP最大值
         CanChangeBloodHPMax = true;
     }
+
+
+    /// <summary>
+    /// 每次打开UI界面获取信息
+    /// </summary>
+    public void GetInfo()
+    {
+        #region 获取所有信息
+        //核心
+        foreach (BaseCore BC in BaseCore.CoreList)
+        {
+            switch (BC.Element)
+            {
+                case BaseCore.CoreElement.Primary:
+                    m_AllCoreType.Add(CoreAttribute.Initial);
+                    break;
+                case BaseCore.CoreElement.Fire:
+                    m_AllCoreType.Add(CoreAttribute.Fire);
+                    break;
+                case BaseCore.CoreElement.Amethyst:
+                    m_AllCoreType.Add(CoreAttribute.Amethyst);
+                    break;
+                case BaseCore.CoreElement.Ice:
+                    m_AllCoreType.Add(CoreAttribute.Frozen);
+                    break;
+            }
+        }
+        switch (PlayerControl._mPlayerRobot.Core.Element)
+        {
+            case BaseCore.CoreElement.Primary:
+                m_CurrentCoreType = CoreAttribute.Initial;
+                break;
+            case BaseCore.CoreElement.Fire:
+                m_CurrentCoreType = CoreAttribute.Fire;
+                break;
+            case BaseCore.CoreElement.Amethyst:
+                m_CurrentCoreType = CoreAttribute.Amethyst;
+                break;
+            case BaseCore.CoreElement.Ice:
+                m_CurrentCoreType = CoreAttribute.Frozen;
+                break;
+        }
+        //m_AllCoreType当前拥有核心种类
+        //m_CurrentCoreType当前核心种类
+        //武器
+        WeaponManager.Instance.GetAllGunTypeAndCurrentGunType(out m_AllGunType, out m_CurrentGunType);
+        //m_AllGunType当前拥有的武器种类
+        //m_CurrentGunType当前装配上的武器种类
+        //HPMP
+        PlayerControl.GetCurrentAndMaxHp(out m_CurrentHP, out m_CurrentMaxHP);
+        PlayerControl.GetCurrentAndMaxMP(out m_CurrentMP, out m_CurrentMaxMP);
+        //m_CurrentHP, m_CurrentMP当前主角拥有的HP与MP值
+        //m_CurrentMaxHP, m_CurrentMaxMP当前主角最大的HP值和最大的MP值
+        //商店
+        m_PartNums = WeaponManager.Instance.PartNums;
+        //m_PartNums零件数目
+        m_RocketNums = WeaponManager.Instance.RocketGunNumber;
+        // m_RocketNums火箭筒个数
+        foreach (CoreAttribute CA in m_AllCoreType)
+            if (CA == CoreAttribute.Frozen)
+            {
+                m_HavingFrozenCore = true;
+                break;
+            }
+        //是否已有冰冻核心
+        #endregion
+
+        m_AllCopyDraggingGun = new GameObject[6];
+        m_AllCopyDraggingCore = new GameObject[4];
+        #region 当前拥有的武器进行显示
+        for (int i = 0; i < m_AllGunType.Length; i++)
+        {
+            //未获得该武器
+            if (m_AllGunType[i] == GunType.Null) continue;
+            m_AllGunShow[(int)m_AllGunType[i]].SetActive(true);
+        }
+        #endregion
+        #region 当前装备的武器进行显示,装备Equipped显示
+        for (int i = 0; i < m_CurrentGunType.Length; i++)
+        {
+            //当前武器装备栏为空
+            if (m_CurrentGunType[i] == GunType.Null)
+            {
+                continue;
+            }
+            m_AllGunShow[(int)m_CurrentGunType[i]].transform.GetChild(2).gameObject.SetActive(true);
+            //特殊武器
+            if (i == 3)
+            {
+                m_SpecialGun.sprite = m_AllGun[(int)m_CurrentGunType[i]];
+            }
+            else
+            {
+                m_NormalGun[i].sprite = m_AllGun[(int)m_CurrentGunType[i]];
+                _GunIndex = (int)m_CurrentGunType[i];
+            }
+        }
+        #endregion
+        #region 当前拥有的核心进行显示
+        foreach (CoreAttribute ca in m_AllCoreType)
+        {
+            m_AllCoreShow[(int)ca].SetActive(true);
+        }
+        #endregion
+        #region 当前装备的核心与文字进行显示,装备Equipped显示,血管样式修改
+        m_CurrentCorePos.sprite = m_AllCore[(int)m_CurrentCoreType];
+        m_CurrentCoreTextPos.sprite = m_AllCoreText[(int)m_CurrentCoreType];
+        m_AllCoreShow[(int)m_CurrentCoreType].transform.GetChild(4).gameObject.SetActive(true);
+
+        _coreIndex = (int)m_CurrentCoreType;
+        #endregion
+        #region 商店管理（零件数量）
+        m_ifCanBuySomeThing = new bool[] { true, true, true, true, true };
+        foreach (GameObject go in m_CanNotBuyPos)
+            go.SetActive(false);
+        m_PartText.text = m_PartNums.ToString();
+        //禁止使用维修服务
+        if (m_PartNums < 10)
+        {
+            m_ifCanBuySomeThing[0] = false;
+            //显示禁止买图片
+            m_CanNotBuyPos[0].SetActive(true);
+        }
+        //禁止买火箭
+        if (m_RocketNums == 1)
+        {
+            m_ifCanBuySomeThing[1] = false;
+            //显示禁止买图片
+            m_CanNotBuyPos[1].SetActive(true);
+        }
+        //禁止买冰冻核心
+        if (m_HavingFrozenCore)
+        {
+            m_ifCanBuySomeThing[2] = false;
+            //显示禁止买图片
+            m_CanNotBuyPos[2].SetActive(true);
+        }
+        #endregion
+        #region 血条管理
+        m_AllCoreToBlood = new CoreToBlood[] { Initial, Fire, Amethyst, Frozen };
+        //------------------------------------------------------------------------
+        m_HPMPPos.sprite = m_AllHPMPStyle[(int)m_CurrentCoreType];
+
+        m_CurrentCoreToBlood = m_AllCoreToBlood[_coreIndex];
+
+        //当前HPMP占总值百分比
+        m_CurrentHPPercent = m_CurrentHP / (m_CurrentMaxHP * 1.0f);
+        m_CurrentMPPercent = m_CurrentMP / (m_CurrentMaxMP * 1.0f);
+        //滑块初始化
+        //主滑块位置比例（HP下限 / HP最大值）
+        m_CurrentMainSliderPosPercent = (m_CurrentMaxHP - m_CurrentCoreToBlood.HPLowerNums) / (float)(m_CurrentCoreToBlood.HPUpperNums - m_CurrentCoreToBlood.HPLowerNums);
+
+        MainSlider_MP.maxValue = MainSlider_HP.maxValue = m_CurrentCoreToBlood.AllBloodNums;
+        MainSlider_MP.minValue = MainSlider_HP.minValue = 0;
+        MainSlider_MP.value = m_CurrentMaxMP;
+        MainSlider_HP.value = m_CurrentMaxHP;
+
+        HpSilder.maxValue = MainSlider_HP.value;
+        MpSilder.maxValue = MainSlider_MP.value;
+        HpSilder.minValue = MpSilder.minValue = 0;
+        HpSilder.value = m_CurrentHP;
+        MpSilder.value = m_CurrentMP;
+
+        //HPMP最大值显示
+        HPMaxText.text = m_CurrentMaxHP.ToString();
+        MPMaxText.text = m_CurrentMaxMP.ToString();
+        #endregion
+        #region 按钮UI管理
+        allUI = new GameObject[] { RepairUI, SelfInfoUI, MainMenuUI, HelpUI };
+        #endregion
+        //可以修改HP最大值
+        CanChangeBloodHPMax = true;
+    }
+
 
     #region 血条管理控制
     //修改血管值
@@ -436,9 +612,6 @@ public class RepairStationUI : Singleton<RepairStationUI>
         m_HPMPPos.sprite = m_AllHPMPStyle[(int) m_CurrentCoreType];
     }
     #endregion
-
-
-
 
 
     #region 商店管理
@@ -789,9 +962,9 @@ public class RepairStationUI : Singleton<RepairStationUI>
     /// </summary>
     public void BackToGame()
     {
-        foreach (GameObject go in allUI)
+        for (int i = 0; i < allUI.Length; i++)
         {
-            go.SetActive(false);
+            allUI[i].SetActive(false);
         }
 
         //保存
@@ -821,8 +994,8 @@ public class RepairStationUI : Singleton<RepairStationUI>
         PlayerControl._mPlayerRobot.CurrentHp = m_CurrentHP;
         PlayerControl._mPlayerRobot.CurrentMp = m_CurrentMP;
         //m_CurrentHP, m_CurrentMP当前主角拥有的HP与MP值
-        PlayerControl._mPlayerRobot.MaxHp = m_CurrentHP;
-        PlayerControl._mPlayerRobot.MaxMp = m_CurrentMP;
+        PlayerControl._mPlayerRobot.MaxHp = m_CurrentMaxHP;
+        PlayerControl._mPlayerRobot.MaxMp = m_CurrentMaxMP;
         //m_CurrentMaxHP, m_CurrentMaxMP当前主角最大的HP值和最大的MP值
         //商店
         WeaponManager.Instance.PartNums = m_PartNums;
@@ -847,24 +1020,33 @@ public class RepairStationUI : Singleton<RepairStationUI>
     }
 
     /// <summary>
-    /// 个人资料
+    /// 个人资料或者维修站
     /// </summary>
     public void SelfInfo()
     {
-        foreach (GameObject go in allUI)
+        for (int i = 0; i < allUI.Length; i++)
         {
-            go.SetActive(false);
+            allUI[i].SetActive(false);
         }
-        SelfInfoUI.SetActive(true);
+        //是否在维修站附近
+        if (TimeManager.Instance.InRepairStation)
+        {
+            RepairUI.SetActive(true);
+        }
+        else
+        {
+            SelfInfoUI.SetActive(true);
+        }
+
     }
     /// <summary>
     /// 主菜单
     /// </summary>
     public void MainMenu()
     {
-        foreach (GameObject go in allUI)
+        for (int i = 0; i < allUI.Length; i++)
         {
-            go.SetActive(false);
+            allUI[i].SetActive(false);
         }
         MainMenuUI.SetActive(true);
     }
@@ -873,9 +1055,9 @@ public class RepairStationUI : Singleton<RepairStationUI>
     /// </summary>
     public void Help()
     {
-        foreach (GameObject go in allUI)
+        for (int i = 0; i < allUI.Length; i++)
         {
-            go.SetActive(false);
+            allUI[i].SetActive(false);
         }
         HelpUI.SetActive(true);
     }

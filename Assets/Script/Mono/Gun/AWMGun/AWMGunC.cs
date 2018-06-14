@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.Remoting.Messaging;
+using Chronos;
 using UnityEngine;
 /*********************************************************************
 ****	作者 ZMK 
@@ -10,6 +11,10 @@ using UnityEngine;
 **********************************************************************/
 public class AWMGunC : GunC
 {
+    public Timeline Time
+    {
+        get { return GetComponent<Timeline>(); }
+    }
     [Header("--特殊攻击信息--")]
     #region 特殊攻击内容
     //特殊消耗的MP

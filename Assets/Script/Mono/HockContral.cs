@@ -11,12 +11,12 @@ public class HockContral : MonoBehaviour
 {
     public float HockCD = 3f;
     public float Distance = 20f;
-    public float Speed = 10f;
+    public float Speed = 20f;
   
     public Vector2 StartPoint;
     public Vector2 Direction;
     public GameObject target = null;
-    public float FreezLenth=2f;
+    public float FreezLenth=3f;
     private SpriteRenderer SR;
     private BoxCollider2D BC2D;
     private PlayerRobotContral PRC;
@@ -85,7 +85,7 @@ public class HockContral : MonoBehaviour
                     }
                 }
                 else if(target.layer == 12)
-                {
+                 {
                     if (Vector2.Distance(PRC.transform.position,this.transform.position)< FreezLenth)
                     {
                        
@@ -118,7 +118,10 @@ public class HockContral : MonoBehaviour
             target = null;
         }
 
-
+        print("啊啊啊啊" + enable);
+        //2018.6.13 ZMK添加
+        //修改武器collider状态
+        WeaponManager.Instance.ChangeWeaponManegerCollider(!enable);
     }
 
     /// <summary>

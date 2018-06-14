@@ -75,7 +75,7 @@ public class Part : MonoBehaviour
             Vector3 dir = (player.transform.position - transform.position).normalized;
             transform.Translate(dir * Time.deltaTime * Speed * 5, Space.World);
             //transform.Translate((player.transform.position - transform.position) * Time.deltaTime * Speed);
-            if (Vector3.Distance(transform.position, player.transform.position) < 0.1f)
+            if (Vector3.Distance(transform.position, player.transform.position) < 0.5f)
             {
                 break;
             }

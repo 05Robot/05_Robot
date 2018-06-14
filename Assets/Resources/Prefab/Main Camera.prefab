@@ -37,6 +37,7 @@ GameObject:
   - component: {fileID: 4962906467064718}
   - component: {fileID: 114457129821185670}
   - component: {fileID: 114387421794200910}
+  - component: {fileID: 114942634390512522}
   m_Layer: 0
   m_Name: WeaponManager
   m_TagString: Untagged
@@ -360,6 +361,8 @@ MonoBehaviour:
   EnemyGlobalClock: {fileID: 114316190895184140}
   _RepairStationUI: {fileID: 0}
   _EscUI: {fileID: 0}
+  MainMenuUI: {fileID: 0}
+  HelpUI: {fileID: 0}
   IsStopGame: 0
   InRepairStation: 0
 --- !u!114 &114457129821185670
@@ -387,10 +390,17 @@ MonoBehaviour:
   - {fileID: 122692, guid: c459528111eb04445b750633208bcff1, type: 2}
   - {fileID: 178846, guid: aa60f4e7e5e5fa64ab983acee98471b3, type: 2}
   - {fileID: 184960, guid: 2e59956b2f5ba1d4fb95338e85fe6be1, type: 2}
-  m_WeaponPos: []
+  m_WeaponPos:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  CurrentWeaponPos: {x: 0, y: 0, z: 0}
   PartNums: 0
   ChangeLeftGunState: 1
-  RocketGunNumber: 0
+  RocketGunNumber: 1
 --- !u!114 &114572197145961014
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -476,6 +486,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PRC: {fileID: 0}
   GunC: {fileID: 0}
+--- !u!114 &114942634390512522
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1390442611908626}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6090da511f8374135a15dd8655adcd44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _recordingInterval: 0.5
+  _mode: 1
+  _globalClockKey: Player
+  _rewindable: 0
+  _recordingDuration: 30
 --- !u!114 &114950180973307678
 MonoBehaviour:
   m_ObjectHideFlags: 1

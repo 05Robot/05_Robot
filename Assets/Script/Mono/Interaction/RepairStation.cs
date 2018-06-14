@@ -10,7 +10,10 @@ public class RepairStation : InteractionCheckBase
     [Header("开启维修站图片")]
     [SerializeField] private Sprite _startRepairStationSprite;
     [SerializeField] private Sprite _closeRepairStationSprite;
+
+    [SerializeField] private GameObject RepairStationTip;
     private SpriteRenderer _repairStationSpriteRenderer;
+
 
     void Start()
     {
@@ -23,8 +26,11 @@ public class RepairStation : InteractionCheckBase
     protected override void InteractionEvent()
     {
         base.InteractionEvent();
-        //游戏暂停
-        TimeManager.Instance.StopGame();
+        if (ifCaneInteractioning)
+        {
+            //游戏暂停
+            TimeManager.Instance.StopGame();
+        }
     }
 
     /// <summary>
@@ -44,10 +50,12 @@ public class RepairStation : InteractionCheckBase
     protected override void OnTriggerStay2D(Collider2D other)
     {
         base.OnTriggerStay2D(other);
-        //RepairStationTip.SetActive(true);
-        _repairStationSpriteRenderer.sprite = _startRepairStationSprite;
-
-        TimeManager.Instance.InRepairStation = true;
+        if (ifInInteractionRange)
+        {
+            _repairStationSpriteRenderer.sprite = _startRepairStationSprite;
+            TimeManager.Instance.InRepairStation = true;
+            RepairStationTip.SetActive(true);
+        }
     }
 
     /// <summary>
@@ -57,9 +65,12 @@ public class RepairStation : InteractionCheckBase
     protected override void OnTriggerExit2D(Collider2D other)
     {
         base.OnTriggerExit2D(other);
-        //RepairStationTip.SetActive(false);
-        _repairStationSpriteRenderer.sprite = _closeRepairStationSprite;
-
-        TimeManager.Instance.InRepairStation = false;
+        if (!ifInInteractionRange)
+        {
+            _repairStationSpriteRenderer.sprite = _closeRepairStationSprite;
+            TimeManager.Instance.InRepairStation = false;
+            RepairStationTip.SetActive(false);
+        }
+    
     }
 }

@@ -14,8 +14,11 @@ public class GetGunInteraction : InteractionCheckBase
     protected override void InteractionEvent()
     {
         base.InteractionEvent();
-        WeaponManager.Instance.GetGun(currentGunType);
-        Destroy(gameObject);
+        if (ifCaneInteractioning)
+        {
+            WeaponManager.Instance.GetGun(currentGunType);
+            Destroy(gameObject);
+        }
     }
 
     /// <summary>

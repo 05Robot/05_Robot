@@ -2,10 +2,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using Assets.Script.Mono;
+using Chronos;
 using UnityEngine;
 
 public class HammerGunC : GunC
 {
+    public Timeline Time
+    {
+        get { return GetComponent<Timeline>(); }
+    }
     [Header("--特殊攻击信息--")]
     #region 特殊攻击内容
     //特殊消耗的MP
@@ -45,9 +50,11 @@ public class HammerGunC : GunC
     //蓄能攻击特效
     private GameObject RedEnergyEffect;
 
-    //todo 获取锤子冲撞是否结束
+    //取锤子冲撞是否结束
     //锤子冲撞特效
     private GameObject RedDashEffect;
+
+    private CapsuleCollider2D thisCapsuleCollider2D;
 
     private enum AimQuadrant
     {
@@ -71,15 +78,24 @@ public class HammerGunC : GunC
         RedDashEffect = m_player.transform.Find("RedDashEffect").gameObject;
 
         HitPointIDHashSet = new HashSet<int>();
+
+        thisCapsuleCollider2D = GetComponent<CapsuleCollider2D>();
+
     }
     protected override void Update()
     {
         base.Update();
 
         if (HammerGunNormalAttacking && (Gun_Data.Enable || Gun_Data.SpecialEnable))
+        {
             HammerTrail.Emit = true;
+            thisCapsuleCollider2D.enabled = false;
+        }
         else
+        {
             HammerTrail.Emit = false;
+            thisCapsuleCollider2D.enabled = true;
+        }
     }
     protected override void FixedUpdate()
     {
@@ -93,6 +109,8 @@ public class HammerGunC : GunC
     /// </summary>
     protected override void LeftNormalShot()
     {
+        //刷新击中敌人集合
+        HitPointIDHashSet.Clear();
         //是否为普通攻击 && 已经开启可以用 && 达到CD时间
         if (!(Gun_Data.GunState == GunState.NormalState && Gun_Data.Enable && HammerGunCanShotNext))
             return;
@@ -115,7 +133,7 @@ public class HammerGunC : GunC
         //角色MPHP减少
         PlayerMPHPChange(Gun_Data.ComsumeMP, Gun_Data.ComsumeHP);
     }
-    #region 左键普通开枪射击CD判断
+    #region 左键普通攻击CD判断
     private float m_HammerGunNormalCurrent = 0;//当前射击的CD
     private bool HammerGunCanShotNext = true;//达到CD时间，可以射击下一回合
     IEnumerator ShotCD()
@@ -235,13 +253,12 @@ public class HammerGunC : GunC
                 //击中敌人护盾 && 不重复击中
                 if (other.gameObject.layer == 18 && !HitPointIDHashSet.Contains(other.GetInstanceID()))
                 {
-                    other.transform.GetComponent<ShieldProtect>().ProtectAimGameObject.GetComponent<EnemyContral>() .GetDamage(Convert.ToInt32(Gun_Data.DemageNums), Convert.ToInt32(Gun_Data.DemageNums));
+                    other.transform.GetComponent<ShieldProtect>().GetEnemyControl().GetDamage(Convert.ToInt32(Gun_Data.DemageNums), Convert.ToInt32(Gun_Data.DemageNums));
                     HitPointIDHashSet.Add(other.GetInstanceID());
                     HitPointIDHashSet.Add(other.transform.GetComponent<ShieldProtect>().ProtectAimGameObject.GetInstanceID());
-
                     //设置硬直击退
-                    other.transform.GetComponent<ShieldProtect>().ProtectAimGameObject.GetComponent<EnemyContral>().SetDelay(0.5f, 3);
-                    other.transform.GetComponent<ShieldProtect>().ProtectAimGameObject.GetComponent<EnemyContral>().SetKnockback(-transform.right.normalized, 0.5f, 3);
+                    other.transform.GetComponent<ShieldProtect>().GetEnemyControl().SetDelay(0.5f, 3);
+                    other.transform.GetComponent<ShieldProtect>().GetEnemyControl().SetKnockback(transform.position, 0.5f, 3);
                 }
 
                 //否则，击中的是敌人内部
@@ -249,10 +266,9 @@ public class HammerGunC : GunC
                 {
                     other.transform.GetComponent<EnemyContral>().GetDamage(Convert.ToInt32(Gun_Data.DemageNums), Convert.ToInt32(Gun_Data.DemageNums));
                     HitPointIDHashSet.Add(other.GetInstanceID());
-
                     //设置硬直击退
                     other.transform.GetComponent<EnemyContral>().SetDelay(0.5f, 3);
-                    other.transform.GetComponent<EnemyContral>().SetKnockback(-transform.right.normalized, 0.5f, 3);
+                    other.transform.GetComponent<EnemyContral>().SetKnockback(transform.position, 0.5f, 3);
                 }
 
                 //击中紫水晶与零件箱
@@ -264,19 +280,19 @@ public class HammerGunC : GunC
                 //击中敌人护盾 && 可重复击中
                 if (other.gameObject.layer == 18)
                 {
-                    other.transform.GetComponent<ShieldProtect>().ProtectAimGameObject.GetComponent<EnemyContral>().GetDamage(Convert.ToInt32(Gun_Data.SpecialDemageNums), Convert.ToInt32(Gun_Data.SpecialDemageNums));
+                    other.transform.GetComponent<ShieldProtect>().GetEnemyControl().GetDamage(Convert.ToInt32(Gun_Data.SpecialDemageNums), Convert.ToInt32(Gun_Data.SpecialDemageNums));
                     //设置硬直击退
-                    other.transform.GetComponent<ShieldProtect>().ProtectAimGameObject.GetComponent<EnemyContral>().SetDelay(0.5f, 4);
-                    other.transform.GetComponent<ShieldProtect>().ProtectAimGameObject.GetComponent<EnemyContral>().SetKnockback(-transform.right.normalized, 0.5f, 4);
+                    other.transform.GetComponent<ShieldProtect>().GetEnemyControl().SetDelay(0.5f, 4);
+                    other.transform.GetComponent<ShieldProtect>().GetEnemyControl().SetKnockback(transform.position, 0.5f, 4);
                 }
 
                 //击中敌人内部 && 是否没有护盾
-                if (other.gameObject.layer == 11 && !other.transform.GetComponent<EnemyContral>().ER.IsConsumeMp)
+                if (other.gameObject.layer == 11 && other.transform.GetComponent<EnemyContral>().ER.CurrentMp <= 0)
                 {
                     other.transform.GetComponent<EnemyContral>().GetDamage(Convert.ToInt32(Gun_Data.SpecialDemageNums),Convert.ToInt32(Gun_Data.SpecialDemageNums));
                     //设置硬直击退
                     other.transform.GetComponent<EnemyContral>().SetDelay(0.5f, 4);
-                    other.transform.GetComponent<EnemyContral>().SetKnockback(-transform.right.normalized, 0.5f, 4);
+                    other.transform.GetComponent<EnemyContral>().SetKnockback(transform.position, 0.5f, 4);
                 }
                 //击中紫水晶与零件箱
                 if (other.gameObject.layer == 19 || other.gameObject.layer == 20)
@@ -350,7 +366,7 @@ public class HammerGunC : GunC
         //todo 调用人物冲撞函数（传进冲刺距离，冲刺速度，或者是伤害和硬直）
         GunRotateControl = false;
         HammerGunNormalAttacking = true;
-        Invoke("RecoverSpecialDashRotate", 0.5f);
+        Invoke("RecoverSpecialDashRotate", RightEnergyTime/4.0f);
         StartCoroutine(m_playerRobotContral.Bump(2 * RightEnergyTime + Gun_Data.SpecialButtleSpeed, 4 * RightEnergyTime + Gun_Data.SpecialAttackDistance));
 
         //角色MPHP减少

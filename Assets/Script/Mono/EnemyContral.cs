@@ -19,20 +19,20 @@ using Timer = System.Timers.Timer;
 namespace Assets.Script.Mono
 {
     [RequireComponent(typeof(EnemyAi))]
-    public class EnemyContral:MonoBehaviorBase
+    public class EnemyContral : MonoBehaviour
     {
 
         public string Name;
-        public int MaxHp=1000;
-        public int MaxMp=1000;
-        public float MoveSpeed=3;
+        public int MaxHp = 1000;
+        public int MaxMp = 1000;
+        public float MoveSpeed = 3;
         public EnemyRobot ER;
         public EnemyAi EAI;
         [Rename("左面图")]
         public Sprite LeftSprite;
         [Rename("右面图")]
         public Sprite RightSprite;
-
+        private PlayerRobotContral prc;
         /// <summary>
         /// 是否可以控制
         /// </summary>
@@ -49,13 +49,13 @@ namespace Assets.Script.Mono
         }
         [HideInInspector]
         public bool AiStart = false;
-        public float SecondsToGoBack=5;
+        public float SecondsToGoBack = 5;
 
 
         private SpriteRenderer SR;
         void Awake()
         {
-            ER=new EnemyRobot(name,MaxHp,MaxMp,MoveSpeed);
+            ER = new EnemyRobot(name, MaxHp, MaxMp, MoveSpeed);
             ER.EC = this;
         }
         // Use this for initialization
@@ -67,17 +67,17 @@ namespace Assets.Script.Mono
             Startpoint = transform.position;
             AiStart = true;
 
+            prc = GameObject.FindObjectOfType<PlayerRobotContral>();
         }
 
         // Update is called once per frame
-         void Update()
+        void Update()
         {
             if (AiStart)
             {
                 if (Contral)
                 {
-                    PlayerRobotContral prc = GameObject.FindObjectOfType<PlayerRobotContral>();
-                    if (prc.transform.position.x<transform.position.x)
+                    if (prc.transform.position.x < transform.position.x)
                         SR.sprite = LeftSprite;
                     else
                         SR.sprite = RightSprite;
@@ -91,6 +91,7 @@ namespace Assets.Script.Mono
         public void GetDamage(int mpdamage, int hpdamage)
         {
             ER.GetDamage(mpdamage, hpdamage);
+            Debug.Log("EnemyDamega");
         }
         /// <summary>
         /// ai走出房间时调用
@@ -103,7 +104,7 @@ namespace Assets.Script.Mono
         IEnumerator WaiteToGoBack()
         {
             yield return new WaitForSeconds(SecondsToGoBack);
-            EAI.Move(Startpoint,ER.MoveSpeed);
+            EAI.Move(Startpoint, ER.MoveSpeed);
 
         }
 
@@ -121,7 +122,7 @@ namespace Assets.Script.Mono
             AiStart = false;
             Contral = false;
             IsDead = true;
-
+            transform.parent.parent.GetComponent<RoomContral>().CurrentLiveCount--;
             //敌人死亡，核心爆炸
             DeadCoreExplode();
         }
@@ -185,20 +186,20 @@ namespace Assets.Script.Mono
         /// 设置击退
         /// </summary>
         /// <param name="distance"></param>
-        public void SetKnockback(Vector2 diriction,float distance,int delayconfficient)
+        public void SetKnockback(Vector2 diriction, float distance, int delayconfficient)
         {
             if (delayconfficient > ER.DelayCoefficient)
             {
                 transform.Translate(((Vector2)transform.position - diriction).normalized * distance, Space.World);
             }
-        
+
         }
 
         #endregion
 
-        //public Timeline Time
-        //{
-        //    get { return GetComponent<Timeline>(); }
-        //}
+        public Timeline Time
+        {
+            get { return GetComponent<Timeline>(); }
+        }
     }
 }

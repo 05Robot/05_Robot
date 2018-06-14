@@ -24,6 +24,8 @@ GameObject:
   - component: {fileID: 50448499841112916}
   - component: {fileID: 61418891958033522}
   - component: {fileID: 114340617977975376}
+  - component: {fileID: 95095241062628290}
+  - component: {fileID: 114061418532940430}
   m_Layer: 11
   m_Name: Enemy_4
   m_TagString: Untagged
@@ -80,7 +82,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1600880106444008
 GameObject:
   m_ObjectHideFlags: 0
@@ -290,6 +292,23 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.33, y: 0.38}
   m_EdgeRadius: 0
+--- !u!95 &95095241062628290
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1121081089608236}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 26cdfa4742450f440837269cea4e7a8e, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!114 &114023512163080086
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -323,6 +342,22 @@ MonoBehaviour:
   IsDead: 0
   AiStart: 0
   SecondsToGoBack: 5
+--- !u!114 &114061418532940430
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1121081089608236}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6090da511f8374135a15dd8655adcd44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _recordingInterval: 0.5
+  _mode: 1
+  _globalClockKey: Enemy
+  _rewindable: 0
+  _recordingDuration: 30
 --- !u!114 &114208014035277984
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -451,7 +486,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 0
-  randomSeed: -340248608
+  randomSeed: -930722012
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -3696,7 +3731,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 728209851
+  randomSeed: -2073993486
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -6971,7 +7006,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 0
-  randomSeed: 766464174
+  randomSeed: -1827970359
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -10222,7 +10257,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 0
-  randomSeed: -770235976
+  randomSeed: 1229444461
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -13728,7 +13763,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -2
   m_Sprite: {fileID: 21300000, guid: e04d5a0198ec1164cb0f60b01da56d6e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

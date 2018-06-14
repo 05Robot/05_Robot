@@ -2,7 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using Assets.Script;
+using Chronos;
+using Com.LuisPedroFonseca.ProCamera2D;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public enum GunType//枪种类
 {
@@ -20,6 +23,10 @@ public enum GunType//枪种类
 /// </summary>
 public class WeaponManager : Singleton<WeaponManager>
 {
+    public Timeline Time
+    {
+        get { return GetComponent<Timeline>(); }
+    }
     #region 血条消耗的状态（消耗HP/MP）
     private enum BloodConsumeState
     {
@@ -63,6 +70,10 @@ public class WeaponManager : Singleton<WeaponManager>
     //--------
     [Header("--当前手上的武器-")]
     private GunType m_CurrentLeftGunType;//当前手上的主武器
+    public GunType CurrentLeftGunType
+    {
+        get { return m_CurrentLeftGunType; }
+    }
     //private GunType m_CurrentRightGunType;//当前手上的特殊武器
     private int m_CurrentLeftGunIndex = 0;//当前手上主武器的武器槽索引
     #endregion
@@ -84,7 +95,9 @@ public class WeaponManager : Singleton<WeaponManager>
     public BaseCore m_CurrentBaseCore = null;//当前核心状态
 
     [SerializeField] private GameObject[] m_CoreBullet;//核心攻击子弹
-    [SerializeField] private GameObject[] m_WeaponPos;//各个武器位置
+    [SerializeField] private Transform[] m_WeaponPos;//各个武器位置
+    ///当前武器位置
+    public Vector3 CurrentWeaponPos;
     #endregion
 
     //------------------------------------
@@ -173,6 +186,7 @@ public class WeaponManager : Singleton<WeaponManager>
         m_CurrentLeftGunType = LeftGunType[0];
         AllGunCDic[m_CurrentLeftGunType].SpriteRendererEnabled = true;//LeftGun[m_CurrentLeftGunIndex].SetActive(true);
         AllGunCDic[LeftGunType[m_CurrentLeftGunIndex]].IfGunCanUse(true);
+        AllGunDic[LeftGunType[m_CurrentLeftGunIndex]].GetComponent<BoxCollider2D>().enabled = true;
         //当前手的武器(普通与特殊)类型复制
         m_CurrentLeftGunType = LeftGunType[m_CurrentLeftGunIndex];
         //m_CurrentRightGunType = RightGunType;
@@ -181,6 +195,7 @@ public class WeaponManager : Singleton<WeaponManager>
         //获取人物控制
         m_PlayerRobotContral = GameManager.Instance.PRC;
 
+        CurrentWeaponPos = m_WeaponPos[5].position;
     }
 
 
@@ -198,6 +213,8 @@ public class WeaponManager : Singleton<WeaponManager>
         MouseWheelListener();
         //键盘监听事件
         KeyBoardListener();
+        //枪支位置监听
+        PlayerDirectionLister();
     }
 
 
@@ -246,6 +263,42 @@ public class WeaponManager : Singleton<WeaponManager>
 
         if (Input.GetKeyDown(KeyCode.Q))
             ChangeToRocketGun();
+    }
+
+    /// <summary>
+    /// 角色旋转角度变化
+    /// </summary>
+    /// 修改枪支位置
+    public void PlayerDirectionLister()
+    {
+        Vector2 target = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector2 v2 = ((Vector2)transform.position - target).normalized;
+        float angle = -Mathf.Atan2(v2.y, v2.x) * Mathf.Rad2Deg;
+        GunType currentUseGunType = GunType.AK47Gun;
+        //当前使用的是火箭筒
+        if (m_RocketGunState)
+        {
+            currentUseGunType = GunType.RocketGun;
+        }
+        else
+        {
+            currentUseGunType = m_CurrentUseGunis == UseLeftOrRightGun.LeftGun ? m_CurrentLeftGunType : RightGunType;
+        }
+        if (RightGunType == GunType.Sword) return;
+        if (angle < 30 && angle >= -30)
+            CurrentWeaponPos = m_WeaponPos[0].position;
+        else if (angle < 90 && angle >= 30)
+            CurrentWeaponPos = m_WeaponPos[1].position;
+        else if (angle < 150 && angle >= 90)
+            CurrentWeaponPos = m_WeaponPos[2].position;
+        else if (angle < -150 || angle >= 150)
+            CurrentWeaponPos = m_WeaponPos[3].position;
+        else if (angle < -90 && angle >= -150)
+            CurrentWeaponPos = m_WeaponPos[4].position;
+        else if (angle < -30 && angle >= -90)
+            CurrentWeaponPos = m_WeaponPos[5].position;
+
+        AllGunDic[currentUseGunType].transform.parent.position = CurrentWeaponPos;
     }
 
     #endregion
@@ -305,6 +358,9 @@ public class WeaponManager : Singleton<WeaponManager>
         AllGunCDic[LeftGunType[lastLeftGunIndex]].SpriteRendererEnabled = false;//LeftGun[lastLeftGunIndex].SetActive(false);
         AllGunCDic[LeftGunType[currentLeftGunIndex]].SpriteRendererEnabled = true;//LeftGun[currentLeftGunIndex].SetActive(true);
 
+        //修改武器碰撞boxCollider
+        AllGunDic[LeftGunType[lastLeftGunIndex]].GetComponent<BoxCollider2D>().enabled = false;
+        AllGunDic[LeftGunType[currentLeftGunIndex]].GetComponent<BoxCollider2D>().enabled = true;
     }
 
     /// <summary>
@@ -317,9 +373,11 @@ public class WeaponManager : Singleton<WeaponManager>
         //当前武器消失不可用
         AllGunCDic[m_CurrentLeftGunType].IfGunCanUse(false);
         AllGunCDic[m_CurrentLeftGunType].SpriteRendererEnabled = false;
+        AllGunDic[m_CurrentLeftGunType].GetComponent<BoxCollider2D>().enabled = false;
         //火箭筒显示
         AllGunCDic[GunType.RocketGun].IfGunCanUse(true);
         AllGunCDic[GunType.RocketGun].SpriteRendererEnabled = true;
+        AllGunDic[GunType.RocketGun].GetComponent<BoxCollider2D>().enabled = true;
         //更新当前左手武器类型为火箭筒
         m_CurrentLeftGunType = GunType.RocketGun;
         //开启火箭筒状态
@@ -337,11 +395,13 @@ public class WeaponManager : Singleton<WeaponManager>
         //火箭筒消失
         AllGunCDic[GunType.RocketGun].IfGunCanUse(false);
         AllGunCDic[GunType.RocketGun].SpriteRendererEnabled = false;
+        AllGunDic[GunType.RocketGun].GetComponent<BoxCollider2D>().enabled = false;
         //切换为原来的左手武器状态
         m_CurrentLeftGunType = LeftGunType[m_CurrentLeftGunIndex];
         //原来武器消失可用
         AllGunCDic[m_CurrentLeftGunType].IfGunCanUse(true);
         AllGunCDic[m_CurrentLeftGunType].SpriteRendererEnabled = true;
+        AllGunDic[m_CurrentLeftGunType].GetComponent<BoxCollider2D>().enabled = true;
         //关闭火箭状态
         m_RocketGunState = false;
         //开启特殊武器功能
@@ -369,7 +429,7 @@ public class WeaponManager : Singleton<WeaponManager>
         BloodConsumeState newBloodConsumeState = BloodConsumeState.Mp;
         //判断当前血条状态(调用外部进行判断)
         //当前不用核心，即当前消耗的是MP，如果核心不为空，即当前小号的是HP
-        newBloodConsumeState = m_CurrentBaseCore == null ? BloodConsumeState.Mp : BloodConsumeState.Hp;
+        newBloodConsumeState = m_PlayerRobotContral._mPlayerRobot.CurrentMp <= 0  ? BloodConsumeState.Hp : BloodConsumeState.Mp;
 
         //对不同消耗状态进行操作
         //【特殊武器 在消耗Hp情况下不能攻击】
@@ -426,14 +486,7 @@ public class WeaponManager : Singleton<WeaponManager>
         }
     }
 
-    /// <summary>
-    /// 角色旋转角度变化
-    /// </summary>
-    /// todo 修改枪支位置
-    public void PlayerDirectionLister()
-    {
-        //todo WeaponPos
-    }
+
 
 
     /// <summary>
@@ -456,9 +509,11 @@ public class WeaponManager : Singleton<WeaponManager>
             //特殊武器可以用【开启Renderer进行显示，开启(开启可用)Enable】
             AllGunCDic[RightGunType].SpriteRendererEnabled = true;
             AllGunCDic[RightGunType].IfGunCanUse(true);
+            AllGunDic[RightGunType].GetComponent<BoxCollider2D>().enabled = true;
             //主武器不可用【关闭Renderer进行显示，关闭(开启可用)Enable】
             AllGunCDic[LeftGunType[m_CurrentLeftGunIndex]].SpriteRendererEnabled = false;
             AllGunCDic[LeftGunType[m_CurrentLeftGunIndex]].IfGunCanUse(false);
+            AllGunDic[LeftGunType[m_CurrentLeftGunIndex]].GetComponent<BoxCollider2D>().enabled = false;
         }
         else//特殊武器不能用
         {
@@ -516,9 +571,11 @@ public class WeaponManager : Singleton<WeaponManager>
         //特殊武器关闭（开启使用）【关闭Renderer进行显示，关闭(开启可用)Enable】
         AllGunCDic[RightGunType].IfGunCanUse(false);
         AllGunCDic[RightGunType].SpriteRendererEnabled = false;
+        AllGunDic[RightGunType].GetComponent<BoxCollider2D>().enabled = false;
         //主武器可用【开启Renderer进行显示，开启(开启可用)Enable】
         AllGunCDic[LeftGunType[m_CurrentLeftGunIndex]].SpriteRendererEnabled = true;
         AllGunCDic[LeftGunType[m_CurrentLeftGunIndex]].IfGunCanUse(true);
+        AllGunDic[LeftGunType[m_CurrentLeftGunIndex]].GetComponent<BoxCollider2D>().enabled = true;
     }
     #endregion
     /// <summary>
@@ -608,6 +665,9 @@ public class WeaponManager : Singleton<WeaponManager>
         }
         //创建子弹【子弹散射随机值：GenerateScatteringNums(Scatte)】
         CreateBullet(ButtleName, Pos, Rotate, GenerateScatteringNums(Scatte), ButtleSpeed, AttackDistance, DemageNums);
+
+        var shakePreset = ProCamera2DShake.Instance.ShakePresets[0];
+        ProCamera2DShake.Instance.Shake(shakePreset);
     }
     /// <summary>
     /// 多个子弹生成
@@ -637,6 +697,9 @@ public class WeaponManager : Singleton<WeaponManager>
             CreateBullet(ButtleName, Pos, Rotate, halfIntervalDegrees, ButtleSpeed, AttackDistance, DemageNums);
             halfIntervalDegrees -= intervalDegrees;
         }
+
+        var shakePreset = ProCamera2DShake.Instance.ShakePresets[0];
+        ProCamera2DShake.Instance.Shake(shakePreset);
     }
 
     /// <summary>
@@ -873,5 +936,25 @@ public class WeaponManager : Singleton<WeaponManager>
             AllGunCDic[RightGunType].IfGunCanUse(newState);
             AllGunCDic[RightGunType].GunRotateControl = newState;
         }
+    }
+
+    /// <summary>
+    /// 修改当前武器Collider
+    /// </summary>
+    /// <param name="state"></param>
+    public void ChangeWeaponManegerCollider(bool state)
+    {
+        GunType currentUseGunType;
+        //当前使用的是火箭筒
+        if (m_RocketGunState)
+        {
+            currentUseGunType = GunType.RocketGun;
+        }
+        else
+        {
+            currentUseGunType = m_CurrentUseGunis == UseLeftOrRightGun.LeftGun ? m_CurrentLeftGunType : RightGunType;
+        }
+
+        if(currentUseGunType != GunType.Null) AllGunDic[currentUseGunType].GetComponent<BoxCollider2D>().enabled = state;
     }
 }

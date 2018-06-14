@@ -160,7 +160,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1024
   m_InteractionType: 02000000
-  m_ExitInteractionType: 
   currentGunType: 6
   GunTip: {fileID: 1568097662007658}
 --- !u!212 &212227208069389936
@@ -196,7 +195,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -1
   m_Sprite: {fileID: 21300000, guid: 4ca9b81f2139afe4e9134b6d5e367833, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Assets.Script.Mono;
+using Chronos;
 using UnityEngine;
 /*********************************************************************
 ****	作者 ZMK 
@@ -10,6 +11,10 @@ using UnityEngine;
 **********************************************************************/
 public class SwordGunC : GunC
 {
+    public Timeline Time
+    {
+        get { return GetComponent<Timeline>(); }
+    }
     [Header("--特殊攻击信息--")]
     #region 特殊攻击内容
     //特殊消耗的MP
@@ -46,7 +51,8 @@ public class SwordGunC : GunC
     private bool SwordGunNormalAttacking = false;//是否攻击中
     private HashSet<int> HitPointIDHashSet;//普通攻击中的敌人与敌人护盾的ID
     //private HashSet<int> SpecialHitPoint
-
+    
+    private CapsuleCollider2D thisCapsuleCollider2D;
     private enum AimQuadrant
     {
         first = 0,
@@ -64,15 +70,22 @@ public class SwordGunC : GunC
         base.Awake();
         SaveGunSpecialData();
         HitPointIDHashSet = new HashSet<int>();
+        thisCapsuleCollider2D = GetComponent<CapsuleCollider2D>();
     }
     protected override void Update()
     {
         base.Update();
 
         if (SwordGunNormalAttacking && (Gun_Data.Enable || Gun_Data.SpecialEnable))
+        {
             SwordTrail.Emit = true;
+            thisCapsuleCollider2D.enabled = false;
+        }
         else
+        {
             SwordTrail.Emit = false;
+            thisCapsuleCollider2D.enabled = true;
+        }
     }
     protected override void FixedUpdate()
     {
@@ -300,7 +313,6 @@ public class SwordGunC : GunC
             transform.RotateAround(transform.position, Vector3.forward, direction * Gun_Data.SpecialButtleSpeed);
             //自身往前飞
             transform.position = targetPos;
-            
         }
         //飞行结束
         if(!m_collisionOthers)StartCoroutine(StartToFlyBack(direction));
@@ -318,12 +330,11 @@ public class SwordGunC : GunC
         StartToOtherColliderCheck = false;
         while (true)
         {
-            Vector3 target = (m_player.transform.position - transform.position) * 20;
-            Vector3 targetPos = Vector3.MoveTowards(transform.position, target, Gun_Data.SpecialButtleSpeed * Time.deltaTime * 0.5f);
+            Vector3 target = (m_player.transform.position - transform.position).normalized;
+            //自身往回飞
+            transform.position = transform.position + target * Gun_Data.SpecialButtleSpeed * Time.deltaTime;
             //自身旋转
             transform.RotateAround(transform.position, Vector3.forward, direction * Gun_Data.SpecialButtleSpeed);
-            //自身往回飞
-            transform.position = targetPos;
             if (Vector3.Distance(transform.position, m_player.transform.position) <= 1f)
                 break;
             yield return null;
@@ -333,8 +344,9 @@ public class SwordGunC : GunC
         WeaponManager.Instance.ChangeLeftGunState = true;//可以切枪
         //开启武器旋转控制
         GunRotateControl = true;
-        //todo 剑回到当前手上（结合玩家方向），WeaponManager
-
+        //剑回到当前手上（结合玩家方向），WeaponManager
+        transform.parent.position = WeaponManager.Instance.CurrentWeaponPos;
+        transform.parent.localPosition = new Vector3(-5.5f,0,-0.1f);
         //-------------------------------------------------------
         //隐藏剑
         WeaponManager.Instance.SpecialGunToNormalGun();
@@ -387,12 +399,12 @@ public class SwordGunC : GunC
                 //击中敌人护盾 && 不重复击中
                 if (other.gameObject.layer == 18 && !HitPointIDHashSet.Contains(other.GetInstanceID()))
                 {
-                    other.transform.GetComponent<ShieldProtect>().ProtectAimGameObject.GetComponent<EnemyContral>().GetDamage(Convert.ToInt32(Gun_Data.DemageNums), Convert.ToInt32(Gun_Data.DemageNums));
+                    other.transform.GetComponent<ShieldProtect>().GetEnemyControl().GetDamage(Convert.ToInt32(Gun_Data.DemageNums), Convert.ToInt32(Gun_Data.DemageNums));
                     HitPointIDHashSet.Add(other.GetInstanceID());
                     HitPointIDHashSet.Add(other.transform.GetComponent<ShieldProtect>().ProtectAimGameObject.GetInstanceID());
                     //设置硬直击退
-                    other.transform.GetComponent<ShieldProtect>().ProtectAimGameObject.GetComponent<EnemyContral>().SetDelay(0.5f, 2);
-                    other.transform.GetComponent<ShieldProtect>().ProtectAimGameObject.GetComponent<EnemyContral>().SetKnockback(-transform.right.normalized, 0.5f, 2);
+                    other.transform.GetComponent<ShieldProtect>().GetEnemyControl().SetDelay(0.5f, 2);
+                    other.transform.GetComponent<ShieldProtect>().GetEnemyControl().SetKnockback(transform.position, 0.5f, 2);
                 }
 
                 //否则，击中的是敌人内部
@@ -402,7 +414,7 @@ public class SwordGunC : GunC
                     HitPointIDHashSet.Add(other.GetInstanceID());
                     //设置硬直击退
                     other.transform.GetComponent<EnemyContral>().SetDelay(0.5f, 2);
-                    other.transform.GetComponent<EnemyContral>().SetKnockback(-transform.right.normalized, 0.5f, 2);
+                    other.transform.GetComponent<EnemyContral>().SetKnockback(transform.position, 0.5f, 2);
                 }
                 //击中紫水晶与零件箱
                 if (other.gameObject.layer == 19 || other.gameObject.layer == 20)
@@ -428,10 +440,10 @@ public class SwordGunC : GunC
                     //击中敌人护盾 && 可重复击中
                     if (other.gameObject.layer == 18)
                     {
-                        other.transform.GetComponent<ShieldProtect>().ProtectAimGameObject.GetComponent<EnemyContral>().GetDamage(Convert.ToInt32(Gun_Data.SpecialDemageNums), Convert.ToInt32(Gun_Data.SpecialDemageNums));
+                        other.transform.GetComponent<ShieldProtect>().GetEnemyControl().GetDamage(Convert.ToInt32(Gun_Data.SpecialDemageNums), Convert.ToInt32(Gun_Data.SpecialDemageNums));
                         //设置硬直击退
-                        other.transform.GetComponent<ShieldProtect>().ProtectAimGameObject.GetComponent<EnemyContral>().SetDelay(0.5f, 3);
-                        other.transform.GetComponent<ShieldProtect>().ProtectAimGameObject.GetComponent<EnemyContral>().SetKnockback(-transform.right.normalized, 0.5f, 3);
+                        other.transform.GetComponent<ShieldProtect>().GetEnemyControl().SetDelay(0.5f, 3);
+                        other.transform.GetComponent<ShieldProtect>().GetEnemyControl().SetKnockback(transform.position, 0.5f, 3);
                     }
                     //击中敌人内部 && 是否没有护盾
                     if (other.gameObject.layer == 11 && !other.transform.GetComponent<EnemyContral>().ER.IsConsumeMp)
@@ -439,7 +451,7 @@ public class SwordGunC : GunC
                         other.transform.GetComponent<EnemyContral>().GetDamage(Convert.ToInt32(Gun_Data.SpecialDemageNums), Convert.ToInt32(Gun_Data.SpecialDemageNums));
                         //设置硬直击退
                         other.transform.GetComponent<EnemyContral>().SetDelay(0.5f, 3);
-                        other.transform.GetComponent<EnemyContral>().SetKnockback(-transform.right.normalized, 0.5f, 3);
+                        other.transform.GetComponent<EnemyContral>().SetKnockback(transform.position, 0.5f, 3);
                     }
                     //击中紫水晶与零件箱
                     if (other.gameObject.layer == 19 || other.gameObject.layer == 20)

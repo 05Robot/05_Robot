@@ -103,7 +103,7 @@ namespace Assets.Script
         public virtual void GetReallyDamage(int damage)
         {
             CurrentHp -= damage;
-            if (damage <= 0)
+            if (CurrentHp <= 0)
                 Dead();
         }
 

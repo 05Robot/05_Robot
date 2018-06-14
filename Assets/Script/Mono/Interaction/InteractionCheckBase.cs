@@ -119,7 +119,6 @@ public abstract class InteractionCheckBase : MonoBehaviour
     /// </summary>
     protected virtual void InteractionEvent()
     {
-        ifCaneInteractioning = false;
     }
     
     /// <summary>
@@ -127,8 +126,6 @@ public abstract class InteractionCheckBase : MonoBehaviour
     /// </summary>
     protected virtual void ExitInteractionEvent()
     {
-        ifCaneInteractioning = true;
-
 
     }
 

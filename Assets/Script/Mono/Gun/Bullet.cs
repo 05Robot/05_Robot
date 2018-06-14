@@ -332,6 +332,7 @@ public abstract class Bullet : MonoBehaviour
                 //击中玩家内部
                 case 10:
                     //对玩家进行伤害（应该是扣hp）
+                    print(hitPoint[i].transform.name);
                     hitPoint[i].transform.GetComponent<PlayerRobotContral>().GetRealDamage(Damage);
                     break;
                 //击中敌人护盾
@@ -357,7 +358,7 @@ public abstract class Bullet : MonoBehaviour
             if (hitEnemyContral != null)
             {
                 hitEnemyContral.SetDelay(0.5f, (int)HardStraight);
-                hitEnemyContral.SetKnockback(-transform.right.normalized,0.5f,(int)BeatBack);
+                hitEnemyContral.SetKnockback(transform.position,0.5f,(int)BeatBack);
             }
             //-----------------------------------------------------------------------------------------------------------------
             //核心攻击 AOE + 特殊效果

@@ -7,23 +7,23 @@ public class BloodHandleEvent : MonoBehaviour , IPointerEnterHandler, IPointerDo
 {
     public void OnPointerEnter(PointerEventData eventData)
     {
-        RepairStationUI.Instance.HightLight();
+        //RepairStationUI.Instance.HightLight();
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        RepairStationUI.Instance.HightLight();
+       // RepairStationUI.Instance.HightLight();
     }
 
 
     public void OnSelect(BaseEventData eventData)
     {
-        RepairStationUI.Instance.HightLight();
+        //RepairStationUI.Instance.HightLight();
 
     }
 
     public void OnDeselect(BaseEventData eventData)
     {
-        RepairStationUI.Instance.NotHightLight();
+       // RepairStationUI.Instance.NotHightLight();
     }
 }

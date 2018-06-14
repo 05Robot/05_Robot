@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Assets.Script.Mono;
 using UnityEngine;
 
@@ -39,8 +40,8 @@ public class RoomContral : MonoBehaviour
     }
     void Start ()
     {
-      
-       
+
+        EnemyList=transform.Find("Enemy").GetComponentsInChildren<EnemyContral>().ToList();
         foreach (var enemy in EnemyList)
         {
             enemy.gameObject.SetActive(false);

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Timers;
+using Chronos;
 using UnityEngine;
 
 /*********************************************************************
@@ -14,41 +15,43 @@ using UnityEngine;
 namespace Assets.Script.Nomono
 {
     [Serializable]
-    public class PlayerRobot:BaseRobot
+    public class PlayerRobot : BaseRobot
     {
 
-        public BaseCore Core { get;set; }
+        public BaseCore Core { get; set; }
         /// <summary>
         /// 对应玩家控制器的实例
         /// </summary>
-        
+
         private PlayerRobotContral PRC;
 
-        public float SpecialSpeed=40;
+        public float SpecialSpeed = 40;
 
-        public  PlayerRobot(PlayerRobotContral PRC,BaseCore core,float moveSpeed)
+        public PlayerRobot(PlayerRobotContral PRC, BaseCore core, float moveSpeed)
         {
             Core = core;
             MoveSpeed = moveSpeed;
             CurrentHp = MaxHp = core.CurrentHpPoint;
-            CurrentMp = MaxMp = core.TotalPoint-core.CurrentHpPoint;
+            CurrentMp = MaxMp = core.TotalPoint - core.CurrentHpPoint;
 
             this.PRC = PRC;
             SecondAction += RecoverMp;
             SyncHpMp();
-          
-            
+
+
         }
 
-        public override void GetDamage(int MPDamage,int HPDmage)
+        public override void GetDamage(int MPDamage, int HPDmage)
         {
-            base.GetDamage(MPDamage,HPDmage);
+            base.GetDamage(MPDamage, HPDmage);
             SyncHpMp();
         }
 
         public override void Dead()
         {
-           GameManager.Instance.ChangeGameStatu(GameManager.GameStatu.GameOver);
+            GameManager.Instance.ChangeGameStatu(GameManager.GameStatu.GameOver);
+            this.PRC.Contral = false;
+            PRC.GetComponent<CapsuleCollider2D>().enabled = false;
         }
 
         public override void Critical()
@@ -67,21 +70,26 @@ namespace Assets.Script.Nomono
             SyncHpMp();
         }
 
-       public void SyncHpMp()
+        public void SyncHpMp()
         {
-            UiManager.Instance.SyncHPMp((float)CurrentHp/(float)MaxHp,(float)CurrentMp/(float)MaxMp);
+            //UiManager.Instance.SyncHPMp((float)CurrentHp / (float)MaxHp, (float)CurrentMp / (float)MaxMp);
         }
 
         IEnumerator MPCD()
         {
             Debug.Log("进入冷却");
-           
+
             yield return new WaitForSeconds(10);
             SecondAction += RecoverMp;
             CurrentMp = MaxMp;
             SyncHpMp();
             IsUseCore = false;
             WeaponManager.Instance.CoreChangeLister(null);
-        } 
+        }
+
+        public Timeline Time
+        {
+            get { return PRC.gameObject.GetComponent<Timeline>(); }
+        }
     }
 }

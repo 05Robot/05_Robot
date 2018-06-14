@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Assets.Script.Mono;
+using Com.LuisPedroFonseca.ProCamera2D;
 using UnityEngine;
 /// <summary>
 /// 只需对象池提取即可，无需再回收（自动回收）
@@ -70,15 +71,15 @@ public class CoreExplosion : MonoBehaviour
             if (hitEnemyContral != null)
             {
                 hitEnemyContral.GetDamage(DamageNums, DamageNums);
-                //todo 硬直
-                //hitEnemyBaseRobot.EC.SetDelay(0.5f,4);
-                Vector2 hitEnemyPos = new Vector2(hitEnemyContral.transform.position.x,
-                    hitEnemyContral.transform.position.y);
-                Vector2 thisBulletPos = new Vector2(transform.position.x, transform.position.y);
-                //todo 击退
-                //hitEnemyContral.SetKnockback(hitEnemyPos - thisBulletPos,);
+                //硬直
+                hitEnemyContral.SetDelay(2, 4);
+                //击退
+                hitEnemyContral.SetKnockback(transform.position, 0.5f, 4);
             }
         }
+
+        var shakePreset = ProCamera2DShake.Instance.ShakePresets[2];
+        ProCamera2DShake.Instance.Shake(shakePreset);
     }
     /// <summary>
     /// 圆型AOE检测

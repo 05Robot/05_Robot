@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Chronos;
 using UnityEngine;
 /*********************************************************************
 ****	作者 ZMK 
@@ -7,6 +8,10 @@ using UnityEngine;
 ****	描述 散弹枪控制类
 **********************************************************************/
 public class ShotGunC : GunC {
+    public Timeline Time
+    {
+        get { return GetComponent<Timeline>(); }
+    }
     [Header("--特殊攻击信息--")]
     #region 特殊攻击内容
     //特殊消耗的MP

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using Assets.Script;
+using Chronos;
 using UnityEngine;
 /*********************************************************************
 ****	作者 ZMK 
@@ -10,6 +11,10 @@ using UnityEngine;
 **********************************************************************/
 public abstract class GunC : MonoBehaviour
 {
+    public Timeline Time
+    {
+        get { return GetComponent<Timeline>(); }
+    }
     //------------------------------------------------------
     //枪自身组件
     /// <summary>
@@ -156,9 +161,14 @@ public abstract class GunC : MonoBehaviour
             GunTarget.transform.position = m_aimPos;
             float z = Vector3.SignedAngle(-transform.right, m_aimPos - transform.position, Vector3.forward);
             if (m_aimPos.x > m_player.transform.position.x)
-                transform.localScale = new Vector3(m_TransformScale.x, -m_TransformScale.y, m_TransformScale.z);
+                m_SpriteRenderer.flipY = true;
+                //transform.localRotation = Quaternion.Euler(180.0f, 0, transform.localRotation.eulerAngles.z);
+                //transform.localScale = new Vector3(m_TransformScale.x, -m_TransformScale.y, m_TransformScale.z);
             else
-                transform.localScale = m_TransformScale;
+                m_SpriteRenderer.flipY = false;
+            //transform.localRotation = Quaternion.Euler(0, 0, transform.localRotation.eulerAngles.z);
+            //transform.localScale = m_TransformScale;
+            //transform.localPosition = _gunInitalLocalPos;
             transform.RotateAround(m_GunHandle.transform.position, Vector3.forward, z);
         }
         #endregion
@@ -602,11 +612,24 @@ public abstract class GunC : MonoBehaviour
     {
         switch (Gun_Data.GunState)
         {
-            case GunState.NormalState: //普通攻击状态
+            case GunState.NormalState:
+                //普通攻击状态
                 Gun_Data.Enable = isEnable;
+                //蓄能状态可能得关闭
+                if (LeftDownEnergy)
+                {
+                    LeftDownEnergy = !isEnable;
+                    LeftDownUpingEnergy = isEnable;
+                }
                 break;
             case GunState.SpecialState: //特殊攻击状态
                 Gun_Data.SpecialEnable = isEnable;
+                //蓄能状态可能得关闭
+                if (RightDownEnergy)
+                {
+                    RightDownEnergy = isEnable;
+                    RightDownUpingEnergy = !isEnable;
+                }
                 break;
         }
     }

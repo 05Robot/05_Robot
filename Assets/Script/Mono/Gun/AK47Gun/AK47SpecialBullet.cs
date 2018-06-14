@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Assets.Script.Mono;
+using Com.LuisPedroFonseca.ProCamera2D;
 using UnityEngine;
 
 public class AK47SpecialBullet : Bullet
@@ -37,13 +38,16 @@ public class AK47SpecialBullet : Bullet
 
     /// <summary>
     /// 【榴弹Bullet】枪榴弹爆炸后会造成周围3个单位内的敌人400点伤害
-    /// todo 并且造成2s硬直和0.5个单位的击退
+    /// 并且造成2s硬直和0.5个单位的击退
     /// 超过距离还是会爆炸
     /// </summary>
     protected override void GenerateDemage()
     {
         //【榴弹Bullet】枪榴弹爆炸后会造成周围3个单位内的敌人400点伤害
         ExplosionHitEffect();
+
+        var shakePreset = ProCamera2DShake.Instance.ShakePresets[1];
+        ProCamera2DShake.Instance.Shake(shakePreset);
     }
 
 
@@ -74,22 +78,14 @@ public class AK47SpecialBullet : Bullet
                     hitPoint[i].transform.GetComponent<HitCheckBase>().Broken();
                     break;
             }
-            //设置硬直击退
-            if (hitEnemyContral != null)
-            {
-                hitEnemyContral.SetDelay(0.5f, 4);
-                hitEnemyContral.SetKnockback(-transform.right.normalized, 0.5f, 4);
-            }
+
             if (hitEnemyContral != null)
             {
                 hitEnemyContral.GetDamage(Convert.ToInt32(ExplosionDemage), Convert.ToInt32(ExplosionDemage));
-                //todo 硬直
-                hitEnemyContral.SetDelay(0.5f,4);
-                Vector2 hitEnemyPos = new Vector2(hitEnemyContral.transform.position.x,
-                    hitEnemyContral.transform.position.y);
-                Vector2 thisBulletPos = new Vector2(transform.position.x, transform.position.y);
-                //todo 击退
-                //hitEnemyContral.SetKnockback(hitEnemyPos - thisBulletPos,);
+                //硬直
+                hitEnemyContral.SetDelay(2, 4);
+                //击退
+                hitEnemyContral.SetKnockback(transform.position, 0.5f, 4);
             }
         }
     }

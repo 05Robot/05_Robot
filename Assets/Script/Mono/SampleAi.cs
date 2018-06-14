@@ -83,7 +83,7 @@ public class SampleAi : EnemyAi
         {
             if (rh.transform.gameObject.layer == 10 || rh.transform.gameObject.layer == 12)
             {
-                target = (Vector2)EC.transform.position + target.normalized * (Vector2.Distance(EC.transform.position, rh.point) - 1);
+                target = (Vector2)EC.transform.position + target.normalized * (Vector2.Distance(EC.transform.position, rh.point) - 2);
                 EC.StartCoroutine(WaiteForMoveCD(target, speed));
                 break;
             }
